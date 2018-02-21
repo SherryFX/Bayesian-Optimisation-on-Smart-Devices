@@ -1,0 +1,194 @@
+obj/local/armeabi-v7a/objs/transferCL/TransferCL/src/batch/EpochMaker.o: \
+ jni/TransferCL/src/batch/EpochMaker.cpp \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/stdexcept \
+ jni/TransferCL/src/batch/../layer/Layer.h \
+ jni/TransferCL/src/batch/../layer/../dependencies.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/platforms/android-16/arch-arm/usr/include/math.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/platforms/android-16/arch-arm/usr/include/crystax/freebsd/lib/msun/src/mangled-math.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/crystax/include/crystax/sys/math.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/platforms/android-16/arch-arm/usr/include/android/log.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/iostream \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/algorithm \
+ jni/TransferCL/src/batch/../layer/../util/RandomSingleton.h \
+ jni/TransferCL/src/batch/../layer/../util/../dependencies.h \
+ jni/TransferCL/src/batch/../layer/../util/../TransferCLDllExport.h \
+ jni/TransferCL/src/batch/../layer/../util/../dependencies.h \
+ jni/TransferCL/src/batch/../layer/../util/mt19937defs.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/chrono \
+ jni/TransferCL/src/batch/../layer/../activate/ActivationFunction.h \
+ jni/TransferCL/src/batch/../layer/../activate/../dependencies.h \
+ jni/TransferCL/src/batch/../layer/LayerMaker.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/cstring \
+ jni/TransferCL/src/batch/../layer/../util/stringhelper.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/sstream \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/EasyCL.h \
+ jni/../include/CL/cl.hpp jni/../include/CL/opencl.h \
+ jni/../include/CL/cl.h jni/../include/CL/cl_platform.h \
+ jni/../include/CL/cl_gl.h jni/../include/CL/cl_gl_ext.h \
+ jni/../include/CL/cl_ext.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/cassert \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/fstream \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/map \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/../../kernelManager/ConfigManager.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/iterator \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/unordered_map \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/../../kernelManager/../TransferCL/src/dependencies.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/deviceinfo_helper.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/mystdint.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/platforminfo_helper.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/deprecated.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/EasyCL_export.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/CLIntWrapper.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/CLWrapper.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/CLFloatWrapper.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/CLFloatWrapperConst.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/CLUCharWrapper.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/CLKernel.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/CLArrayInt.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/CLArray.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/CLArrayFloat.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/DevicesInfo.h \
+ jni/TransferCL/src/batch/../layer/../../EasyCL/DeviceInfo.h \
+ jni/TransferCL/src/batch/../net/NeuralNet.h \
+ jni/TransferCL/src/batch/../net/../dependencies.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/iomanip \
+ jni/TransferCL/src/batch/../net/Trainable.h \
+ jni/TransferCL/src/batch/Batcher2.h \
+ jni/TransferCL/src/batch/../dependencies.h \
+ jni/TransferCL/src/batch/NetAction2.h \
+ jni/TransferCL/src/batch/BatchData.h \
+ jni/TransferCL/src/batch/NetAction.h \
+ jni/TransferCL/src/batch/../trainers/TrainingContext.h \
+ jni/TransferCL/src/batch/../trainers/../dependencies.h \
+ jni/TransferCL/src/batch/../trainers/Trainer.h \
+ jni/TransferCL/src/batch/EpochMaker.h
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/stdexcept:
+
+jni/TransferCL/src/batch/../layer/Layer.h:
+
+jni/TransferCL/src/batch/../layer/../dependencies.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/platforms/android-16/arch-arm/usr/include/math.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/platforms/android-16/arch-arm/usr/include/crystax/freebsd/lib/msun/src/mangled-math.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/crystax/include/crystax/sys/math.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/platforms/android-16/arch-arm/usr/include/android/log.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/iostream:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/algorithm:
+
+jni/TransferCL/src/batch/../layer/../util/RandomSingleton.h:
+
+jni/TransferCL/src/batch/../layer/../util/../dependencies.h:
+
+jni/TransferCL/src/batch/../layer/../util/../TransferCLDllExport.h:
+
+jni/TransferCL/src/batch/../layer/../util/../dependencies.h:
+
+jni/TransferCL/src/batch/../layer/../util/mt19937defs.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/chrono:
+
+jni/TransferCL/src/batch/../layer/../activate/ActivationFunction.h:
+
+jni/TransferCL/src/batch/../layer/../activate/../dependencies.h:
+
+jni/TransferCL/src/batch/../layer/LayerMaker.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/cstring:
+
+jni/TransferCL/src/batch/../layer/../util/stringhelper.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/sstream:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/EasyCL.h:
+
+jni/../include/CL/cl.hpp:
+
+jni/../include/CL/opencl.h:
+
+jni/../include/CL/cl.h:
+
+jni/../include/CL/cl_platform.h:
+
+jni/../include/CL/cl_gl.h:
+
+jni/../include/CL/cl_gl_ext.h:
+
+jni/../include/CL/cl_ext.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/cassert:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/fstream:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/map:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/../../kernelManager/ConfigManager.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/iterator:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/unordered_map:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/../../kernelManager/../TransferCL/src/dependencies.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/deviceinfo_helper.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/mystdint.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/platforminfo_helper.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/deprecated.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/EasyCL_export.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/CLIntWrapper.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/CLWrapper.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/CLFloatWrapper.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/CLFloatWrapperConst.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/CLUCharWrapper.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/CLKernel.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/CLArrayInt.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/CLArray.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/CLArrayFloat.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/DevicesInfo.h:
+
+jni/TransferCL/src/batch/../layer/../../EasyCL/DeviceInfo.h:
+
+jni/TransferCL/src/batch/../net/NeuralNet.h:
+
+jni/TransferCL/src/batch/../net/../dependencies.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/iomanip:
+
+jni/TransferCL/src/batch/../net/Trainable.h:
+
+jni/TransferCL/src/batch/Batcher2.h:
+
+jni/TransferCL/src/batch/../dependencies.h:
+
+jni/TransferCL/src/batch/NetAction2.h:
+
+jni/TransferCL/src/batch/BatchData.h:
+
+jni/TransferCL/src/batch/NetAction.h:
+
+jni/TransferCL/src/batch/../trainers/TrainingContext.h:
+
+jni/TransferCL/src/batch/../trainers/../dependencies.h:
+
+jni/TransferCL/src/batch/../trainers/Trainer.h:
+
+jni/TransferCL/src/batch/EpochMaker.h:

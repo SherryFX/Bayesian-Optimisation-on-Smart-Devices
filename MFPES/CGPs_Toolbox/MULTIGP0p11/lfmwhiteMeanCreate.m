@@ -1,0 +1,44 @@
+function meanFunction = lfmwhiteMeanCreate(q, d, varargin)
+
+% LFMWHITEMEANCREATE returns a structure for the mean function LFM-WHITE kernel.
+%
+%	Description:
+%
+%	LFMWHITEMEANCREATE creates the mean function for a multi output GP
+%	model based in the LFM-WHITE kernel (second order ODE excited by a
+%	white noise input process). The outputs of the model are generated
+%	according to
+%	mean_q = B_q/D_q
+%	
+%	where mean_q is an output constant corresponding to the mean of the
+%	output function q, B_q is basal transcription and D_q is the spring
+%	constant.
+%	RETURN model : the structure for the multigp model
+%	ARG q : input dimension size.
+%	ARG d : output dimension size.
+%	ARG options : contains the options for the MEAN of the MULTIGP model.
+%	
+%	SEE ALSO: lfmwhiteKernParamInit, lfmwhiteKernCompute
+%	
+%	
+
+
+%	Copyright (c) 2008 Mauricio Alvarez and Neil D. Lawrence
+
+
+%	With modifications by David Luengo 2009
+% 	lfmwhiteMeanCreate.m SVN version 289
+% 	last update 2009-03-04T20:54:23.000000Z
+
+if q > 1
+  error('LFM-WHITE MEAN FUNCTION only valid for one-D input.')
+end
+
+meanFunction.type = 'lfmwhite';
+meanFunction.basal  = ones(d,1);
+meanFunction.spring = ones(d,1);
+meanFunction.transforms.index = d+1:2*d;
+meanFunction.transforms.type = optimiDefaultConstraint('positive');
+% Only the parameters of basal rates are counted. The springs are already
+% counted in the kernel
+meanFunction.nParams = 2*d; 

@@ -1,0 +1,17 @@
+obj/local/arm64-v8a/objs/transferCL/TransferCL/EasyCL/util/easycl_stringhelper.o: \
+ jni/TransferCL/EasyCL/util/easycl_stringhelper.cpp \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/string \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/vector \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/sstream \
+ jni/TransferCL/EasyCL/util/easycl_stringhelper.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/iostream
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/string:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/vector:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/sstream:
+
+jni/TransferCL/EasyCL/util/easycl_stringhelper.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/iostream:
