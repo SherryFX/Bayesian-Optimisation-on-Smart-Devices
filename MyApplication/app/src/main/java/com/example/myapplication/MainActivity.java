@@ -109,9 +109,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         fileNameStoreData,
                         fileNameStoreLabel,
                         fileNameStoreNormalization,
-                        "/storage/6234-3231/manifest.txt",
+                        "/storage/6234-3231/Data/manifest.txt",
                         3670,
-                        1);
+                        3);
 
             }
         };
@@ -132,9 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String filename_label="/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileLabel2.raw";
                 String filename_data="/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileData2.raw";
                 int imageSize=28;
-                int numOfChannel=1;//black and white => 1; color =>3
+                int numOfChannel=3;//black and white => 1; color =>3
                 String storeweightsfile="/data/data/"+applicationName+"/directoryTest/weightsTransferred.dat";
-                String loadweightsfile="/storage/6234-3231/weights2.dat";
+                String loadweightsfile="/storage/6234-3231/Data/weights2.dat";
                 String loadnormalizationfile="/data/data/"+applicationName+"/directoryTest/normalizationTransfer.txt";
                 String networkDefinition="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
                 // String networkDefinition="8c5z-relu-mp2-16c5z-relu-mp3-150n-tanh-10n";
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String appDirctory ="/data/data/"+applicationName+"/";
                 String cmdString ="./predict weightsfile=/data/data/"
                         +applicationName
-                        +"/directoryTest/weightsTransferred.dat  inputfile=/storage/6234-3231/manifestTEST.txt outputfile=/data/data/"
+                        +"/directoryTest/weightsTransferred.dat  inputfile=/storage/6234-3231/Data/manifestTEST.txt outputfile=/data/data/"
                         +applicationName
                         +"/preloadingData/pred2.txt";
                 t.prediction(appDirctory,cmdString);
