@@ -188,7 +188,7 @@ LOGI( "--------------->DeepCL/src/weights/WeightsPersister.cpp: loadWeights");
 LOGI( "DeepCL/src/weights/WeightsPersister.cpp: exists(filepath) ){");
 #endif
 
-LOGI( "LOADING WEIGHTS!!!!"); // TEST
+//LOGI( "LOADING WEIGHTS!!!!"); // TEST
 
         int headerSize = 1024;
 

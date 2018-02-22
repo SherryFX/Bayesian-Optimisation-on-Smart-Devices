@@ -283,7 +283,9 @@ void TrainModel::go(ConfigTraining config) {
 	    }
 	    LOGI("-----------Network Layer Generation");
 	    net->addLayer(InputLayerMaker::instance()->numPlanes(numPlanes)->imageSize(imageSize));
+	    LOGI("BEFORE SGD 1");
 	    net->addLayer(NormalizationLayerMaker::instance()->translate(translate)->scale(scale)->batch(config.batchSize));
+	    LOGI("BEFORE SGD 2");
 	    if(!NetdefToNet::createNetFromNetdef(config.batchSize,net, config.netDef, weightsInitializer)) {
 	    	LOGE( "--------------FATAL ERROR: neural network creation failed");
 	        return;
@@ -604,7 +606,7 @@ int TrainModel::prepareConfig(int parameterNb, char *argList[],string absolutePa
 
     //when using sdcard this method make it crash string dataset = toLower(config.dataset);
 
-    //LOGI ("dataset %s",config.dataset.c_str());
+//    LOGI ("dataset %s",config.dataset.c_str());
     if(config.dataset != "") {
         if(config.dataset == "mnist") {
         	LOGI ("mnist");
@@ -640,7 +642,7 @@ int TrainModel::prepareConfig(int parameterNb, char *argList[],string absolutePa
         s1 << "   datadir: " << config.dataDir << ":\n";
         s1 << "   trainfile: " << config.trainFile << ":\n";
         s1 << "   validatefile: " << config.validateFile << ":\n";
-        //LOGI("%s",s1.str().c_str());
+//        LOGI("DATASET %s",s1.str().c_str());
     }
     try {
 

@@ -65,7 +65,7 @@ ConvolutionalLayer::ConvolutionalLayer(EasyCL *cl, Layer *previousLayer, Convolu
 		temp4(0),
 		testWrapper(0)
             {
-	//LOGI("conv batchSize %d",batchSize);
+	LOGI("conv batchSize %d",batchSize); // test
     dim.setNeedToNormalize(previousLayer->isFirstLayer())
     	.setIsConv(true)
     	.setBatchsize(batchSize)

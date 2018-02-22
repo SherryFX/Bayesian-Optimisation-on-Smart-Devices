@@ -128,10 +128,10 @@ LOGI( "DeepCL/src/netdef/NetdefToNet.cpp: createNetFromNetdefCharStar");
 STATIC bool NetdefToNet::createNetFromNetdef(int batchsize, NeuralNet *net, std::string netdef, WeightsInitializer *weightsInitializer) {
 
 	//netdef=expandMultipliers(netdef);
-	//LOGI("------------------create network %s",netdef.c_str());
+	LOGI("------------------create network %s",netdef.c_str()); // test
 	vector<string> splitConfigNetDef = split(netdef, "-");
 	for(int i = 0; i < (int)splitConfigNetDef.size(); i++) {
-	   //LOGI("-------------------- splitNetDef layer %d ",i);
+	   LOGI("-------------------- splitNetDef layer %d ",i); // test
 	   string layerDef = splitConfigNetDef[i];
 
 	   if(layerDef.find("c") != string::npos){
@@ -186,7 +186,7 @@ STATIC bool NetdefToNet::createNetFromNetdefPrediction(int batchsize, NeuralNet 
 	for(int i = 0; i < (int)splitConfigNetDef.size(); i++) {
 		//LOGI("----- LAYER %s",splitConfigNetDef[i].c_str());
 	   string layerDef = splitConfigNetDef[i];
-	   if(layerDef.find("c") != string::npos){
+	   if(layerDef.find("c") != string::npos){ // Layer is convolutional
 		  // string layerDef2 ="linear";
 		   string layerDef2="";
 		   string layerDef3="";
@@ -237,7 +237,7 @@ void NetdefToNet::createConv(int batchsize,NeuralNet *net, std::string layerDef,
 				}else
 					useMaxPoolingTemp=true;
 		}
-//		LOGI("poolingSize %d useMaxPoolingTemp %d",poolingSize, useMaxPoolingTemp);
+		LOGI("poolingSize %d useMaxPoolingTemp %d",poolingSize, useMaxPoolingTemp);
 	    int positionS=layerDef.find("s");
 		int positionC=layerDef.find("c");
 		int positionZ=layerDef.find("z");

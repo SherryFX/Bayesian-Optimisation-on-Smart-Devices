@@ -297,7 +297,7 @@ VIRTUAL bool NormalizationLayer::isFirstLayer() const {
    }
 VIRTUAL float NormalizationLayer::getTranslate() const {
 #if TRANSFERCL_VERBOSE == 1
-LOGI( "DeepCL/src/normalize/NormalizationLayer.cpp: getOutputPlanes");
+LOGI( "DeepCL/src/normalize/NormalizationLayer.cpp: getTranslate");
 #endif
 
 
@@ -306,7 +306,7 @@ LOGI( "DeepCL/src/normalize/NormalizationLayer.cpp: getOutputPlanes");
 
 VIRTUAL float NormalizationLayer::getScale() const {
 #if TRANSFERCL_VERBOSE == 1
-LOGI( "DeepCL/src/normalize/NormalizationLayer.cpp: getOutputPlanes");
+LOGI( "DeepCL/src/normalize/NormalizationLayer.cpp: getScale");
 #endif
 
 

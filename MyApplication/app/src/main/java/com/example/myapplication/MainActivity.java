@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         };
         Thread mythread = new Thread(runnable);
+        Log.d("Thread ID: ", String.valueOf(mythread.getId())); // test
         mythread.start();
 
 
