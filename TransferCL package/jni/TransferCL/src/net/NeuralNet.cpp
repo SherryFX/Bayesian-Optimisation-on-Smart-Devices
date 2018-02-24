@@ -361,7 +361,7 @@ PUBLICAPI void NeuralNet::forward(float const*images) {
 		struct timeval start1, end1;
 
 
-//	LOGI( "network size %d",(int)layers.size());
+	LOGI( "network size %d",(int)layers.size());
 //	clock_t startTimer1, stopTimer1;
 	#endif
 

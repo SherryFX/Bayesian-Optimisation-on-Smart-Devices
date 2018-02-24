@@ -103,14 +103,14 @@ LOGI( "DeepCL/src/util/JpegHelper.cpp: write");
 
 PUBLIC STATIC void JpegHelper::read(std::string filename, int planes, int width, int height, unsigned char *values) {
 #if TRANSFERCL_VERBOSE == 1
-LOGI( "DeepCL/src/util/JpegHelper.cpp: read");
+    LOGI( "DeepCL/src/util/JpegHelper.cpp: read");
 #endif
 //unsigned char *image_buffer1 = new unsigned char[width * height * planes]; //!< will contain the decompressed image
 //unsigned char *value2 = new unsigned char[width * height * planes]; //!< will contain the decompressed image
 ///////////////////////////
 
 int bpp;
-
+   LOGI( "Reading %s", filename.c_str());
    uint8_t* rgb_image = stbi_load(filename.c_str(), &width, &height, &bpp, 1);
    for(int row = 0; row < height; row++) {
            for(int col = 0; col < width; col++) {

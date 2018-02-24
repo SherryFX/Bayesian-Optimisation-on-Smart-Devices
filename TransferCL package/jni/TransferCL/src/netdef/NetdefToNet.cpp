@@ -157,12 +157,14 @@ STATIC bool NetdefToNet::createNetFromNetdef(int batchsize, NeuralNet *net, std:
 
 		   ////////////
 		   createConv(batchsize,net, layerDef,layerDef2,layerDef3, weightsInitializer);
+//		   LOGI("AFTER CONVOLUTION CREATED!!!"); // test
 	   }
 	   else if(layerDef.find("mp") != string::npos)
 		   createMaxPooling(batchsize,net, layerDef, weightsInitializer);
-	   else if((layerDef.find("relu") != string::npos)||(layerDef.find("elu") != string::npos)||(layerDef.find("tanh") != string::npos)||(layerDef.find("sigmoid") != string::npos)||(layerDef.find("linear") != string::npos))
+	   else if((layerDef.find("relu") != string::npos)||(layerDef.find("elu") != string::npos)||(layerDef.find("tanh") != string::npos)||(layerDef.find("sigmoid") != string::npos)||(layerDef.find("linear") != string::npos)) {
 		   createActivation(batchsize,net, layerDef, weightsInitializer);
-	   else if(layerDef.find("n") != string::npos){
+//		   LOGI("AFTER ACTIVATION CREATED!!!"); // test
+	   } else if(layerDef.find("n") != string::npos){
 		   string layerDef2 ="linear";
 		   if ((i+1)<(int)splitConfigNetDef.size())
 			   layerDef2 = splitConfigNetDef[i+1];
@@ -237,7 +239,7 @@ void NetdefToNet::createConv(int batchsize,NeuralNet *net, std::string layerDef,
 				}else
 					useMaxPoolingTemp=true;
 		}
-		LOGI("poolingSize %d useMaxPoolingTemp %d",poolingSize, useMaxPoolingTemp);
+//		LOGI("poolingSize %d useMaxPoolingTemp %d",poolingSize, useMaxPoolingTemp);
 	    int positionS=layerDef.find("s");
 		int positionC=layerDef.find("c");
 		int positionZ=layerDef.find("z");

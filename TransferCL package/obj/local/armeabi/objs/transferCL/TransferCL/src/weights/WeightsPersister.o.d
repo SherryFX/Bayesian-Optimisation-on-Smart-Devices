@@ -2,6 +2,7 @@ obj/local/armeabi/objs/transferCL/TransferCL/src/weights/WeightsPersister.o: \
  jni/TransferCL/src/weights/WeightsPersister.cpp \
  /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/iostream \
  /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/cstring \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/fstream \
  jni/TransferCL/src/weights/../util/FileHelper.h \
  jni/TransferCL/src/weights/../util/../dependencies.h \
  /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/platforms/android-16/arch-arm/usr/include/math.h \
@@ -33,7 +34,6 @@ obj/local/armeabi/objs/transferCL/TransferCL/src/weights/WeightsPersister.o: \
  jni/../include/CL/cl_gl.h jni/../include/CL/cl_gl_ext.h \
  jni/../include/CL/cl_ext.h \
  /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/cassert \
- /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/fstream \
  /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/map \
  jni/TransferCL/src/weights/../layer/../../EasyCL/../../kernelManager/ConfigManager.h \
  /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/iterator \
@@ -639,6 +639,8 @@ obj/local/armeabi/objs/transferCL/TransferCL/src/weights/WeightsPersister.o: \
 
 /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/cstring:
 
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/fstream:
+
 jni/TransferCL/src/weights/../util/FileHelper.h:
 
 jni/TransferCL/src/weights/../util/../dependencies.h:
@@ -706,8 +708,6 @@ jni/../include/CL/cl_gl_ext.h:
 jni/../include/CL/cl_ext.h:
 
 /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/cassert:
-
-/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/fstream:
 
 /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/map:
 

@@ -214,7 +214,9 @@ LOGI( "DeepCL/src/loaders/ManifestLoaderv1.cpp: load");
     for(int localN = 0; localN < numRecords; localN++) {
         int globalN = localN + startRecord;
 //        LOGI("[%s]",files[globalN].c_str());
+        LOGI( "BEFORE JpegHelper::read");
         JpegHelper::read(files[globalN], planes, size, size, data + localN * imageCubeSize);
+        LOGI( "AFTER JpegHelper::read");
         if(labels != 0) {
             if(!includeLabels) {
             	LOGE( "---------------------DeepCL/src/loaders/ManifestLoaderv1.cpp data corrupted");

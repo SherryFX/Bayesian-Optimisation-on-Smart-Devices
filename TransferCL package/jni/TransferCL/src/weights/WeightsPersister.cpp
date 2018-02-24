@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <fstream>
 
 #include "../util/FileHelper.h"
 #include "../net/NeuralNet.h"
@@ -149,38 +150,72 @@ STATIC void WeightsPersister::persistWeights(std::string filepath, std::string t
     int headerLength2=1024;
     int totalWeightsSize2 = getTotalNumWeights(latestVersion, net);
 	int numberOfBytes = headerLength2 + totalWeightsSize2 * sizeof(float) ;
+//    LOGI("Before Boost in PersistWeights!!");
+//    	 boost::iostreams::mapped_file_sink file_sink;
+//    	 boost::iostreams::mapped_file_params param_sink;
+//    	 param_sink.path = filepath.c_str();
+//    	 param_sink.offset = 0;
+//    	 param_sink.new_file_size = numberOfBytes;
+//    	 file_sink.open(param_sink);
+//    LOGI("After Boost in PersistWeights!!");
 
-    	 boost::iostreams::mapped_file_sink file_sink;
-    	 boost::iostreams::mapped_file_params param_sink;
-    	 param_sink.path = filepath.c_str();
-    	 param_sink.offset = 0;
-    	 param_sink.new_file_size = numberOfBytes;
-    	 file_sink.open(param_sink);
+    char * data1;
 
-	if(file_sink.is_open()) {
-		// Get pointer to the data
-		char * data1 = (char *)file_sink.data();
-		int * data2 = reinterpret_cast<int *>(data1);
-		float * data2_1 = reinterpret_cast<float *>(data1);
-		strcpy_safe(data1, "ClCn", 4); // so easy to recognise file type
-		data2[1] = latestVersion; // data file version number
-		data2[2] = epoch;
-		data2[3] = batch;
-		data2[4] = numRight;
-		data2_1[5] = loss;
-		data2_1[6] = annealedLearningRate;
+    ofstream file (filepath.c_str(), ios::out|ios::binary);
 
-		float *data3 = reinterpret_cast<float *>(data1 + headerLength2);
-		strcpy_safe(data1 + 7 * 4, trainingConfigString.c_str(), 800);
-		copyNetWeightsToArray(latestVersion, net, data3);
+    if (file.is_open()) {
+//        LOGI("Boost file OPENED!!!");
+        data1 = new char [numberOfBytes];
 
-		file_sink.close();
-	}
+        int * data2 = reinterpret_cast<int *>(data1);
+        float * data2_1 = reinterpret_cast<float *>(data1);
+        strcpy_safe(data1, "ClCn", 4); // so easy to recognise file type
+        data2[1] = latestVersion; // data file version number
+        data2[2] = epoch;
+        data2[3] = batch;
+        data2[4] = numRight;
+        data2_1[5] = loss;
+        data2_1[6] = annealedLearningRate;
+
+        float *data3 = reinterpret_cast<float *>(data1 + headerLength2);
+        strcpy_safe(data1 + 7 * 4, trainingConfigString.c_str(), 800);
+        copyNetWeightsToArray(latestVersion, net, data3);
+
+        file.write (data1, numberOfBytes);
+
+        file.close();
+        delete[] data1;
+    }
+
+//	if(file_sink.is_open()) {
+//		// Get pointer to the data
+//		LOGI("Boost file OPENED!!!");
+//
+//		char * data1 = (char *)file_sink.data();
+//		int * data2 = reinterpret_cast<int *>(data1);
+//		float * data2_1 = reinterpret_cast<float *>(data1);
+//		strcpy_safe(data1, "ClCn", 4); // so easy to recognise file type
+//		data2[1] = latestVersion; // data file version number
+//		data2[2] = epoch;
+//		data2[3] = batch;
+//		data2[4] = numRight;
+//		data2_1[5] = loss;
+//		data2_1[6] = annealedLearningRate;
+//
+//		float *data3 = reinterpret_cast<float *>(data1 + headerLength2);
+//		strcpy_safe(data1 + 7 * 4, trainingConfigString.c_str(), 800);
+//		copyNetWeightsToArray(latestVersion, net, data3);
+//
+//		file_sink.close();
+//	}
+
+//	LOGI("PersistWeights Completed!!");
+
 
 }
 STATIC bool WeightsPersister::loadWeights(std::string filepath, std::string trainingConfigString, NeuralNet *net, int *p_epoch, int *p_batch, float *p_annealedLearningRate, int *p_numRight, float *p_loss,bool training) {
 #if TRANSFERCL_VERBOSE == 1
-LOGI( "--------------->DeepCL/src/weights/WeightsPersister.cpp: loadWeights");
+LOGI( "--------------- DeepCL/src/weights/WeightsPersister.cpp: loadWeights");
 #endif
 
     if(FileHelper::exists(filepath) ){
@@ -198,27 +233,37 @@ LOGI( "DeepCL/src/weights/WeightsPersister.cpp: exists(filepath) ){");
         stat(filepath.c_str(), &st);
         long fileSize = st.st_size;
 
-        boost::iostreams::mapped_file_source file;
+        // boost::iostreams::mapped_file_source file;
 		int numberOfBytes = headerLength + totalWeightsSize * sizeof(float);
 		// int numberOfBytes = 100000; // hardcode
 
-		LOGI("Before opening file %d.", numberOfBytes); // TEST
+//		LOGI("Before opening file %d, %s", numberOfBytes, (filepath).c_str()); // TEST
 
-		file.open((filepath).c_str(), numberOfBytes);
-
+		// file.open((filepath).c_str(), numberOfBytes);
+		ifstream file ((filepath).c_str(), ios::in|ios::binary);
+        char * memblock; // test
+        memblock = new char [numberOfBytes];
+//        LOGI( "FILE PATH %s", (filepath).c_str()); // TEST
 		// Check if file was successfully opened
 		if(file.is_open()) {
+//        LOGI( "FILE OPENED!!!!"); // TEST
 			// Get pointer to the data
-			LOGI("File is opened!"); // TEST
-			char * data1 = (char *)file.data();
-			int * data2 = reinterpret_cast<int *>(data1);
-			float * data2_1 = reinterpret_cast<float *>(data1);
-			float *data3 = reinterpret_cast<float *>(data1 + headerLength);
-			// Do something with the data
-			copyArrayToNetWeights(data2[1], data3, net,training);
+//			LOGI("File is opened!"); // TEST
+            file.read (memblock, numberOfBytes);
+            int * data2 = reinterpret_cast<int *>(memblock);
+            float *data3 = reinterpret_cast<float *>(memblock + headerLength);
+            copyArrayToNetWeights(data2[1], data3, net,training);
+//			char * data1 = (char *)file.data();
+//			int * data2 = reinterpret_cast<int *>(data1);
+//			float * data2_1 = reinterpret_cast<float *>(data1);
+//			float *data3 = reinterpret_cast<float *>(data1 + headerLength);
+//			// Do something with the data
+//			copyArrayToNetWeights(data2[1], data3, net,training);
             // Remember to unmap the file
 
 			file.close();
+//			LOGI( "The entire file content is in memory!"); // TEST
+			delete[] memblock; // test
 		} else {
             LOGI("File cannot be opened!"); // TEST
 		}

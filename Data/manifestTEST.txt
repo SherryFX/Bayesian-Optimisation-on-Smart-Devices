@@ -1,51 +1,51 @@
 # format=deepcl-jpeg-list-v1 N=50 planes=3 width=28 height=28
-/storage/6234-3231/Data/testSet/102501987_3cdb8e5394_n.jpg
-/storage/6234-3231/Data/testSet/10443973_aeb97513fc_m.jpg
-/storage/6234-3231/Data/testSet/10683189_bd6e371b97.jpg
-/storage/6234-3231/Data/testSet/10791227_7168491604.jpg
-/storage/6234-3231/Data/testSet/110472418_87b6a3aa98_m.jpg
-/storage/6234-3231/Data/testSet/11642632_1e7627a2cc.jpg
-/storage/6234-3231/Data/testSet/11746080_963537acdc.jpg
-/storage/6234-3231/Data/testSet/11746276_de3dec8201.jpg
-/storage/6234-3231/Data/testSet/11746367_d23a35b085_n.jpg
-/storage/6234-3231/Data/testSet/11746452_5bc1749a36.jpg
-/storage/6234-3231/Data/testSet/11746548_26b3256922_n.jpg
-/storage/6234-3231/Data/testSet/118974357_0faa23cce9_n.jpg
-/storage/6234-3231/Data/testSet/12240303_80d87f77a3_n.jpg
-/storage/6234-3231/Data/testSet/123128873_546b8b7355_n.jpg
-/storage/6234-3231/Data/testSet/145862135_ab710de93c_n.jpg
-/storage/6234-3231/Data/testSet/14957470_6a8c272a87_m.jpg
-/storage/6234-3231/Data/testSet/15207766_fc2f1d692c_n.jpg
-/storage/6234-3231/Data/testSet/159079265_d77a9ac920_n.jpg
-/storage/6234-3231/Data/testSet/21652746_cc379e0eea_m.jpg
-/storage/6234-3231/Data/testSet/22679076_bdb4c24401_m.jpg
-/storage/6234-3231/Data/testSet/24459548_27a783feda.jpg
-/storage/6234-3231/Data/testSet/24459750_eb49f6e4cb_m.jpg
-/storage/6234-3231/Data/testSet/24781114_bc83aa811e_n.jpg
-/storage/6234-3231/Data/testSet/25360380_1a881a5648.jpg
-/storage/6234-3231/Data/testSet/26254755_1bfc494ef1_n.jpg
-/storage/6234-3231/Data/testSet/27465811_9477c9d044.jpg
-/storage/6234-3231/Data/testSet/27466794_57e4fe5656.jpg
-/storage/6234-3231/Data/testSet/29972905_4cc537ff4b_n.jpg
-/storage/6234-3231/Data/testSet/35477171_13cb52115c_n.jpg
-/storage/6234-3231/Data/testSet/38287568_627de6ca20.jpg
-/storage/6234-3231/Data/testSet/39271782_b4335d09ae_n.jpg
-/storage/6234-3231/Data/testSet/40410686_272bc66faf_m.jpg
-/storage/6234-3231/Data/testSet/43474673_7bb4465a86.jpg
-/storage/6234-3231/Data/testSet/54895006_55b49052dc.jpg
-/storage/6234-3231/Data/testSet/5547758_eea9edfd54_n.jpg
-/storage/6234-3231/Data/testSet/5673551_01d1ea993e_n.jpg
-/storage/6234-3231/Data/testSet/5673728_71b8cb57eb.jpg
-/storage/6234-3231/Data/testSet/5794835_d15905c7c8_n.jpg
-/storage/6234-3231/Data/testSet/5794839_200acd910c_n.jpg
-/storage/6234-3231/Data/testSet/65347450_53658c63bd_n.jpg
-/storage/6234-3231/Data/testSet/6953297_8576bf4ea3.jpg
-/storage/6234-3231/Data/testSet/7355522_b66e5d3078_m.jpg
-/storage/6234-3231/Data/testSet/8181477_8cb77d2e0f_n.jpg
-/storage/6234-3231/Data/testSet/8223949_2928d3f6f6_n.jpg
-/storage/6234-3231/Data/testSet/8223968_6b51555d2f_n.jpg
-/storage/6234-3231/Data/testSet/8475758_4c861ab268_m.jpg
-/storage/6234-3231/Data/testSet/8475769_3dea463364_m.jpg
-/storage/6234-3231/Data/testSet/8684108_a85764b22d_n.jpg
-/storage/6234-3231/Data/testSet/9818247_e2eac18894.jpg
-/storage/6234-3231/Data/testSet/99383371_37a5ac12a3_n.jpg
+/storage/6234-3231/Data/testSet/daisy/11642632_1e7627a2cc.jpg daisy
+/storage/6234-3231/Data/testSet/daisy/15207766_fc2f1d692c_n.jpg daisy
+/storage/6234-3231/Data/testSet/daisy/21652746_cc379e0eea_m.jpg daisy
+/storage/6234-3231/Data/testSet/daisy/25360380_1a881a5648.jpg daisy
+/storage/6234-3231/Data/testSet/daisy/43474673_7bb4465a86.jpg daisy
+/storage/6234-3231/Data/testSet/daisy/5547758_eea9edfd54_n.jpg daisy
+/storage/6234-3231/Data/testSet/daisy/5673551_01d1ea993e_n.jpg daisy
+/storage/6234-3231/Data/testSet/daisy/5673728_71b8cb57eb.jpg daisy
+/storage/6234-3231/Data/testSet/daisy/5794835_d15905c7c8_n.jpg daisy
+/storage/6234-3231/Data/testSet/daisy/5794839_200acd910c_n.jpg daisy
+/storage/6234-3231/Data/testSet/dandelion/10443973_aeb97513fc_m.jpg dandelion
+/storage/6234-3231/Data/testSet/dandelion/10683189_bd6e371b97.jpg dandelion
+/storage/6234-3231/Data/testSet/dandelion/7355522_b66e5d3078_m.jpg dandelion
+/storage/6234-3231/Data/testSet/dandelion/8181477_8cb77d2e0f_n.jpg dandelion
+/storage/6234-3231/Data/testSet/dandelion/8223949_2928d3f6f6_n.jpg dandelion
+/storage/6234-3231/Data/testSet/dandelion/8223968_6b51555d2f_n.jpg dandelion
+/storage/6234-3231/Data/testSet/dandelion/8475758_4c861ab268_m.jpg dandelion
+/storage/6234-3231/Data/testSet/dandelion/8475769_3dea463364_m.jpg dandelion
+/storage/6234-3231/Data/testSet/dandelion/8684108_a85764b22d_n.jpg dandelion
+/storage/6234-3231/Data/testSet/dandelion/9818247_e2eac18894.jpg dandelion
+/storage/6234-3231/Data/testSet/roses/102501987_3cdb8e5394_n.jpg roses
+/storage/6234-3231/Data/testSet/roses/110472418_87b6a3aa98_m.jpg roses
+/storage/6234-3231/Data/testSet/roses/118974357_0faa23cce9_n.jpg roses
+/storage/6234-3231/Data/testSet/roses/12240303_80d87f77a3_n.jpg roses
+/storage/6234-3231/Data/testSet/roses/123128873_546b8b7355_n.jpg roses
+/storage/6234-3231/Data/testSet/roses/145862135_ab710de93c_n.jpg roses
+/storage/6234-3231/Data/testSet/roses/159079265_d77a9ac920_n.jpg roses
+/storage/6234-3231/Data/testSet/roses/22679076_bdb4c24401_m.jpg roses
+/storage/6234-3231/Data/testSet/roses/24781114_bc83aa811e_n.jpg roses
+/storage/6234-3231/Data/testSet/roses/99383371_37a5ac12a3_n.jpg roses
+/storage/6234-3231/Data/testSet/sunflowers/24459548_27a783feda.jpg sunflowers
+/storage/6234-3231/Data/testSet/sunflowers/24459750_eb49f6e4cb_m.jpg sunflowers
+/storage/6234-3231/Data/testSet/sunflowers/26254755_1bfc494ef1_n.jpg sunflowers
+/storage/6234-3231/Data/testSet/sunflowers/27465811_9477c9d044.jpg sunflowers
+/storage/6234-3231/Data/testSet/sunflowers/27466794_57e4fe5656.jpg sunflowers
+/storage/6234-3231/Data/testSet/sunflowers/29972905_4cc537ff4b_n.jpg sunflowers
+/storage/6234-3231/Data/testSet/sunflowers/35477171_13cb52115c_n.jpg sunflowers
+/storage/6234-3231/Data/testSet/sunflowers/39271782_b4335d09ae_n.jpg sunflowers
+/storage/6234-3231/Data/testSet/sunflowers/40410686_272bc66faf_m.jpg sunflowers
+/storage/6234-3231/Data/testSet/sunflowers/6953297_8576bf4ea3.jpg sunflowers
+/storage/6234-3231/Data/testSet/tulips/10791227_7168491604.jpg tulips
+/storage/6234-3231/Data/testSet/tulips/11746080_963537acdc.jpg tulips
+/storage/6234-3231/Data/testSet/tulips/11746276_de3dec8201.jpg tulips
+/storage/6234-3231/Data/testSet/tulips/11746367_d23a35b085_n.jpg tulips
+/storage/6234-3231/Data/testSet/tulips/11746452_5bc1749a36.jpg tulips
+/storage/6234-3231/Data/testSet/tulips/11746548_26b3256922_n.jpg tulips
+/storage/6234-3231/Data/testSet/tulips/14957470_6a8c272a87_m.jpg tulips
+/storage/6234-3231/Data/testSet/tulips/38287568_627de6ca20.jpg tulips
+/storage/6234-3231/Data/testSet/tulips/54895006_55b49052dc.jpg tulips
+/storage/6234-3231/Data/testSet/tulips/65347450_53658c63bd_n.jpg tulips

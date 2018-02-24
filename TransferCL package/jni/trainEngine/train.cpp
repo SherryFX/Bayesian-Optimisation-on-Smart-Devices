@@ -283,7 +283,7 @@ void TrainModel::go(ConfigTraining config) {
 	    }
 	    LOGI("-----------Network Layer Generation");
 	    net->addLayer(InputLayerMaker::instance()->numPlanes(numPlanes)->imageSize(imageSize));
-	    LOGI("BEFORE SGD 1");
+//	    LOGI("BEFORE SGD 1");
 	    net->addLayer(NormalizationLayerMaker::instance()->translate(translate)->scale(scale)->batch(config.batchSize));
 	    LOGI("BEFORE SGD 2");
 	    if(!NetdefToNet::createNetFromNetdef(config.batchSize,net, config.netDef, weightsInitializer)) {
@@ -327,18 +327,18 @@ void TrainModel::go(ConfigTraining config) {
 			Ntest, testData, testLabels,
 			config.batchSize,  config.memory_map_file_label, config.memory_map_file_data
 		);
-        LOGI("NETLEARNER SET!"); // TEST
+//        LOGI("NETLEARNER SET!"); // TEST
 
 	    netLearner->reset();
-        LOGI("NETLEARNER RESET!"); // TEST
+//        LOGI("NETLEARNER RESET!"); // TEST
 
 	    netLearner->setSchedule(config.numEpochs, afterRestart ? restartEpoch : 0);
-	    LOGI("NETLEARNER SCHEDULED!"); // TEST
+//	    LOGI("NETLEARNER SCHEDULED!"); // TEST
 
 	    if(afterRestart) {
 	        netLearner->setBatchState(restartBatch, restartNumRight, restartLoss);
 	    }
-	    LOGI("NETLEARNER BATCHED!"); // TEST
+//	    LOGI("NETLEARNER BATCHED!"); // TEST
 
 	    int i=0;
 	    LOGI("\n\n");
@@ -355,14 +355,18 @@ void TrainModel::go(ConfigTraining config) {
 
 	    	i++;
 	        netLearner->tickBatch();
+//	        LOGI("TICK BATCH DONE!!!");
 
 	    }
 	    (dynamic_cast<NeuralNet*>(net))->cl->finish();
+//	    LOGI("NN CASTING DONE!!!");
 
 		#if SAVENETWORK ==1
 				WeightsPersister::persistWeights(config.weightsFile, config.getTrainingString(), net, netLearner->getNextEpoch(), 0, 0, 0, 0);
+//		        LOGI("SAVENETWORK PERSISTWEIGHTS!!!");
 		#endif
 		#if TRANSFER ==1
+//		    LOGI("TRANSFER PERSISTWEIGHTS");
 			WeightsPersister::persistWeights(config.weightsStoreFile, config.getTrainingString(), net, netLearner->getNextEpoch(), 0, 0, 0, 0);
 		#endif
 
@@ -374,7 +378,7 @@ void TrainModel::go(ConfigTraining config) {
 
 	    delete cl;
 
-	    LOGI("-----------End of ther training: Delete object");
+	    LOGI("-----------End of the training: Delete object");
 	    delete weightsInitializer;
 	    LOGI("-----------Delete weightsInitializer ");
 	    delete trainer;

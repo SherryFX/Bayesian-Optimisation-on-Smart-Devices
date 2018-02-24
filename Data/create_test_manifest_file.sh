@@ -5,14 +5,17 @@ mnistpath=$1
 
 
 
-
-label=$(echo $dir | rev | cut -d "/" -f1 | rev)
-cd ./testSet
-for img in *
+for dir in ./testSet/*
 do
-	echo $mnistpath'/testSet/'$img >> ../temp.txt
+	label=$(echo $dir | rev | cut -d "/" -f1 | rev)
+	cd ./testSet/$label
+	for img in *
+	do
+		echo $mnistpath'/testSet/'$label'/'$img' '$label >> ../../temp.txt
+	done
+	cd ../..
 done
-cd ..
+
 
 count=$(wc -l < temp.txt)
 count="${count#"${count%%[![:space:]]*}"}"

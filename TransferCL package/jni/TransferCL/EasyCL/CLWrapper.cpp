@@ -173,9 +173,13 @@ void CLWrapper::copyToDevice_ZeroCopyObject_WriteFlag(const void * buffer) {
         LOGI("not onDevice: we have to create it");
         createZeroCopyObject_WriteFlag_OnDevice();
     }
+//    LOGI("IN CLWrapper::copyToDevice_ZeroCopyObject_WriteFlag!!");
 	float * mappedMatReflector = (float *)clEnqueueMapBuffer (*(cl->queue),devicearray,CL_TRUE,  CL_MAP_WRITE,0,getElementSize() * N, 0, NULL, NULL, NULL);
+//	LOGI("HERE 1, getElementSize: %d, N: %d", getElementSize(), N);
 	std::memcpy(mappedMatReflector, buffer, getElementSize() * N);
+//	LOGI("HERE 2");
 	clEnqueueUnmapMemObject(*(cl->queue),devicearray, mappedMatReflector, 0, NULL, NULL);
+//    LOGI("HERE 3");
 
     //error = clEnqueueWriteBuffer(*(cl->queue), devicearray, CL_TRUE, 0, getElementSize() * N, buffer, 0, NULL, NULL);
     //cl->checkError(error);

@@ -608,6 +608,7 @@ obj/local/armeabi-v7a/objs/transferCL/TransferCL/src/batch/OnDemandBatcherv2.o: 
  /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/crystax/include/sys/stat.h \
  /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/platforms/android-16/arch-arm/usr/include/crystax/google/sys/stat.h \
  /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/platforms/android-16/arch-arm/usr/include/linux/stat.h \
+ /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/fstream \
  jni/TransferCL/src/batch/OnDemandBatcherv2.h
 
 jni/TransferCL/src/batch/NetAction.h:
@@ -1825,5 +1826,7 @@ jni/TransferCL/src/batch/Batcher.h:
 /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/platforms/android-16/arch-arm/usr/include/crystax/google/sys/stat.h:
 
 /Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/platforms/android-16/arch-arm/usr/include/linux/stat.h:
+
+/Users/HFX/Library/Android/sdk/crystax-ndk-10.3.2/sources/cxx-stl/gnu-libstdc++/5/include/fstream:
 
 jni/TransferCL/src/batch/OnDemandBatcherv2.h:

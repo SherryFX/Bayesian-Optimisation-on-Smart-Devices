@@ -41,6 +41,7 @@ PUBLICAPI NetLearner::NetLearner(Trainer *trainer, Trainable *net,
     learningDone = false;
 /////////////////////
     #if 0
+//    LOGI("NOT SUPPOSED TO BE HERE! (1)");
     FILE *file0 = fopen("/data/data/com.sony.openclexample1/preloadingData/testTrainData.raw", "wb");
     	//for (int i=0; i<10; ++i)
 
@@ -54,6 +55,7 @@ PUBLICAPI NetLearner::NetLearner(Trainer *trainer, Trainable *net,
 	#endif
 
 #if 0
+//    LOGI("NOT SUPPOSED TO BE HERE! (2)");
     FILE *file2 = fopen("/data/data/com.sony.openclexample1/preloadingData/testTrainLabelData.raw", "wb");
     	//for (int i=0; i<10; ++i)
 
@@ -66,11 +68,12 @@ PUBLICAPI NetLearner::NetLearner(Trainer *trainer, Trainable *net,
     	  fclose (file2);
 	#endif
 
-
+//    LOGI("Creating NETLEARNER");
     trainBatcher = new LearnBatcher(trainer, net, batchSize, Ntrain, trainData, trainLabels,  memory_map_file_labed, memory_map_file_data);
-
+//    LOGI("Created LearnBatcher");
 	#if NO_POSTPROCESSING==0
 		testBatcher = new ForwardBatcher(net, batchSize, Ntest, testData, testLabels, memory_map_file_labed, memory_map_file_data);
+//	    LOGI("Created ForwardBatcher");
 	#endif
 }
 VIRTUAL NetLearner::~NetLearner() {
@@ -153,15 +156,19 @@ PUBLICAPI VIRTUAL bool NetLearner::tickBatch() { // just tick one learn batch, o
 	//olivier: computing path goes here
 
     net->setTraining(true);
+//    LOGI("TICK BATCH SET TRAINING");
     trainBatcher->tick(nextEpoch);       // returns false once all learning done (all epochs)
+//    LOGI("TICK BATCH TICK NEXT EPOCH");
     if(trainBatcher->getEpochDone()) {
-	#if NO_POSTPROCESSING==0
-        postEpochTesting();
-	#endif
+        #if NO_POSTPROCESSING==0
+            postEpochTesting();
+//            LOGI("TICK BATCH IF IF");
+        #endif
         nextEpoch++;
     }
 //    cout << "check learningDone nextEpoch=" << nextEpoch << " numEpochs=" << numEpochs << endl;
     if(nextEpoch == numEpochs) {
+//        LOGI("TICK BATCH NEXTEPOCJ -- NUMEPOCHS");
 //        cout << "setting learningdone to true" << endl;
         learningDone = true;
     }

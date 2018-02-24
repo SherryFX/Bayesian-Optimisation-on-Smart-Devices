@@ -47,6 +47,7 @@ ActivationLayer::ActivationLayer(EasyCL *cl, Layer *previousLayer, ActivationMak
     }
 //    activationForwardImpl = ActivationForward::instance(cl, numPlanes, inputSize, fn);
 //    activationBackpropImpl = ActivationBackward::instance(cl, numPlanes, inputSize, fn);
+//    LOGI("ACTIVATION LAYER CREATED!!!");
 }
 VIRTUAL ActivationLayer::~ActivationLayer() {
 #if TRANSFERCL_VERBOSE == 1

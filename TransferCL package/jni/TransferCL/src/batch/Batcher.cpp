@@ -40,31 +40,55 @@ PUBLICAPI Batcher::Batcher(Trainable *net, int batchSize, int N, float *data, in
             {
 //Mapping a segment of virtual memory to the training data files.
 
-
+//LOGI("BATCHER::BATCHER");
 
 #if MEMORY_MAP_FILE_LOADING==1
 	if (trainOrTest){
-
-		file4.open(memory_map_file_labed,boost::iostreams::mapped_file::mapmode::readonly);
-		file3.open(memory_map_file_data,boost::iostreams::mapped_file::mapmode::readonly);
+//        LOGI("BEFORE OPENING file4 & file3");
+		//file4.open(memory_map_file_labed,boost::iostreams::mapped_file::mapmode::readonly);
+		file4.open((memory_map_file_labed).c_str(), ios::in|ios::binary|ios::ate);
+//		LOGI("file4 OPENED %s", (memory_map_file_labed).c_str());
+		// file3.open(memory_map_file_data,boost::iostreams::mapped_file::mapmode::readonly);
+		file3.open((memory_map_file_data).c_str(), ios::in|ios::binary|ios::ate);
+//		LOGI("file3 OPENED %s", (memory_map_file_data).c_str());
+		char * memblock3;
+		char * memblock4;
+		streampos size3;
+		streampos size4;
 		if(file4.is_open()) {
-			labelTest = (const int *)file4.const_data();
+            size4 = file4.tellg();
+//            LOGI("file4 size4: %lu", size4);
+            memblock4 = new char [size4];
+            file4.seekg (0, ios::beg);
+            file4.read (memblock4, size4);
+            labelTest = (const int *)memblock4;
+            delete[] memblock4;
+			//labelTest = (const int *)file4.const_data();
 		} else {
 			LOGI("could not map the file filename.raw");
 		}
 		if(file3.is_open()) {
-			dataTest = (const float *)file3.const_data();
+            size3 = file3.tellg();
+//            LOGI("file3 size3: %lu", size3);
+            memblock3 = new char [size3];
+            file3.seekg (0, ios::beg);
+            file3.read (memblock3, size3);
+            dataTest = (const float *)memblock3;
+            delete[] memblock3;
+			//dataTest = (const float *)file3.const_data();
 		} else {
-					LOGI("could not map the file filename.raw");
+			LOGI("could not map the file filename.raw");
 		}
 
 
 	}else{
+//	    LOGI("NOT OPENING FILES");
 		labelTest=labels;
 		dataTest=data;
 	}
 #endif
 	/////////////////////////////
+//	LOGI("MEMORY_MAP_FILE_DONE_LOADING");
     inputCubeSize = net->getInputCubeSize();
     numBatches = (N + batchSize - 1) / batchSize;
     reset();
@@ -178,6 +202,7 @@ LOGI( "DeepCL/src/batch/Batcher.cpp: tick");
     if(epochDone) {
         reset();
     }
+//    LOGI("batcher ticker 1");
     int batch = nextBatch;
 //    std::cout << "BatchLearner.tick() batch=" << batch << std::endl;
     int batchStart = batch * batchSize;
@@ -185,10 +210,12 @@ LOGI( "DeepCL/src/batch/Batcher.cpp: tick");
     if(batch == numBatches - 1) {
         thisBatchSize = N - batchStart;
     }
+//    LOGI("batcher ticker 2");
 #if MEMORY_MAP_FILE_LOADING==1
     net->setBatchSize(thisBatchSize);
+//    LOGI("Before internal tick, inputCubeSize: %d, batchSize: %d, batch: %d", inputCubeSize, batchSize, batch);
     internalTick(epoch, &(dataTest[ batchStart * inputCubeSize ]), &(labelTest[batchStart]));
-
+//    LOGI("batcher ticker 3");
     if (dynamic_cast<ForwardBatcher *>(this)||dynamic_cast<NetActionBatcher *>(this)){
     	net->calcLossFromLabels(&(labelTest[batchStart]/*labels[batchStart]*/));
     	net->calcNumRight(&(labelTest[batchStart]/*labels[batchStart]*/));

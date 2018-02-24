@@ -15,6 +15,7 @@
 #include "../trainers/Trainer.h"
 #include <boost/iostreams/device/mapped_file.hpp>
 #include <sys/stat.h>
+#include <fstream>
 
 class EpochResult;
 class NetAction;
@@ -46,8 +47,10 @@ protected:
     /////////////////
     float const* dataTest;
     int const* labelTest;
-    boost::iostreams::mapped_file file3;
-    boost::iostreams::mapped_file file4;
+//    boost::iostreams::mapped_file file3;
+//    boost::iostreams::mapped_file file4;
+    ifstream file3;
+    ifstream file4;
 
 ////////////////////
 

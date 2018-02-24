@@ -255,8 +255,9 @@ void PredictionModel::go(ConfigPrediction config) {
     	LOGE( "Cannot load network weights from weightsFile.");
         return;
     }
-
+    LOGI("WEIGHTS LOADED!!!");
     net->setBatchSize(config.batchSize);
+    LOGI("BATCH SIZE SET!!!");
 
     float *inputData = new float[ inputCubeSize * config.batchSize];
 
@@ -275,15 +276,23 @@ void PredictionModel::go(ConfigPrediction config) {
             throw runtime_error("outputFormat " + config.outputFormat + " not recognized");
         }
     }
+    LOGI("OUTPUT FILE CONFIGURED");
+
     if(config.outputLayer == -1) {
         config.outputLayer = net->getNumLayers() - 1;
     }
+
+    LOGI("GET OUTPUT LAYER");
+
     if(config.inputFile == "") {
+        LOGI("READING INPUT FILE");
         cin.read(reinterpret_cast< char * >(inputData), inputCubeSize * config.batchSize * 4l);
         more = !cin.eof();
+        LOGI("READ INPUT FILE");
     } else {
-
+        LOGI("LOADING LOADER");
     	loader->load(inputData, 0, n, config.batchSize);
+    	LOGI("LOADED LOADER");
     }
 
 
