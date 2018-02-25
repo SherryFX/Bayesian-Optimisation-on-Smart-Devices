@@ -156,9 +156,9 @@ LOGI( "DeepCL/src/input/InputLayer.cpp: setBatchSize");
 
 //        std::cout << "inputlayer setting batchsize " << batchSize << std::endl;
 
-#if TRANSFERCL_VERBOSE == 1
-	LOGI("DeepCL\\src\\layer\\InputLayer.cpp: InputLayer setBatchSize");
-#endif
+    #if TRANSFERCL_VERBOSE == 1
+        LOGI("DeepCL\\src\\layer\\InputLayer.cpp: InputLayer setBatchSize");
+    #endif
 
     if(batchSize <= allocatedSize) {
         this->batchSize = batchSize;

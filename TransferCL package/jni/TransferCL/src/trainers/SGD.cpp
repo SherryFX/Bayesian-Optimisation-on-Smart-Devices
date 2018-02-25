@@ -34,7 +34,8 @@ using namespace std;
 #define VIRTUAL
 
 typedef struct {
-	CLWrapper * a;
+	//CLWrapper * a;
+	CLWrapper *a;
 	CLWrapper *b;
 	float nb_a;
 	int nb_b;
@@ -127,15 +128,15 @@ VIRTUAL void SGD::updateWeights(CLWrapper *weightsWrapper, CLWrapper *gradWeight
 }
 
 /* this function is run by the second thread */
-void *inc_x(void *x_void_ptr0)
-{
-s_param *x_void_ptr=(s_param*)x_void_ptr0;
+void *inc_x(void *x_void_ptr0) {
+    s_param *x_void_ptr=(s_param*)x_void_ptr0;
 	((CLWrapper *)x_void_ptr->a)->copyToHost();
 	float* array1=(float*)((CLWrapper *)x_void_ptr->a)->getHostArray();
 	((CLWrapper *)x_void_ptr->b)->copyToHost();
 	int* array2=(int*)((CLWrapper *)x_void_ptr->b)->getHostArray();
 	x_void_ptr->nb_a=array1[0];
 	x_void_ptr->nb_b=array2[0];
+	LOGI( "array1[0] = %f, array2[0] = %d", array1[0], array2[0]);
 
 return NULL;
 
@@ -338,7 +339,7 @@ VIRTUAL BatchResult SGD::trainNet(NeuralNet *net, TrainingContext *context,
     	    loss=test.nb_a;
     	    numRight=test.nb_b;
 			#if DISPLAY_LOSS ==1
-						LOGI("loss=%f numRight=%d",loss,numRight);
+				LOGI("loss=%f numRight=%d",loss,numRight);
 			#endif
 
 

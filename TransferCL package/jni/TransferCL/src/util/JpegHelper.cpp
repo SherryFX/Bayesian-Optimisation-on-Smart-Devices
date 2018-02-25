@@ -110,7 +110,7 @@ PUBLIC STATIC void JpegHelper::read(std::string filename, int planes, int width,
 ///////////////////////////
 
 int bpp;
-   LOGI( "Reading %s", filename.c_str());
+//   LOGI( "Reading %s", filename.c_str());
    uint8_t* rgb_image = stbi_load(filename.c_str(), &width, &height, &bpp, 1);
    for(int row = 0; row < height; row++) {
            for(int col = 0; col < width; col++) {

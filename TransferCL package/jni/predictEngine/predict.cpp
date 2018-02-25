@@ -44,9 +44,9 @@ PredictionModel::PredictionModel(string absolutePath){
 }
 
 PredictionModel::~PredictionModel(){
-	LOGI( "easyCL oject destroyed");
+	LOGI( "easyCL object destroyed");
 	delete cl;
-	//LOGI( "easyCL oject destroyed done");
+	//LOGI( "easyCL object destroyed done");
 
 }
 void PredictionModel::go0(ConfigPrediction config) {
@@ -270,8 +270,10 @@ void PredictionModel::go(ConfigPrediction config) {
     } else {
         if(config.outputFormat == "text") {
             outFile = new ofstream(config.outputFile, ios::out);
+            LOGI("outfile is text");
         } else if(config.outputFormat == "binary") {
             outFile = new ofstream(config.outputFile, ios::out | std::ios::binary);
+            LOGI("outfile is binary");
         } else {
             throw runtime_error("outputFormat " + config.outputFormat + " not recognized");
         }

@@ -303,19 +303,19 @@ LOGI( "DeepCL/src/net/NeuralNet.cpp: getOutputSize");
     return getLastLayer()->getOutputSize();
 }
 PUBLICAPI void NeuralNet::setBatchSize(int batchSize) {
-#if TRANSFERCL_VERBOSE == 1
-LOGI( "DeepCL/src/net/NeuralNet.cpp: setBatchSize");
-#endif
+    #if TRANSFERCL_VERBOSE == 1
+    LOGI( "DeepCL/src/net/NeuralNet.cpp: setBatchSize");
+    #endif
 
 
-#if TRANSFERCL_VERBOSE == 1
-	LOGI("DeepCL\\src\\net\\NeuralNet.cpp: neural net setBatchSize");
-#endif
-int i=0;
+    #if TRANSFERCL_VERBOSE == 1
+        LOGI("DeepCL\\src\\net\\NeuralNet.cpp: neural net setBatchSize");
+    #endif
+    int i=0;
     for(std::vector<Layer*>::iterator it = layers.begin(); it != layers.end(); it++) {
-#if TRANSFERCL_VERBOSE == 1
-		LOGI("%d",i);
-#endif
+        #if TRANSFERCL_VERBOSE == 1
+                LOGI("Layer no.: %d",i);
+        #endif
 
 		i++;
         (*it)->setBatchSize(batchSize);
@@ -332,9 +332,9 @@ LOGI( "DeepCL/src/net/NeuralNet.cpp: setTraining");
 #endif
 
     for(std::vector<Layer*>::iterator it = layers.begin(); it != layers.end(); it++) {
-#if TRANSFERCL_VERBOSE == 1
-LOGI( "DeepCL/src/net/NeuralNet.cpp: vector<Layer*>::iterator it = layers.begin(); it != layers.end(); it++) {");
-#endif
+        #if TRANSFERCL_VERBOSE == 1
+        LOGI( "DeepCL/src/net/NeuralNet.cpp: vector<Layer*>::iterator it = layers.begin(); it != layers.end(); it++) {");
+        #endif
 
 
         (*it)->setTraining(training);
@@ -428,7 +428,7 @@ LOGI( "DeepCL/src/net/NeuralNet.cpp: backward");
 }
 void NeuralNet::backward(OutputData *outputData) {
 #if TRANSFERCL_VERBOSE == 1
-LOGE( "DeepCL/src/net/NeuralNet.cpp: backward");
+LOGI( "DeepCL/src/net/NeuralNet.cpp: backward");
 #endif
 
 	#if MEASURE_BACKWARD_PROP==1

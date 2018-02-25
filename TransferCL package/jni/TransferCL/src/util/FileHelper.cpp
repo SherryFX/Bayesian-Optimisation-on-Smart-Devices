@@ -35,7 +35,7 @@ LOGI( "DeepCL/src/util/FileHelper.cpp: readBinary");
     std::string localPath = localizePath(filepath);
     std::ifstream file(localPath.c_str(), std::ios::in | std::ios::binary | std::ios::ate);
     if(!file.is_open()) {
-    	LOGI("couldnt open file %s",localPath.c_str());
+//    	LOGI("couldnt open file %s",localPath.c_str());
         throw std::runtime_error("couldnt open file " + localPath);
     }
     *p_filesize = static_cast<long>(file.tellg());
@@ -43,7 +43,7 @@ LOGI( "DeepCL/src/util/FileHelper.cpp: readBinary");
     char *data = new char[*p_filesize];
     file.seekg(0, std::ios::beg);
     if(!file.read(data, *p_filesize)) {
-    	LOGI("failed to read from %s",localPath.c_str());
+//    	LOGI("failed to read from %s",localPath.c_str());
         throw std::runtime_error("failed to read from " + localPath);
     }
     file.close();

@@ -11,59 +11,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.4625075">
       <split-first>
-        <leaf>
-          <file leaf-file-name="train.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/jni/trainEngine/train.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="326">
-                  <caret line="368" column="18" lean-forward="false" selection-start-line="368" selection-start-column="18" selection-end-line="368" selection-end-column="18" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="predict.cpp" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/jni/predictEngine/predict.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="991">
-                  <caret line="358" column="10" lean-forward="false" selection-start-line="358" selection-start-column="10" selection-end-line="358" selection-end-column="10" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GenericLoaderv2.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loaders/GenericLoaderv2.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="545">
-                  <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ManifestLoaderv1.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loaders/ManifestLoaderv1.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="760">
-                  <caret line="218" column="20" lean-forward="false" selection-start-line="218" selection-start-column="20" selection-end-line="218" selection-end-column="20" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="JpegHelper.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/util/JpegHelper.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="392">
-                  <caret line="112" column="39" lean-forward="false" selection-start-line="112" selection-start-column="39" selection-end-line="112" selection-end-column="39" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="dependencies.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/dependencies.h">
               <provider selected="true" editor-type-id="text-editor">
@@ -74,25 +24,175 @@
               </provider>
             </entry>
           </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="SGD.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/trainers/SGD.cpp">
+          <file leaf-file-name="train.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/trainEngine/train.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1360">
-                  <caret line="345" column="29" lean-forward="false" selection-start-line="345" selection-start-column="29" selection-end-line="345" selection-end-column="29" />
+                <state relative-caret-position="360">
+                  <caret line="392" column="39" lean-forward="false" selection-start-line="392" selection-start-column="39" selection-end-line="392" selection-end-column="39" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="predict.cpp" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/jni/predictEngine/predict.cpp">
+          <file leaf-file-name="Batcher.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/batch/Batcher.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1701">
+                  <caret line="310" column="83" lean-forward="false" selection-start-line="310" selection-start-column="83" selection-end-line="310" selection-end-column="83" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="NetLearner.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/batch/NetLearner.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="280">
+                  <caret line="162" column="32" lean-forward="false" selection-start-line="162" selection-start-column="32" selection-end-line="162" selection-end-column="32" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="NeuralNet.cpp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/net/NeuralNet.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="416">
+                  <caret line="195" column="76" lean-forward="false" selection-start-line="195" selection-start-column="58" selection-end-line="195" selection-end-column="76" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="CLWrapper.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/EasyCL/CLWrapper.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="461">
+                  <caret line="225" column="32" lean-forward="false" selection-start-line="225" selection-start-column="12" selection-end-line="225" selection-end-column="32" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="EasyCL.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/EasyCL/EasyCL.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="26">
+                  <caret line="489" column="10" lean-forward="false" selection-start-line="489" selection-start-column="10" selection-end-line="489" selection-end-column="10" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="InputLayer.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/input/InputLayer.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="675">
+                  <caret line="279" column="7" lean-forward="false" selection-start-line="279" selection-start-column="7" selection-end-line="279" selection-end-column="7" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Layer.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/layer/Layer.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="335">
+                  <caret line="474" column="7" lean-forward="false" selection-start-line="474" selection-start-column="7" selection-end-line="474" selection-end-column="7" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="SGD.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/trainers/SGD.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="313">
+                  <caret line="217" column="100" lean-forward="false" selection-start-line="217" selection-start-column="86" selection-end-line="217" selection-end-column="100" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ActivationLayer.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/activate/ActivationLayer.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="283">
+                  <caret line="366" column="56" lean-forward="false" selection-start-line="366" selection-start-column="7" selection-end-line="366" selection-end-column="56" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ConvolutionalLayer.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/conv/ConvolutionalLayer.cpp">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="326">
-                  <caret line="58" column="27" lean-forward="false" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="27" />
+                  <caret line="641" column="21" lean-forward="false" selection-start-line="641" selection-start-column="8" selection-end-line="641" selection-end-column="21" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="LossLayer.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loss/LossLayer.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="508">
+                  <caret line="97" column="42" lean-forward="false" selection-start-line="97" selection-start-column="24" selection-end-line="97" selection-end-column="42" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SoftMaxLayer.cpp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loss/SoftMaxLayer.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-430">
+                  <caret line="237" column="30" lean-forward="false" selection-start-line="237" selection-start-column="29" selection-end-line="237" selection-end-column="30" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="FullyConnectedLayer.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/fc/FullyConnectedLayer.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="326">
+                  <caret line="251" column="56" lean-forward="false" selection-start-line="251" selection-start-column="40" selection-end-line="251" selection-end-column="56" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SGDStateMaker.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/trainers/SGDStateMaker.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="570">
+                  <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Trainer.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/trainers/Trainer.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="252">
+                  <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Trainer.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/trainers/Trainer.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="335">
+                  <caret line="38" column="4" lean-forward="false" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="4" />
                   <folding />
                 </state>
               </provider>
@@ -104,36 +204,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>prepare</find>
-      <find>DeepCL/src/weights/WeightsPersister.cpp: getTotalNumWeights</find>
-      <find>BEFORE SGD 1</find>
-      <find>useMaxPoolingTemp</find>
-      <find>conv batchSize</find>
-      <find>AFTER CONVOLUTION CREATED!!!</find>
-      <find>ACTIVATION LAYER CREATED!!!</find>
-      <find>Before opening file</find>
-      <find>FILE PATH</find>
-      <find>Creating NETLEARNER</find>
-      <find>NETLEARNER SET!</find>
-      <find>TICK BATCH SET TRAINING</find>
-      <find>batcher ticker</find>
-      <find>IN CLWrapper::copyToDevice_ZeroCopyObject_WriteFlag!!</find>
-      <find>LearnBatcher::internalTick</find>
-      <find>TICK BATCH DONE!!!</find>
-      <find>Before Boost in PersistWeights!!</find>
-      <find>TRANSFER PERSISTWEIGHTS</find>
-      <find>PersistWeights Completed!!</find>
-      <find>numRight=</find>
-      <find>###################Prediction###################</find>
-      <find>copyNetWeightsToArray</find>
-      <find>Persist</find>
-      <find>Error reading</find>
-      <find>DeepCL/src/trainers/SGD.cpp: bindState</find>
-      <find>loader</find>
-      <find>DeepCL/src/loaders/GenericLoaderv2.cpp: load</find>
-      <find>DeepCL/src/loaders/ManifestLoaderv1.cpp: getImageCubeSize</find>
-      <find>DeepCL/src/loaders/ManifestLoaderv1.cpp: load</find>
-      <find>--------- Prediction: done</find>
+      <find>DeepCL/src/activate/ActivationLayer.cpp: needsBackProp</find>
+      <find>DeepCL/src/fc/FullyConnectedLayer.cpp: needsBackProp</find>
+      <find>DeepCL/src/conv/ConvolutionalLayer.cpp: --- backward</find>
+      <find>DeepCL/src/conv/ConvolutionalLayer.cpp: backward</find>
+      <find>DeepCL/src/loss/SoftMaxLayer.cpp: calcGradInputFromLabels</find>
+      <find>runSoftmax_forward</find>
+      <find>setTraining</find>
+      <find>-------------------------- ERREOR CreateProgramFromBinary</find>
+      <find>DeepCL/src/activate/ActivationLayer.cpp: backward</find>
+      <find>nb_a</find>
+      <find>s_param</find>
+      <find>test</find>
+      <find>DeepCL/src/net/NeuralNet.cpp: backward</find>
+      <find>getHostArray</find>
+      <find>getLossWrapper</find>
+      <find>ptrcl</find>
+      <find>calcLossFromLabels</find>
+      <find>lossWrapper</find>
+      <find>clEnqueueWriteBuffer</find>
+      <find>copyToDevice</find>
+      <find>perPlane</find>
+      <find>_perPlane</find>
+      <find>SoftMaxMaker</find>
+      <find>calcLos</find>
+      <find>calcLoss</find>
+      <find>calcLossFromL</find>
+      <find>getoutputwrapper</find>
+      <find>outputWrapper</find>
+      <find>inc_x</find>
+      <find>calcL</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -152,27 +252,32 @@
       <list>
         <option value="$PROJECT_DIR$/jni/TransferCL/src/normalize/NormalizationLayer.cpp" />
         <option value="$PROJECT_DIR$/jni/TransferCL/src/util/RandomSingleton.cpp" />
-        <option value="$PROJECT_DIR$/jni/TransferCL/src/net/NeuralNet.cpp" />
-        <option value="$PROJECT_DIR$/jni/TransferCL/src/input/InputLayer.cpp" />
         <option value="$PROJECT_DIR$/jni/TransferCL/src/batch/Batcher.h" />
         <option value="$PROJECT_DIR$/jni/TransferCL/src/conv/ConvolutionalLayer.cpp" />
         <option value="$PROJECT_DIR$/jni/TransferCL/src/netdef/NetdefToNet.cpp" />
         <option value="$PROJECT_DIR$/jni/TransferCL/src/activate/ActivationLayer.cpp" />
         <option value="$PROJECT_DIR$/jni/TransferCL/src/batch/NetLearner.cpp" />
-        <option value="$PROJECT_DIR$/jni/TransferCL/src/batch/Batcher.cpp" />
         <option value="$PROJECT_DIR$/jni/TransferCL/EasyCL/CLWrapper.cpp" />
         <option value="$PROJECT_DIR$/jni/trainEngine/train.cpp" />
         <option value="$PROJECT_DIR$/jni/TransferCL/src/weights/WeightsPersister.cpp" />
         <option value="$PROJECT_DIR$/jni/predictEngine/predict.cpp" />
-        <option value="$PROJECT_DIR$/jni/TransferCL/src/dependencies.h" />
+        <option value="$PROJECT_DIR$/jni/TransferCL/src/util/FileHelper.cpp" />
         <option value="$PROJECT_DIR$/jni/TransferCL/src/loaders/ManifestLoaderv1.cpp" />
         <option value="$PROJECT_DIR$/jni/TransferCL/src/util/JpegHelper.cpp" />
+        <option value="$PROJECT_DIR$/jni/TransferCL/src/batch/Batcher.cpp" />
+        <option value="$PROJECT_DIR$/jni/TransferCL/src/input/InputLayer.cpp" />
+        <option value="$PROJECT_DIR$/jni/TransferCL/src/trainers/SGD.cpp" />
+        <option value="$PROJECT_DIR$/jni/TransferCL/src/dependencies.h" />
+        <option value="$PROJECT_DIR$/jni/TransferCL/src/net/NeuralNet.cpp" />
+        <option value="$PROJECT_DIR$/jni/TransferCL/src/loss/SoftMaxLayer.cpp" />
+        <option value="$PROJECT_DIR$/jni/TransferCL/src/loss/LossLayer.cpp" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+    <option name="x" value="-1920" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -189,23 +294,15 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="AndroidView" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="TransferCL package" type="b2602c69:ProjectViewProjectNode" />
               <item name="TransferCL package" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TransferCL package" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TransferCL package" type="462c0819:PsiDirectoryNode" />
-              <item name="extra_libs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TransferCL package" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TransferCL package" type="462c0819:PsiDirectoryNode" />
-              <item name="include" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="TransferCL package" type="b2602c69:ProjectViewProjectNode" />
@@ -260,8 +357,6 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="RunDashboard">
@@ -372,34 +467,62 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="-1920" y="0" width="1920" height="1080" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17569445" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13177083" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291262" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13177083" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291262" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -409,19 +532,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/jni/transferCLinterface.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="5" lean-forward="false" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jni/Application.mk">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -437,7 +551,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
           <caret line="33" column="16" lean-forward="false" selection-start-line="33" selection-start-column="16" selection-end-line="33" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -453,7 +566,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="36" lean-forward="false" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -485,15 +597,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-144">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/layer/Layer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="169" column="7" lean-forward="false" selection-start-line="169" selection-start-column="7" selection-end-line="169" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -545,22 +648,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/input/InputLayer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="206" column="37" lean-forward="false" selection-start-line="206" selection-start-column="37" selection-end-line="206" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/trainers/Trainer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="97" column="42" lean-forward="false" selection-start-line="97" selection-start-column="42" selection-end-line="97" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jni/TransferCL/EasyCL/CLHalfWrapper.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
@@ -585,58 +672,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/conv/ConvolutionalLayer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="73" column="44" lean-forward="false" selection-start-line="73" selection-start-column="44" selection-end-line="73" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/netdef/NetdefToNet.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
           <caret line="162" column="73" lean-forward="false" selection-start-line="162" selection-start-column="73" selection-end-line="162" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/activate/ActivationLayer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="46" column="5" lean-forward="false" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/batch/Batcher.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="566">
-          <caret line="220" column="48" lean-forward="false" selection-start-line="220" selection-start-column="48" selection-end-line="220" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/batch/NetLearner.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="166" column="20" lean-forward="false" selection-start-line="166" selection-start-column="20" selection-end-line="166" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jni/trainEngine/train.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="368" column="18" lean-forward="false" selection-start-line="368" selection-start-column="18" selection-end-line="368" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/EasyCL/CLWrapper.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="581">
-          <caret line="192" column="26" lean-forward="true" selection-start-line="192" selection-start-column="26" selection-end-line="192" selection-end-column="26" />
           <folding />
         </state>
       </provider>
@@ -649,18 +688,170 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/net/NeuralNet.cpp">
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loaders/GenericLoaderv2.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="356" column="50" lean-forward="false" selection-start-line="356" selection-start-column="50" selection-end-line="356" selection-end-column="50" />
+        <state relative-caret-position="390">
+          <caret line="83" column="0" lean-forward="true" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/util/FileHelper.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1954">
+          <caret line="46" column="26" lean-forward="true" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loaders/GenericLoader.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-210">
+          <caret line="43" column="29" lean-forward="false" selection-start-line="43" selection-start-column="29" selection-end-line="43" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loaders/GenericLoaderv1Wrapper.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-285">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loaders/ManifestLoaderv1.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3285">
+          <caret line="219" column="25" lean-forward="true" selection-start-line="219" selection-start-column="25" selection-end-line="219" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/util/JpegHelper.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="113" column="12" lean-forward="false" selection-start-line="113" selection-start-column="12" selection-end-line="113" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/predictEngine/predict.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-364">
+          <caret line="280" column="32" lean-forward="false" selection-start-line="280" selection-start-column="10" selection-end-line="280" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/trainers/SGD.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-252">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/trainEngine/train.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="392" column="39" lean-forward="false" selection-start-line="392" selection-start-column="39" selection-end-line="392" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/batch/Batcher.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1701">
+          <caret line="310" column="83" lean-forward="false" selection-start-line="310" selection-start-column="83" selection-end-line="310" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/trainers/SGDStateMaker.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/layer/Layer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="474" column="7" lean-forward="false" selection-start-line="474" selection-start-column="7" selection-end-line="474" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/trainers/Trainer.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="38" column="4" lean-forward="false" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/trainers/Trainer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/input/InputLayer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="279" column="7" lean-forward="false" selection-start-line="279" selection-start-column="7" selection-end-line="279" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/activate/ActivationLayer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="366" column="56" lean-forward="false" selection-start-line="366" selection-start-column="7" selection-end-line="366" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/batch/NetLearner.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="162" column="32" lean-forward="false" selection-start-line="162" selection-start-column="32" selection-end-line="162" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/EasyCL/CLWrapper.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="31" column="30" lean-forward="false" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/EasyCL/EasyCL.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26">
+          <caret line="489" column="10" lean-forward="false" selection-start-line="489" selection-start-column="10" selection-end-line="489" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loss/SoftMaxLayerPredict.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2829">
+          <caret line="350" column="33" lean-forward="false" selection-start-line="350" selection-start-column="33" selection-end-line="350" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/trainers/SGD.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1360">
-          <caret line="345" column="29" lean-forward="false" selection-start-line="345" selection-start-column="29" selection-end-line="345" selection-end-column="29" />
+        <state relative-caret-position="313">
+          <caret line="217" column="100" lean-forward="false" selection-start-line="217" selection-start-column="86" selection-end-line="217" selection-end-column="100" />
           <folding />
         </state>
       </provider>
@@ -673,34 +864,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loaders/GenericLoaderv2.cpp">
+    <entry file="file://$PROJECT_DIR$/include/CL_mali/cl2.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="545">
-          <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+        <state relative-caret-position="590">
+          <caret line="7038" column="29" lean-forward="true" selection-start-line="7038" selection-start-column="29" selection-end-line="7038" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loaders/ManifestLoaderv1.cpp">
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/EasyCL/CLWrapper.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="760">
-          <caret line="218" column="20" lean-forward="false" selection-start-line="218" selection-start-column="20" selection-end-line="218" selection-end-column="20" />
+        <state relative-caret-position="461">
+          <caret line="225" column="32" lean-forward="false" selection-start-line="225" selection-start-column="12" selection-end-line="225" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/util/JpegHelper.cpp">
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loss/SoftMaxLayer.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="112" column="39" lean-forward="false" selection-start-line="112" selection-start-column="39" selection-end-line="112" selection-end-column="39" />
+        <state relative-caret-position="-458">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jni/predictEngine/predict.cpp">
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/net/NeuralNet.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="991">
-          <caret line="358" column="10" lean-forward="false" selection-start-line="358" selection-start-column="10" selection-end-line="358" selection-end-column="10" />
+        <state relative-caret-position="416">
+          <caret line="195" column="76" lean-forward="false" selection-start-line="195" selection-start-column="58" selection-end-line="195" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/fc/FullyConnectedLayer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="251" column="56" lean-forward="false" selection-start-line="251" selection-start-column="40" selection-end-line="251" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/conv/ConvolutionalLayer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="641" column="21" lean-forward="false" selection-start-line="641" selection-start-column="8" selection-end-line="641" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loss/IAcceptsLabels.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loss/LossLayer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="508">
+          <caret line="97" column="42" lean-forward="false" selection-start-line="97" selection-start-column="24" selection-end-line="97" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jni/TransferCL/src/loss/SoftMaxLayer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-430">
+          <caret line="237" column="30" lean-forward="false" selection-start-line="237" selection-start-column="29" selection-end-line="237" selection-end-column="30" />
           <folding />
         </state>
       </provider>

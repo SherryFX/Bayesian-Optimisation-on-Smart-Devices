@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -42,8 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         applicationName = getApplicationContext().getPackageName();
         tv = (TextView)findViewById(R.id.textView4);
 
-        // Log.d("Test", "onCreate: " + getApplicationContext().getApplicationInfo().dataDir); // test
-        Log.d("Test", "onCreate: " + applicationName); // test
+//        Log.d("Test", "onCreate: " + getApplicationContext().getApplicationInfo().dataDir); // test
+//        Log.d("Test", "onCreate: " + getExternalFilesDir(null)); // test
+//        Log.d("Test", "onCreate: " + applicationName); // test
 
         verifyStoragePermissions(this);
         try {
@@ -134,9 +137,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int imageSize=28;
                 int numOfChannel=3;//black and white => 1; color =>3
                 String storeweightsfile="/data/data/"+applicationName+"/directoryTest/weightsTransferred.dat";
-                String loadweightsfile="/storage/6234-3231/Data/weights3.dat";
+                String loadweightsfile="/storage/6234-3231/Data/weights4.dat";
                 String loadnormalizationfile="/data/data/"+applicationName+"/directoryTest/normalizationTransfer.txt";
-                String networkDefinition="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
+                // String networkDefinition="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
+                String networkDefinition="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
                 // String networkDefinition="8c5z-relu-mp2-16c5z-relu-mp3-150n-tanh-10n";
                 int numepochs=100;
                 int batchsize=128;
@@ -178,7 +182,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         +applicationName
                         +"/directoryTest/weightsTransferred.dat"
                         +"  inputfile=/storage/6234-3231/Data/manifestTEST.txt"
-                        +"  outputfile=/storage/6234-3231/Data/pred.txt";
+                        +"  outputfile=/storage/emulated/0/Android/data/com.example.myapplication/files/pred.txt";
+//                        +"  outputfile=/storage/6234-3231/Data/pred.txt";
 //                        +" outputfile=/data/data/"
 //                        +applicationName
 //                        +"/preloadingData/pred2.txt";
@@ -202,16 +207,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param activity
      */
     public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have read permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("Permissions", "Read permission is granted");
+            } else {
+                Log.v("Permissions", "Read permission is revoked");
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_EXTERNAL_STORAGE);
+            }
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("Permissions", "Write permission is granted");
+            } else {
+                Log.v("Permissions", "Write permission is revoked");
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        REQUEST_EXTERNAL_STORAGE);
+            }
+        } else {
+            //permission is automatically granted on sdk<23 upon installation
+            Log.v("Permissions","Permissions are granted");
         }
     }
 }
