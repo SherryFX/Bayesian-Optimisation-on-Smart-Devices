@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +21,7 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TransferCLlib t;
+
     String applicationName;
     String appDirctory;
     String fileNameStoreData;           // Storage location for training data after preparation
@@ -34,6 +34,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     String predInputFile;               // Manifest file for test data and labels
     String predOutputFile;              // Output file for predictions
+
+    // NN properties
+    int nbTrainingImages = 50000;
+    int nbChannels = 1;                 // Black and white => 1; color =>3
+    int imageSize=28;
+    String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";
+    // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
+    // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
+    int numepochs=20;
+    int batchsize=128;
+    float learningRate=0.002f;
 
     TextView tv;
     ScrollView logContainer;
@@ -62,17 +73,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         trainManifest = "/storage/AEE2-2820/Data/mnist/imgs/trainmanifest10.txt";
 
         storeweightsfile="/data/data/"+applicationName+"/directoryTest/weightsTransferred.dat";
-        loadweightsfile="/storage/AEE2-2820/Data/mnist/weights.dat";     // Trained task/domain weights
+        loadweightsfile="/storage/AEE2-2820/Data/mnist/weights10.dat";     // Trained task/domain weights
 
-        predInputFile = "/storage/AEE2-2820/Data/mnist/val_imgs/valmanifest10.txt";
+        predInputFile = "/storage/AEE2-2820/Data/mnist/imgs/trainmanifest10.txt";
         //predOutputFile = "/storage/AEE2-2820/Data/mnist/pred.txt";
         predOutputFile = "/storage/emulated/0/Android/data/com.example.myapplication/files/pred.txt";
 
 
         tv = (TextView)findViewById(R.id.textView4);
 
-        Log.d("Test", "onCreate: " + getApplicationContext().getApplicationInfo().dataDir); // test
-        Log.d("Test", "onCreate: " + getExternalFilesDir(null)); // test
+//        Log.d("Test", "onCreate: " + getApplicationContext().getApplicationInfo().dataDir); // test
+//        Log.d("Test", "onCreate: " + getExternalFilesDir(null)); // test
 //        Log.d("Test", "onCreate: " + applicationName); // test
 
         verifyStoragePermissions(this);
@@ -132,8 +143,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         fileNameStoreLabel,
                         fileNameStoreNormalization,
                         trainManifest,       // new task/domain info
-                        50000,
-                        1);
+                        nbTrainingImages,
+                        nbChannels);
             }
         };
         Thread mythread = new Thread(runnable);
@@ -148,32 +159,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Runnable runnable = new Runnable() {
             public void run() {
-
-
-                String filename_label=fileNameStoreLabel;
-                String filename_data=fileNameStoreData;
-                String loadnormalizationfile=fileNameStoreNormalization;
-                // String networkDefinition="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
-                // String networkDefinition="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
-                int imageSize=28;
-                int numOfChannel=1;//black and white => 1; color =>3
-                String networkDefinition="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";
-                int numepochs=20;
-                int batchsize=128;
-                int numtrain=50000;
-                float learningRate=0.002f;
-
-                String cmdString="train filename_label="+filename_label;
-                cmdString=cmdString+" filename_data="+filename_data;
+                String cmdString="train filename_label="+fileNameStoreLabel;
+                cmdString=cmdString+" filename_data="+fileNameStoreData;
                 cmdString=cmdString+" imageSize="+Integer.toString(imageSize);
-                cmdString=cmdString+" numPlanes="+Integer.toString(numOfChannel);
+                cmdString=cmdString+" numPlanes="+Integer.toString(nbChannels);
                 cmdString=cmdString+" storeweightsfile="+storeweightsfile;
                 cmdString=cmdString+" loadweightsfile="+loadweightsfile;
-                cmdString=cmdString+" loadnormalizationfile="+loadnormalizationfile;
-                cmdString=cmdString+" netdef="+networkDefinition;
+                cmdString=cmdString+" loadnormalizationfile="+fileNameStoreNormalization;
+                cmdString=cmdString+" netdef="+ netdef;
                 cmdString=cmdString+" numepochs="+Integer.toString(numepochs);
                 cmdString=cmdString+" batchsize="+Integer.toString(batchsize);
-                cmdString=cmdString+" numtrain="+Integer.toString(numtrain);
+                cmdString=cmdString+" numtrain="+Integer.toString(nbTrainingImages);
                 cmdString=cmdString+" learningrate="+Float.toString(learningRate);
 
                 t.training(appDirctory,cmdString);

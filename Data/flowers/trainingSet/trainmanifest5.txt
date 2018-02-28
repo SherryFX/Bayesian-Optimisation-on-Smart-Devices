@@ -1,4 +1,4 @@
-# format=deepcl-jpeg-list-v1 planes=3 width=32 height=32
+# format=deepcl-jpeg-list-v1 N=3670 planes=3 width=28 height=28
 /storage/AEE2-2820/Data/flowers/trainingSet/4/6948239566_0ac0a124ee_n.jpg 4
 /storage/AEE2-2820/Data/flowers/trainingSet/0/1354396826_2868631432_m.jpg 0
 /storage/AEE2-2820/Data/flowers/trainingSet/3/4414080766_5116e8084e.jpg 3
