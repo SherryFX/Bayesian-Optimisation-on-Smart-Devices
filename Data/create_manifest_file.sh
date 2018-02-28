@@ -1,27 +1,34 @@
 #!/bin/bash
 
 # Containing trainingSet, testSet, etc
-mnistpath=$1
-
-
-
-for dir in ./trainingSet/*
+path=$1
+echo $path
+output=$2
+limit=$3
+prefix=$4
+for dir in $path/*/
 do
+	dir=${dir%*/}
+	echo $dir
 	label=$(echo $dir | rev | cut -d "/" -f1 | rev)
-	cd ./trainingSet/$label
+	echo $label
+	if (("$label" >= "$limit"))
+	then
+	    echo skipping $label 
+		continue
+	fi
+	cd $path/$label
+	echo $( pwd )
 	for img in *
 	do
-		echo $mnistpath'/trainingSet/'$label'/'$img' '$label >> ../../temp.txt
-	done
-	cd ../..
-
+		echo $prefix''$label'/'$img' '$label >> ../../../temp
+	done 
+	cd ../../..
+	echo $( pwd )
 done
 
+echo "# format=deepcl-jpeg-list-v1 planes=3 width=32 height=32" > $output
 
-count=$(wc -l < temp.txt)
-count="${count#"${count%%[![:space:]]*}"}"
-count="${count%"${count##*[![:space:]]}"}"
-echo "# format=deepcl-jpeg-list-v1 N=${count} planes=3 width=28 height=28" > manifest.txt
-cat temp.txt >> manifest.txt
+shuf temp >> $output
 
-rm temp.txt
+rm temp
