@@ -6,7 +6,7 @@ from PIL import Image
 
 def unpickle(file):
     with open(file, 'rb') as fo:
-        dict = pickle.load(fo)
+        dict = pickle.load(fo,encoding='bytes')
     return dict
 
 def save_image(fname, img_flat, size):
@@ -22,14 +22,14 @@ def main(data, save_dir, size, limit):
     print(data)
     print(save_dir)
     dict=unpickle(data)
-    print(len(dict['data']))
+    print(len(dict[b'data']))
 
     dataname=data.split('/')[-1]
-    for i in range(len(dict['labels'])):
-        label = dict['labels'][i]
+    for i in range(len(dict[b'labels'])):
+        label = dict[b'labels'][i]
         if (label > limit):
             continue
-        img_flat = dict['data'][i]
+        img_flat = dict[b'data'][i]
         pathname=save_dir+'/'+str(label)
         if not os.path.exists(pathname):
             os.makedirs(pathname) 
