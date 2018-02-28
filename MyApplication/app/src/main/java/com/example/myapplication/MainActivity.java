@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +21,31 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TransferCLlib t;
+
     String applicationName;
+    String appDirctory;
+    String fileNameStoreData;           // Storage location for training data after preparation
+    String fileNameStoreLabel;          // Storage location for training labels after preparation
+    String fileNameStoreNormalization;  // Storage location for normalisation layer after preparation
+    String trainManifest;               // Manifest file for training data and labels
+
+    String storeweightsfile;            // Storage location for new weights after training
+    String loadweightsfile;             // Storage location for weights of pre-trained model
+
+    String predInputFile;               // Manifest file for test data and labels
+    String predOutputFile;              // Output file for predictions
+
+    // NN properties
+    int nbTrainingImages = 50000;
+    int nbChannels = 1;                 // Black and white => 1; color =>3
+    int imageSize=28;
+    String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";
+    // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
+    // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
+    int numepochs=20;
+    int batchsize=128;
+    float learningRate=0.002f;
+
     TextView tv;
     ScrollView logContainer;
 
@@ -42,6 +65,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         applicationName = getApplicationContext().getPackageName();
+        appDirctory ="/data/data/"+applicationName+"/";
+
+        fileNameStoreData="/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileData2.raw";
+        fileNameStoreLabel= "/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileLabel2.raw";
+        fileNameStoreNormalization="/data/data/"+applicationName+"/directoryTest/normalizationTransfer.txt";
+        trainManifest = "/storage/AEE2-2820/Data/mnist/imgs/trainmanifest10.txt";
+
+        storeweightsfile="/data/data/"+applicationName+"/directoryTest/weightsTransferred.dat";
+        loadweightsfile="/storage/AEE2-2820/Data/mnist/weights10.dat";     // Trained task/domain weights
+
+        predInputFile = "/storage/AEE2-2820/Data/mnist/imgs/trainmanifest10.txt";
+        //predOutputFile = "/storage/AEE2-2820/Data/mnist/pred.txt";
+        predOutputFile = "/storage/emulated/0/Android/data/com.example.myapplication/files/pred.txt";
+
+
         tv = (TextView)findViewById(R.id.textView4);
 
 //        Log.d("Test", "onCreate: " + getApplicationContext().getApplicationInfo().dataDir); // test
@@ -91,10 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
             }
-        }.execute();
-
-
-
+        }/*.execute()*/;
     }
 
     public void prepareTrainingFiles(View v) {
@@ -102,20 +137,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Runnable runnable = new Runnable() {
             public void run() {
-
-                String fileNameStoreData="/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileData2.raw";
-                String fileNameStoreLabel= "/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileLabel2.raw";
-                String fileNameStoreNormalization="/data/data/"+applicationName+"/directoryTest/normalizationTransfer.txt";
-
                 t.prepareFiles(
                         "/data/data/"+applicationName+"/",
                         fileNameStoreData,
                         fileNameStoreLabel,
                         fileNameStoreNormalization,
-                        "/storage/6234-3231/Data/manifestSMALL.txt",
-                        515,
-                        3);
-
+                        trainManifest,       // new task/domain info
+                        nbTrainingImages,
+                        nbChannels);
             }
         };
         Thread mythread = new Thread(runnable);
@@ -130,37 +159,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Runnable runnable = new Runnable() {
             public void run() {
-
-
-                String filename_label="/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileLabel2.raw";
-                String filename_data="/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileData2.raw";
-                int imageSize=28;
-                int numOfChannel=3;//black and white => 1; color =>3
-                String storeweightsfile="/data/data/"+applicationName+"/directoryTest/weightsTransferred.dat";
-                String loadweightsfile="/storage/6234-3231/Data/weights4.dat";
-                String loadnormalizationfile="/data/data/"+applicationName+"/directoryTest/normalizationTransfer.txt";
-                // String networkDefinition="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
-                String networkDefinition="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
-                // String networkDefinition="8c5z-relu-mp2-16c5z-relu-mp3-150n-tanh-10n";
-                int numepochs=100;
-                int batchsize=128;
-                int numtrain=515;
-                float learningRate=0.01f;
-
-                String cmdString="train filename_label="+filename_label;
-                cmdString=cmdString+" filename_data="+filename_data;
+                String cmdString="train filename_label="+fileNameStoreLabel;
+                cmdString=cmdString+" filename_data="+fileNameStoreData;
                 cmdString=cmdString+" imageSize="+Integer.toString(imageSize);
-                cmdString=cmdString+" numPlanes="+Integer.toString(numOfChannel);
+                cmdString=cmdString+" numPlanes="+Integer.toString(nbChannels);
                 cmdString=cmdString+" storeweightsfile="+storeweightsfile;
                 cmdString=cmdString+" loadweightsfile="+loadweightsfile;
-                cmdString=cmdString+" loadnormalizationfile="+loadnormalizationfile;
-                cmdString=cmdString+" netdef="+networkDefinition;
+                cmdString=cmdString+" loadnormalizationfile="+fileNameStoreNormalization;
+                cmdString=cmdString+" netdef="+ netdef;
                 cmdString=cmdString+" numepochs="+Integer.toString(numepochs);
                 cmdString=cmdString+" batchsize="+Integer.toString(batchsize);
-                cmdString=cmdString+" numtrain="+Integer.toString(numtrain);
+                cmdString=cmdString+" numtrain="+Integer.toString(nbTrainingImages);
                 cmdString=cmdString+" learningrate="+Float.toString(learningRate);
-
-                String appDirctory ="/data/data/"+applicationName+"/";
 
                 t.training(appDirctory,cmdString);
             }
@@ -177,12 +187,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Runnable runnable = new Runnable() {
             public void run() {
-                String appDirctory ="/data/data/"+applicationName+"/";
-                String cmdString ="./predict weightsfile=/data/data/"
-                        +applicationName
-                        +"/directoryTest/weightsTransferred.dat"
-                        +"  inputfile=/storage/6234-3231/Data/manifestTEST.txt"
-                        +"  outputfile=/storage/emulated/0/Android/data/com.example.myapplication/files/pred.txt";
+                String cmdString ="./predict weightsfile="
+                        + storeweightsfile
+                        +"  inputfile="
+                        + predInputFile // New task/domain
+                        +"  outputfile="
+                        + predOutputFile;
 //                        +"  outputfile=/storage/6234-3231/Data/pred.txt";
 //                        +" outputfile=/data/data/"
 //                        +applicationName
