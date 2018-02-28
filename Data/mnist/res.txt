@@ -1,0 +1,23 @@
+weights10.dat
+
+deepcl_train.exe datadir=../../data/mnist trainfile=imgs/trainmanifest10.txt validatefile=val_imgs/valmanifest10.txt netdef=8c5z-relu-mp2-16c5z-relu-mp3-150n-tanh-10n numepochs=20 learningrate=0.002
+
+after epoch 20 5109 ms
+ training loss: 83.3961
+ train accuracy: 49996/50000 99.992%
+test accuracy: 2462/2500 98.48%
+after tests 84 ms
+record epoch=20
+wrote weights to file, filesize 173KB
+
+weights9.dat
+
+deepcl_train.exe datadir=../../data/mnist trainfile=imgs/trainmanifest9.txt validatefile=val_imgs/valmanifest9.txt netdef=8c5z-relu-mp2-16c5z-relu-mp3-150n-tanh-9n numepochs=20 learningrate=0.002
+
+after epoch 20 4437 ms
+ training loss: 74.9132
+ train accuracy: 45007/45012 99.9889%
+test accuracy: 2225/2256 98.6259%
+after tests 75 ms
+record epoch=20
+wrote weights to file, filesize 173KB
