@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int nbTrainingImages = 50000;
     int nbChannels = 1;                 // Black and white => 1; color =>3
     int imageSize=28;
-    String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";
+    String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-9n";
     // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
     // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
     int numepochs=20;
@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         trainManifest = "/storage/AEE2-2820/Data/mnist/imgs/trainmanifest10.txt";
 
         storeweightsfile="/data/data/"+applicationName+"/directoryTest/weightsTransferred.dat";
-        loadweightsfile="/storage/AEE2-2820/Data/mnist/weights10.dat";     // Trained task/domain weights
+        loadweightsfile="/storage/AEE2-2820/Data/mnist/weights9.dat";     // Trained task/domain weights
 
-        predInputFile = "/storage/AEE2-2820/Data/mnist/imgs/trainmanifest10.txt";
+        predInputFile = "/storage/AEE2-2820/Data/mnist/imgs/trainmanifest10small.txt";
         //predOutputFile = "/storage/AEE2-2820/Data/mnist/pred.txt";
         predOutputFile = "/storage/emulated/0/Android/data/com.example.myapplication/files/pred.txt";
 
