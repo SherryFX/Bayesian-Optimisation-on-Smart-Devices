@@ -93,7 +93,9 @@ LOGI( "DeepCL/src/loss/LossLayer.cpp: calcLoss");
     if(expectedData != 0) {
         return this->calcLoss(expectedData->expected);
     } else if(labeledData != 0) {
-        LOGI( "CALC LOSS FROM LABELS");
+        #if TRANSFERCL_VERBOSE == 1
+            LOGI( "CALC LOSS FROM LABELS");
+        #endif
         IAcceptsLabels *labeled = dynamic_cast< IAcceptsLabels * >(this);
         return labeled->calcLossFromLabels(labeledData->labels);
     } else {

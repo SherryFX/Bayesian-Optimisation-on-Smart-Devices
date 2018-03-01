@@ -136,7 +136,9 @@ void *inc_x(void *x_void_ptr0) {
 	int* array2=(int*)((CLWrapper *)x_void_ptr->b)->getHostArray();
 	x_void_ptr->nb_a=array1[0];
 	x_void_ptr->nb_b=array2[0];
-	LOGI( "array1[0] = %f, array2[0] = %d", array1[0], array2[0]);
+    #if TRANSFERCL_VERBOSE == 1
+	   LOGI( "array1[0] = %f, array2[0] = %d", array1[0], array2[0]);
+    #endif
 
 return NULL;
 
