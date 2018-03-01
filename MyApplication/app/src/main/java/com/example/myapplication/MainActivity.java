@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         storeweightsfile= appDirectory + "directoryTest/weightsTransferred.dat";
         loadweightsfile= storageDirectory + "mnist/weights9.dat";     // Trained task/domain weights
 
-        predInputFile =  storageDirectory + "mnist/imgs/trainmanifest10small.txt";
+        predInputFile =  storageDirectory + "mnist/val_imgs/valmanifest10.txt";
         predOutputFile = "/storage/emulated/0/Android/data/com.example.myapplication/files/pred.txt";
 
         tv = (TextView)findViewById(R.id.textView4);
