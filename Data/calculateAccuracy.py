@@ -24,7 +24,7 @@ def main(res):
 					acc = acc+1
 
 	print(acc)
-	print (acc / N)
+	print(acc / (N * 1.0))
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='calculate accuracy')
