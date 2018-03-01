@@ -23,8 +23,11 @@ import java.io.InputStreamReader;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TransferCLlib t;
 
+    final int PHONE_TYPE = 2;
     String applicationName;
-    String appDirctory;
+    String appDirectory;
+    String storageDirectory;
+
     String fileNameStoreData;           // Storage location for training data after preparation
     String fileNameStoreLabel;          // Storage location for training labels after preparation
     String fileNameStoreNormalization;  // Storage location for normalisation layer after preparation
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int nbTrainingImages = 50000;
     int nbChannels = 1;                 // Black and white => 1; color =>3
     int imageSize=28;
-    String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";
+    String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";  // NOT of pretrained model but of current model
     // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
     // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
     int numepochs=20;
@@ -66,22 +69,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         applicationName = getApplicationContext().getPackageName();
-        appDirctory ="/data/data/"+applicationName+"/";
+        appDirectory = "/data/data/"+applicationName+"/";
+        storageDirectory = (PHONE_TYPE == 1) ? "/storage/6234-3231/Data/" : "/storage/AEE2-2820/Data/";
 
-        fileNameStoreData="/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileData2.raw";
-        fileNameStoreLabel= "/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileLabel2.raw";
-        fileNameStoreNormalization="/data/data/"+applicationName+"/directoryTest/normalizationTransfer.txt";
+        fileNameStoreData= appDirectory + "directoryTest/mem2Character2ManifestMapFileData2.raw";
+        fileNameStoreLabel= appDirectory + "directoryTest/mem2Character2ManifestMapFileLabel2.raw";
+        fileNameStoreNormalization= appDirectory + "directoryTest/normalizationTransfer.txt";
 
-        // Phone 1: /storage/6234-3231/; Phone 2: /storage/AEE2-2820/
+        trainManifest = storageDirectory + "mnist/imgs/trainmanifest10.txt";
 
-        trainManifest = "/storage/6234-3231/Data/mnist/imgs/trainmanifest10.txt";
+        storeweightsfile= appDirectory + "directoryTest/weightsTransferred.dat";
+        loadweightsfile= storageDirectory + "mnist/weights9.dat";     // Trained task/domain weights
 
-        storeweightsfile="/data/data/"+applicationName+"/directoryTest/weightsTransferred.dat";
-        loadweightsfile="/storage/AEE2-2820/Data/mnist/weights10.dat";     // Trained task/domain weights
-
-        predInputFile = "/storage/6234-3231/Data/mnist/imgs/trainmanifest10small.txt";
+        predInputFile =  storageDirectory + "mnist/imgs/trainmanifest10small.txt";
         predOutputFile = "/storage/emulated/0/Android/data/com.example.myapplication/files/pred.txt";
-
 
         tv = (TextView)findViewById(R.id.textView4);
 
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 long start = Debug.threadCpuTimeNanos();
 
-                t.training(appDirctory,cmdString);
+                t.training(appDirectory,cmdString);
 
                 long elapsed = Debug.threadCpuTimeNanos() - start;
                 Log.d("CPU time for training: ", String.valueOf(elapsed)); // test
@@ -204,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        +" outputfile=/data/data/"
 //                        +applicationName
 //                        +"/preloadingData/pred2.txt";
-                t.prediction(appDirctory,cmdString);
+                t.prediction(appDirectory,cmdString);
 
             }
         };
