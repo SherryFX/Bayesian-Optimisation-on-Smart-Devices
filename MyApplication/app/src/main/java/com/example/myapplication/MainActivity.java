@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Debug;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
@@ -70,13 +71,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fileNameStoreData="/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileData2.raw";
         fileNameStoreLabel= "/data/data/"+applicationName+"/directoryTest/mem2Character2ManifestMapFileLabel2.raw";
         fileNameStoreNormalization="/data/data/"+applicationName+"/directoryTest/normalizationTransfer.txt";
-        trainManifest = "/storage/AEE2-2820/Data/mnist/imgs/trainmanifest10.txt";
+
+        // Phone 1: /storage/6234-3231/; Phone 2: /storage/AEE2-2820/
+
+        trainManifest = "/storage/6234-3231/Data/mnist/imgs/trainmanifest10.txt";
 
         storeweightsfile="/data/data/"+applicationName+"/directoryTest/weightsTransferred.dat";
-        loadweightsfile="/storage/AEE2-2820/Data/mnist/weights9.dat";     // Trained task/domain weights
+        loadweightsfile="/storage/6234-3231/Data/mnist/weights9.dat";     // Trained task/domain weights
 
-        predInputFile = "/storage/AEE2-2820/Data/mnist/imgs/trainmanifest10small.txt";
-        //predOutputFile = "/storage/AEE2-2820/Data/mnist/pred.txt";
+        predInputFile = "/storage/6234-3231/Data/mnist/imgs/trainmanifest10small.txt";
         predOutputFile = "/storage/emulated/0/Android/data/com.example.myapplication/files/pred.txt";
 
 
@@ -172,11 +175,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 cmdString=cmdString+" numtrain="+Integer.toString(nbTrainingImages);
                 cmdString=cmdString+" learningrate="+Float.toString(learningRate);
 
+                long start = Debug.threadCpuTimeNanos();
+
                 t.training(appDirctory,cmdString);
+
+                long elapsed = Debug.threadCpuTimeNanos() - start;
+                Log.d("CPU time for training: ", String.valueOf(elapsed)); // test
             }
         };
         Thread mythread = new Thread(runnable);
-        Log.d("Thread ID: ", String.valueOf(mythread.getId())); // test
         mythread.start();
 
 
