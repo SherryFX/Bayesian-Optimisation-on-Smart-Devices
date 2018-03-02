@@ -27,7 +27,7 @@ do
 	echo $( pwd )
 done
 
-echo "# format=deepcl-jpeg-list-v1 planes=3 width=32 height=32" > $output
+echo "# format=deepcl-jpeg-list-v1 planes=1 width=28 height=28" > $output
 
 shuf temp >> $output
 
