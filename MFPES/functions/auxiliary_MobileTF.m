@@ -3,8 +3,9 @@ function [ ret ] = auxiliary_MobileTF(xx, noise)
     load convnet
     
     % Fix the correct file path for image data
-    datasetPath = fullfile(matlabroot,'toolbox','nnet','nndemos', ...
-        'nndatasets','DigitDataset');
+    cd ..
+    homeDir = pwd;
+    datasetPath = fullfile(homeDir,'TFimgs');
     data = imageDatastore(datasetPath, ...
         'IncludeSubfolders',true,'LabelSource','foldernames');
     

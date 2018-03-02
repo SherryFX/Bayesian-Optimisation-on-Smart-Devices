@@ -3,8 +3,10 @@
 clear all, close all
 
 % Fix the correct file path for image data
-DatasetPath = fullfile(matlabroot,'toolbox','nnet','nndemos','nndatasets','DigitDataset');
-data = imageDatastore(digitDatasetPath,...
+cd ..
+homeDir = pwd;
+datasetPath = fullfile(homeDir,'TRAINimgs');
+data = imageDatastore(datasetPath,...
         'IncludeSubfolders',true,'LabelSource','foldernames');
     
  
