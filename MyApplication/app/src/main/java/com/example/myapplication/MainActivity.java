@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Debug;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
@@ -17,26 +18,39 @@ import android.widget.TextView;
 import com.transferCL.TransferCLlib;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TransferCLlib t;
 
     final int PHONE_TYPE = 2;
+    String id;                          // Unique id identifying experiment setup
+
     String applicationName;
     String appDirectory;
     String storageDirectory;
+    String resultsFile;
+    File resFile;
+    String resDir= Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_DOCUMENTS).toString() + "/MyApplication";
 
     String fileNameStoreData;           // Storage location for training data after preparation
     String fileNameStoreLabel;          // Storage location for training labels after preparation
     String fileNameStoreNormalization;  // Storage location for normalisation layer after preparation
-    String trainManifest;               // Manifest file for training data and labels
+    String trainManifest;
+    String trainManifest2;               // Manifest file for training data and labels
 
     String storeweightsfile;            // Storage location for new weights after training
-    String loadweightsfile;             // Storage location for weights of pre-trained model
+    String loadweightsfile;
+    String loadweightsfile2;             // Storage location for weights of pre-trained model
 
-    String predInputFile;               // Manifest file for test data and labels
+    String predInputFile;
+    String predInputFile2;               // Manifest file for test data and labels
     String predOutputFile;              // Output file for predictions
 
     // NN properties
@@ -46,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";  // NOT of pretrained model but of current model
     // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
     // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
-    int numepochs=20;
-    int batchsize=128;
-    float learningRate=0.002f;
+    int numepochs=20;                   // [20, *100,500, 1000]
+    int batchsize=128;                  // [128, *256, 512,1024]
+    float learningRate=0.001f;          // [0.00001, 0.0001, *0.001, 0.01, 0.1]
 
     TextView tv;
     ScrollView logContainer;
@@ -67,7 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         t=new TransferCLlib();
 
+        Log.d("Is storage available: ", String.valueOf(isExternalStorageWritable())); // test
 
+        // Setup files
         applicationName = getApplicationContext().getPackageName();
         appDirectory = "/data/data/"+applicationName+"/";
         storageDirectory = (PHONE_TYPE == 1) ? "/storage/6234-3231/Data/" : "/storage/AEE2-2820/Data/";
@@ -76,15 +92,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fileNameStoreLabel= appDirectory + "directoryTest/mem2Character2ManifestMapFileLabel2.raw";
         fileNameStoreNormalization= appDirectory + "directoryTest/normalizationTransfer.txt";
 
-        trainManifest = storageDirectory + "mnist/imgs/trainmanifest10.txt";
+        trainManifest = "mnist/imgs/trainmanifest10.txt";
+        trainManifest2 = storageDirectory + trainManifest;
 
         storeweightsfile= appDirectory + "directoryTest/weightsTransferred.dat";
-        loadweightsfile= storageDirectory + "mnist/weights9.dat";     // Trained task/domain weights
+        loadweightsfile = "EMNIST/letter_imgs/weights26.dat";
+        loadweightsfile2 = storageDirectory + loadweightsfile;     // Trained task/domain weights
 
-        predInputFile =  storageDirectory + "mnist/val_imgs/valmanifest10.txt";
+        predInputFile = "mnist/val_imgs/valmanifest10.txt";
+        predInputFile2 =  storageDirectory + predInputFile;
         predOutputFile = "/storage/emulated/0/Android/data/com.example.myapplication/files/pred.txt";
 
-        tv = (TextView)findViewById(R.id.textView4);
+        id = createId();
+
+        initialiseResultsFile();
+
 
 //        Log.d("Test", "onCreate: " + getApplicationContext().getApplicationInfo().dataDir); // test
 //        Log.d("Test", "onCreate: " + getExternalFilesDir(null)); // test
@@ -99,7 +121,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //////////////////
 
         tv = (TextView)findViewById(R.id.textView4);
+        tv = (TextView)findViewById(R.id.textView4);
         logContainer = (ScrollView)findViewById(R.id.SCROLLER_ID);
+
 
         new AsyncTask<Void, String, Void>() {
 
@@ -146,16 +170,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         fileNameStoreData,
                         fileNameStoreLabel,
                         fileNameStoreNormalization,
-                        trainManifest,       // new task/domain info
+                        trainManifest2,       // new task/domain info
                         nbTrainingImages,
                         nbChannels);
             }
         };
         Thread mythread = new Thread(runnable);
         mythread.start();
-
-
-
     }
 
     public void trainingModel(View v) {
@@ -168,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 cmdString=cmdString+" imageSize="+Integer.toString(imageSize);
                 cmdString=cmdString+" numPlanes="+Integer.toString(nbChannels);
                 cmdString=cmdString+" storeweightsfile="+storeweightsfile;
-                cmdString=cmdString+" loadweightsfile="+loadweightsfile;
+                cmdString=cmdString+" loadweightsfile="+ loadweightsfile2;
                 cmdString=cmdString+" loadnormalizationfile="+fileNameStoreNormalization;
                 cmdString=cmdString+" netdef="+ netdef;
                 cmdString=cmdString+" numepochs="+Integer.toString(numepochs);
@@ -182,6 +203,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 long elapsed = Debug.threadCpuTimeNanos() - start;
                 Log.d("CPU time for training: ", String.valueOf(elapsed)); // test
+
+                writeTrainResults(String.valueOf(elapsed));
             }
         };
         Thread mythread = new Thread(runnable);
@@ -198,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String cmdString ="./predict weightsfile="
                         + storeweightsfile
                         +"  inputfile="
-                        + predInputFile // New task/domain
+                        + predInputFile2 // New task/domain
                         +"  outputfile="
                         + predOutputFile;
 //                        +"  outputfile=/storage/6234-3231/Data/pred.txt";
@@ -206,6 +229,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        +applicationName
 //                        +"/preloadingData/pred2.txt";
                 t.prediction(appDirectory,cmdString);
+
+                writePredResults();
 
             }
         };
@@ -249,4 +274,144 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.v("Permissions","Permissions are granted");
         }
     }
+
+    private void writeTrainResults(String elapsed) {
+        FileWriter out = null;
+        try {
+            out = new FileWriter(resFile, true);
+            out.write("************\n");
+            out.write("* Training * \n");
+            out.write("************\n");
+            out.write("Elapsed CPU time: " + elapsed + "\n");
+
+            out.write("\n");
+            out.close();
+        } catch (IOException e) {
+            Log.e("Writing", "File not found");
+        }
+    }
+
+    private void writeGeneral() {
+        FileWriter out = null;
+        try {
+            out = new FileWriter(resFile,true);
+            out.write("****************\n");
+            out.write("* General Info * \n");
+            out.write("****************\n");
+            out.write("netdef: " + netdef + "\n");
+            out.write("numEpochs: " + numepochs + "\n");
+            out.write("batchSize: " + batchsize+ "\n");
+            out.write("learningRate: " + learningRate + "\n");
+            out.write("nbTrainingImages: " + nbTrainingImages+ "\n");
+            out.write("trainManifest: " + trainManifest + "\n");
+        //    out.write("predInputFile: " + predInputFile+ "\n");
+            out.write("weightsFile: " + loadweightsfile + "\n");
+            out.write("\n");
+
+            out.close();
+        } catch (IOException e) {
+            Log.e("Writing", "File not found");
+        }
+    }
+
+    private void writePredResults() {
+        FileWriter out = null;
+        try {
+            out = new FileWriter(resFile, true);
+            out.write("**************\n");
+            out.write("* Prediction *\n");
+            out.write("**************\n");
+            out.write("Accuracy: " + calculateAccuracy() + "\n");
+
+            out.write("\n");
+            out.close();
+        } catch (IOException e) {
+            Log.e("Writing", "File not found");
+        }
+    }
+    private void initialiseResultsFile() {
+        resultsFile = "res_" + id + ".txt";
+        new File(resDir).mkdirs();
+        resFile = new File(resDir, resultsFile);
+        try {
+            if (!resFile.exists()) {
+                Log.d("initialiseResultsFile", "File does not exist");
+                resFile.createNewFile();
+                writeGeneral();
+            } else {
+                Log.d("initialiseResultsFile", "File already exists");
+            }
+        } catch (IOException e) {
+            Log.e("initialiseResultsFile", e.toString());
+        }
+    }
+
+    private boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    private String createId() {
+        String fullDef = netdef+numepochs+batchsize+learningRate+nbTrainingImages+trainManifest+loadweightsfile;
+        return String.valueOf(longHash(fullDef));
+    }
+
+    private static long longHash(String string) {
+        long h = 98764321261L;
+        int l = string.length();
+        char[] chars = string.toCharArray();
+
+        for (int i = 0; i < l; i++) {
+            h = 31*h + chars[i];
+        }
+        return h;
+    }
+
+    private float calculateAccuracy() {
+        File input = new File(predInputFile2);
+        File output = new File(predOutputFile);
+        BufferedReader inReader = null;
+        BufferedReader outReader = null;
+        int N = 0;
+        int nCorrect = 0;
+        try {
+            inReader = new BufferedReader(new FileReader(input));
+            outReader = new BufferedReader(new FileReader(output));
+        } catch (IOException e) {
+            Log.e("calculateAccuracy", e.toString());
+        }
+        try {
+            inReader.readLine();        // Read format
+            String inLine = ""; String outLine = "";
+            while ((inLine = inReader.readLine()) != null) {
+                outLine = outReader.readLine();
+                if (outLine == null) {
+                    Log.e("calculateAccuracy read", "Mismatch!");
+                    return -1;
+                }
+                String[] split = inLine.split("\\s+");
+                int trueVal = Integer.valueOf(split[split.length - 1]);
+                int predVal = Integer.valueOf(outLine);
+
+                if (trueVal == predVal) {
+                    nCorrect++;
+                }
+                N++;
+            }
+
+            if ((outLine = outReader.readLine()) != null) {
+                Log.e("calculateAccuracy read", "Mismatch!");
+                return -1;
+            }
+
+
+        } catch (IOException e) {
+            Log.e("calculateAccuracy read", e.toString());
+        }
+        return ((float) nCorrect) / N;
+    }
+
 }
