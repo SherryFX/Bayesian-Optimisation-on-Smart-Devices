@@ -1,3 +1,5 @@
+% https://www.mathworks.com/help/nnet/ref/trainnetwork.html
+
 clear all, close all
 
 % Fix the correct file path for image data
@@ -21,6 +23,8 @@ layers = [imageInputLayer([28 28 1]);
           fullyConnectedLayer(9)
           softmaxLayer
           classificationLayer];
+% https://www.mathworks.com/help/nnet/ref/tansig.html
+% https://www.mathworks.com/help/nnet/ref/nnet.cnn.layer.additionlayer.html
 layers{9}.transferFcn = 'tansig';
 
 % Standardise the parameters

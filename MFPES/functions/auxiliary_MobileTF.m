@@ -1,3 +1,4 @@
+% https://www.mathworks.com/help/nnet/examples/transfer-learning-and-fine-tuning-of-convolutional-neural-networks.html?requestedDomain=true#d119e2174
 function [ ret ] = auxiliary_MobileTF(xx, noise)
     load convnet
     
