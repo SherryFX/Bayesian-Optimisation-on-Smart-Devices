@@ -99,10 +99,14 @@ void CLWrapper::createZeroCopyObject_ReadFlag_OnDevice() {
         throw std::runtime_error("createOnDevice(): already on device");
     }
 //        std::cout << "creating buffer on device of " << N << " elements" << std::endl;
+    LOGI("createzero 1");
     devicearray = clCreateBuffer(*(cl->context), CL_MEM_READ_ONLY |CL_MEM_ALLOC_HOST_PTR, getElementSize() * N, 0, &error);
+    LOGI("createzero 2");
     cl->checkError(error);
+    LOGI("createzero 3");
     onDevice = true;
     deviceDirty = false;
+    LOGI("createzero done");
 //        std::cout << "... created ok" << std::endl;
 }
 void CLWrapper::createZeroCopyObject_ReadWriteFlag_OnDevice() {

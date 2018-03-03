@@ -42,7 +42,7 @@ PUBLICAPI Batcher::Batcher(Trainable *net, int batchSize, int N, float *data, in
 
 //LOGI("BATCHER::BATCHER");
 
-#if MEMORY_MAP_FILE_LOADING==1
+/*#if MEMORY_MAP_FILE_LOADING==1
 	if (trainOrTest){
 //        LOGI("BEFORE OPENING file4 & file3");
 		//file4.open(memory_map_file_labed,boost::iostreams::mapped_file::mapmode::readonly);
@@ -86,7 +86,31 @@ PUBLICAPI Batcher::Batcher(Trainable *net, int batchSize, int N, float *data, in
 		labelTest=labels;
 		dataTest=data;
 	}
+#endif*/
+
+#if MEMORY_MAP_FILE_LOADING==1
+    if (trainOrTest){
+
+        file4.open(memory_map_file_labed,boost::iostreams::mapped_file::mapmode::readonly);
+        file3.open(memory_map_file_data,boost::iostreams::mapped_file::mapmode::readonly);
+        if(file4.is_open()) {
+            labelTest = (const int *)file4.const_data();
+        } else {
+            LOGI("could not map the file filename.raw");
+        }
+        if(file3.is_open()) {
+            dataTest = (const float *)file3.const_data();
+        } else {
+                    LOGI("could not map the file filename.raw");
+        }
+
+
+    }else{
+        labelTest=labels;
+        dataTest=data;
+    }
 #endif
+    
 	/////////////////////////////
 //	LOGI("MEMORY_MAP_FILE_DONE_LOADING");
     inputCubeSize = net->getInputCubeSize();
