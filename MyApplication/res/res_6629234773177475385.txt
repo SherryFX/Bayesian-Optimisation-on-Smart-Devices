@@ -9,3 +9,13 @@ nbTrainingImages: 50000
 trainManifest: mnist/imgs/trainmanifest10.txt
 weightsFile: EMNIST/letter_imgs/weights26.dat
 
+************
+* Training * 
+************
+Elapsed CPU time: 12587917541
+
+**************
+* Prediction *
+**************
+Accuracy: 0.1796
+
