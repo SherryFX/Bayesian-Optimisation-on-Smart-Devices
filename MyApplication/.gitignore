@@ -9,3 +9,5 @@
 .externalNativeBuild
 /app/src/main/jniLibs
 /gradle
+gradlew.bat
+/app/build.gradle

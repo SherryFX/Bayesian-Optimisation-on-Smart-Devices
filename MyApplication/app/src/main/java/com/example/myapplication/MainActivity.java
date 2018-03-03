@@ -23,6 +23,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -60,8 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";  // NOT of pretrained model but of current model
     // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
     // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
-    int numepochs=20;                   // [20, *100,500, 1000]
-    int batchsize=128;                  // [128, *256, 512,1024]
+    int numepochs=100;                   // [20, *100,500, 1000]
+    int batchsize=512;                  // [128, *256, 512]
     float learningRate=0.001f;          // [0.00001, 0.0001, *0.001, 0.01, 0.1]
 
     TextView tv;
@@ -158,11 +160,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
             }
         }/*.execute()*/;
+
+        /**
+         * Run experiment
+         */
+
+        runExperiment();
     }
 
-    public void prepareTrainingFiles(View v) {
-        //this method prepares the training files (the training file and their labels are respectively stored in one binary file) and the mean And stdDev are stored in one file
-
+    private Runnable createPreparationRunnable() {
         Runnable runnable = new Runnable() {
             public void run() {
                 t.prepareFiles(
@@ -173,15 +179,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         trainManifest2,       // new task/domain info
                         nbTrainingImages,
                         nbChannels);
+
+
+                Log.d("Run exp", "Preparation done for id " + id);
             }
         };
-        Thread mythread = new Thread(runnable);
-        mythread.start();
+
+        return runnable;
     }
 
-    public void trainingModel(View v) {
-        // this method trains our neural network at the native level
-
+    private Runnable createTrainingRunnable() {
         Runnable runnable = new Runnable() {
             public void run() {
                 String cmdString="train filename_label="+fileNameStoreLabel;
@@ -205,17 +212,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("CPU time for training: ", String.valueOf(elapsed)); // test
 
                 writeTrainResults(String.valueOf(elapsed));
+
+                Log.d("Run exp", "Training done for id " + id);
             }
         };
-        Thread mythread = new Thread(runnable);
-        mythread.start();
 
-
+        return runnable;
     }
 
-    public void predictImages(View v) {
-        // this method performs the prediction and sore the result in a file
-
+    private Runnable createPredictRunnable() {
         Runnable runnable = new Runnable() {
             public void run() {
                 String cmdString ="./predict weightsfile="
@@ -232,16 +237,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 writePredResults();
 
+                Log.d("Run exp", "Prediction done for id " + id);
             }
         };
+
+        return runnable;
+    }
+    public void prepareTrainingFiles(View v) {
+        //this method prepares the training files (the training file and their labels are respectively stored in one binary file) and the mean And stdDev are stored in one file
+        Runnable runnable = createPreparationRunnable();
         Thread mythread = new Thread(runnable);
         mythread.start();
+    }
 
+    public void trainingModel(View v) {
+        // this method trains our neural network at the native level
+        Runnable runnable = createTrainingRunnable();
+        Thread mythread = new Thread(runnable);
+        mythread.start();
+    }
+
+    public void predictImages(View v) {
+        // this method performs the prediction and sore the result in a file
+        Runnable runnable = createPredictRunnable();
+        Thread mythread = new Thread(runnable);
+        mythread.start();
+    }
+
+    public class ExperimentRunnable implements Runnable {
+        public void run()
+        {
+            Runnable r1 = createPreparationRunnable();
+            Runnable r2 = createTrainingRunnable();
+            Runnable r3 = createPredictRunnable();
+            r1.run();
+            r2.run();
+            r3.run();
+        }
+    }
+
+    public void runExperiment() {
+        Runnable runnable = new ExperimentRunnable();
+        new Thread(runnable).start();
     }
 
     @Override
     public void onClick(View v) {}
-
     /**
      * Checks if the app has permission to write to device storage
      *
