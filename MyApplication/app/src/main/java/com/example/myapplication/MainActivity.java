@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
     // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
     int numepochs=100;                   // [20, *100,500, 1000]
-    int batchsize=256;                  // [128, *256, 512,1024]
+    int batchsize=512;                  // [128, *256, 512]
     float learningRate=0.001f;          // [0.00001, 0.0001, *0.001, 0.01, 0.1]
 
     TextView tv;

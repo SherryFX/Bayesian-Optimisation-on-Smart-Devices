@@ -253,7 +253,7 @@ STATIC void WeightsPersister::persistWeights(std::string filepath, std::string t
 
 }
 
-STATIC bool WeightsPersister::loadWeights(std::string filepath, std::string trainingConfigString, NeuralNet *net, int *p_epoch, int *p_batch, float *p_annealedLearningRate, int *p_numRight, float *p_loss,bool training) {
+/*STATIC bool WeightsPersister::loadWeights(std::string filepath, std::string trainingConfigString, NeuralNet *net, int *p_epoch, int *p_batch, float *p_annealedLearningRate, int *p_numRight, float *p_loss,bool training) {
 #if TRANSFERCL_VERBOSE == 1
 LOGI( "--------------- DeepCL/src/weights/WeightsPersister.cpp: loadWeights");
 #endif
@@ -309,7 +309,48 @@ LOGI( "DeepCL/src/weights/WeightsPersister.cpp: exists(filepath) ){");
 		}
     }
     return true;
+}*/
+
+STATIC bool WeightsPersister::loadWeights(std::string filepath, std::string trainingConfigString, NeuralNet *net, int *p_epoch, int *p_batch, float *p_annealedLearningRate, int *p_numRight, float *p_loss,bool training) {
+#if TRANSFERCL_VERBOSE == 1
+LOGI( "--------------->DeepCL/src/weights/WeightsPersister.cpp: loadWeights");
+#endif
+
+    if(FileHelper::exists(filepath) ){
+#if TRANSFERCL_VERBOSE == 1
+LOGI( "DeepCL/src/weights/WeightsPersister.cpp: exists(filepath) ){");
+#endif
+
+
+        int headerSize = 1024;
+
+        int headerLength = 1024;
+        int totalWeightsSize = getTotalNumWeights(latestVersion, net);
+        struct stat st;
+        stat(filepath.c_str(), &st);
+        long fileSize = st.st_size;
+
+        boost::iostreams::mapped_file_source file;
+        int numberOfBytes = headerLength + totalWeightsSize * sizeof(float) ;
+        file.open((filepath).c_str(), numberOfBytes);
+
+        // Check if file was successfully opened
+        if(file.is_open()) {
+            // Get pointer to the data
+            char * data1 = (char *)file.data();
+            int * data2 = reinterpret_cast<int *>(data1);
+            float * data2_1 = reinterpret_cast<float *>(data1);
+            float *data3 = reinterpret_cast<float *>(data1 + headerLength);
+            // Do something with the data
+            copyArrayToNetWeights(data2[1], data3, net,training);
+            // Remember to unmap the file
+
+            file.close();
+        }
+    }
+    return true;
 }
+
 STATIC bool WeightsPersister::loadWeightsv1or3(char *data, long fileSize, std::string trainingConfigString, NeuralNet *net, int *p_epoch, int *p_batch, float *p_annealedLearningRate, int *p_numRight, float *p_loss,bool training) {
 #if TRANSFERCL_VERBOSE == 1
 LOGI( "DeepCL/src/weights/WeightsPersister.cpp: loadWeightsv1or3");
