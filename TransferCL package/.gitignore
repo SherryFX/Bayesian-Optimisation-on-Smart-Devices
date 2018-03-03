@@ -1,3 +1,4 @@
 /obj/*
 /libs/armeabi-v7a/*
 /libs/armeabi/*
+/jni/TransferCL/src/dependencies.h
