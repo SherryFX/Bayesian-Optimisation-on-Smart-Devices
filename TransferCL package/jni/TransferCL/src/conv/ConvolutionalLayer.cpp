@@ -653,23 +653,33 @@ LOGI( "DeepCL/src/conv/ConvolutionalLayer.cpp: setBatchSize");
 #if TRANSFER==1
 	    float * test=0;//we don t allocate anything in memory, the allocation test is delegate to OpenCL (wero-copy buffer)
     	outputWrapper= cl->wrap(getOutputNumElements(), test);
-    	if (isLast)
-    		outputWrapper->createZeroCopyObject_ReadFlag_OnDevice();
-    	else
-    		outputWrapper->createZeroCopyObject_HostNotAccessFlag_OnDevice();
+    	if (isLast) {
+
+            LOGI( "conv1");
+    		outputWrapper->createZeroCopyObject_ReadFlag_OnDevice();}
+    	else {
+            LOGI( "conv2");
+    		outputWrapper->createZeroCopyObject_HostNotAccessFlag_OnDevice(); }
     	if (dim.useMaxPooling){
+            LOGI( "conv3");
     		gradInput_poolingLayer_Wrapper= cl->wrap(getOutputNumElements(), test);
     		gradInput_poolingLayer_Wrapper->createZeroCopyObject_HostNotAccessFlag_OnDevice();
     	}
-    	if (isLast)
+    	if (isLast) {
+
+LOGI( "conv4");
 			if(not dim.isConv) {
+            LOGI( "conv5");
 				gradInputWrapper= cl->wrap( previousLayer->getOutputNumElements(), test);
 				gradInputWrapper->createZeroCopyObject_HostNotAccessFlag_OnDevice();
 			}
+        }
 #endif
 
 		setup=true;
 		}
+
+LOGI( "Conv layer setBatchsize done");
 
 }
 VIRTUAL void ConvolutionalLayer::setWeights(float *weights, float *bias) {
