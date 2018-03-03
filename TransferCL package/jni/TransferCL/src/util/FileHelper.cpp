@@ -158,9 +158,15 @@ LOGI( "DeepCL/src/util/FileHelper.cpp: exists");
 
 
    std::string localPath = localizePath(filepath);
+
+   #if TRANSFERCL_VERBOSE == 1
+   LOGI("local path: %s", localPath.c_str());
+   #endif
+
    std::ifstream testifstream(localPath.c_str());
    bool exists = testifstream.good();
    testifstream.close();
+
    return exists;
 }
 

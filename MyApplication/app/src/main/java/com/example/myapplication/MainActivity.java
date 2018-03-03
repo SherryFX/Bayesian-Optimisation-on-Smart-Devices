@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         trainManifest2 = storageDirectory + trainManifest;
 
         storeweightsfile= appDirectory + "directoryTest/weightsTransferred.dat";
-        loadweightsfile = "EMNIST/letter_imgs/weights26.dat";
+        loadweightsfile = "EMNIST/letters_imgs/weights26.dat";
         loadweightsfile2 = storageDirectory + loadweightsfile;     // Trained task/domain weights
 
         predInputFile = "mnist/val_imgs/valmanifest10.txt";

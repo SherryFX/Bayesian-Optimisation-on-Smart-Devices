@@ -103,7 +103,7 @@ LOGI( "DeepCL/src/util/JpegHelper.cpp: write");
 
 PUBLIC STATIC void JpegHelper::read(std::string filename, int planes, int width, int height, unsigned char *values) {
 #if TRANSFERCL_VERBOSE == 1
-    LOGI( "DeepCL/src/util/JpegHelper.cpp: read");
+//    LOGI( "DeepCL/src/util/JpegHelper.cpp: read");
 #endif
 //unsigned char *image_buffer1 = new unsigned char[width * height * planes]; //!< will contain the decompressed image
 //unsigned char *value2 = new unsigned char[width * height * planes]; //!< will contain the decompressed image

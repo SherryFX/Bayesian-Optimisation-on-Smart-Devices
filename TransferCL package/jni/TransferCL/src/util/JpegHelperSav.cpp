@@ -94,7 +94,7 @@ LOGI( "DeepCL/src/util/JpegHelper.cpp: write");
 
 PUBLIC STATIC void JpegHelper::read(std::string filename, int planes, int width, int height, unsigned char *values) {
 #if TRANSFERCL_VERBOSE == 1
-LOGI( "DeepCL/src/util/JpegHelper.cpp: read");
+//LOGI( "DeepCL/src/util/JpegHelper.cpp: read");
 #endif
 
 

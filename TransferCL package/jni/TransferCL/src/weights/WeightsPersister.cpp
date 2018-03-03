@@ -40,7 +40,7 @@ LOGI( "DeepCL/src/weights/WeightsPersister.cpp: getTotalNumWeights");
 
 
     int totalWeightsSize = 0;
-//    cout << "layers size " << net->layers.size() << endl;
+    cout << "layers size " << net->getNumLayers() << endl; // test
     for(int layerIdx = 1; layerIdx < net->getNumLayers(); layerIdx++) {
         Layer *layer = net->getLayer(layerIdx);
         int thisPersistSize = layer->getPersistSize(version);
@@ -314,12 +314,13 @@ LOGI( "DeepCL/src/weights/WeightsPersister.cpp: exists(filepath) ){");
 STATIC bool WeightsPersister::loadWeights(std::string filepath, std::string trainingConfigString, NeuralNet *net, int *p_epoch, int *p_batch, float *p_annealedLearningRate, int *p_numRight, float *p_loss,bool training) {
 #if TRANSFERCL_VERBOSE == 1
 LOGI( "--------------->DeepCL/src/weights/WeightsPersister.cpp: loadWeights");
+LOGI("file path: %s",filepath.c_str()); // test
 #endif
-
-    if(FileHelper::exists(filepath) ){
-#if TRANSFERCL_VERBOSE == 1
-LOGI( "DeepCL/src/weights/WeightsPersister.cpp: exists(filepath) ){");
-#endif
+    
+    if(FileHelper::exists(filepath) ) {
+        #if TRANSFERCL_VERBOSE == 1
+        LOGI( "DeepCL/src/weights/WeightsPersister.cpp: exists(filepath) ){");
+        #endif
 
 
         int headerSize = 1024;
@@ -330,12 +331,16 @@ LOGI( "DeepCL/src/weights/WeightsPersister.cpp: exists(filepath) ){");
         stat(filepath.c_str(), &st);
         long fileSize = st.st_size;
 
+        LOGI("BEFORE BOOST"); // TEST
         boost::iostreams::mapped_file_source file;
+        LOGI("AFTER BOOST"); // TEST
         int numberOfBytes = headerLength + totalWeightsSize * sizeof(float) ;
         file.open((filepath).c_str(), numberOfBytes);
+        LOGI("FILE OPENED"); // TEST
 
         // Check if file was successfully opened
         if(file.is_open()) {
+            LOGI("FILE IS OPENED AND PROCESSING"); // TEST
             // Get pointer to the data
             char * data1 = (char *)file.data();
             int * data2 = reinterpret_cast<int *>(data1);
