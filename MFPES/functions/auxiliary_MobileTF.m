@@ -3,27 +3,25 @@ function [ ret ] = auxiliary_MobileTF(xx, noise)
     load convnet
     
     % Fix the correct file path for image data
-    cd ..
-    homeDir = pwd;
+    load homeDir;
     datasetPath = fullfile(homeDir,'TFimgs');
     data = imageDatastore(datasetPath, ...
         'IncludeSubfolders',true,'LabelSource','foldernames');
     
     [trainDigitData,testDigitData] = splitEachLabel(data,0.5,'randomize');
     
-    layersTransfer = net.Layers(1:end-3);
-    
-    layers = [ ...
-    layersTransfer
-    fullyConnectedLayer(numClasses,'WeightLearnRateFactor',20,'BiasLearnRateFactor',20)
-    softmaxLayer
-    classificationLayer];
+    layersTransfer = convnet.Layers(1:end-3);
+    numClasses = 10;
+    layers = [layersTransfer
+        fullyConnectedLayer(numClasses,'WeightLearnRateFactor',20,'BiasLearnRateFactor',20)
+        softmaxLayer
+        classificationLayer];
 
     % Replace parameters with xx values.
     optionsTransfer = trainingOptions('sgdm', ...
                             'MaxEpochs',5, ...
                             'InitialLearnRate',0.0001, ...
-                            'MiniBatchSize',64);
+                            'MiniBatchSize',128);
     
     t = cputime;
     netTransfer = trainNetwork(trainDigitData,layers,optionsTransfer);
