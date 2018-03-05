@@ -62,9 +62,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";  // NOT of pretrained model but of current model
     // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
     // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
-    int numepochs=100;                   // [20, *100,500, 1000]
-    int batchsize=512;                  // [128, *256, 512]
-    float learningRate=0.001f;          // [0.00001, 0.0001, *0.001, 0.01, 0.1]
+    int numepochs=100;                   // [20, *100,500]
+    int batchsize=256;                  // [64, 128, *256, 512]
+    float learningRate=0.001f;          // [0.00001, 0.0001, *0.001]
+    float momentum=0.1f;                // default: 0.0f, [0, 1]
+    float weightdecay=0.0001f;             // default: 0.0f
 
     TextView tv;
     ScrollView logContainer;
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Setup files
         applicationName = getApplicationContext().getPackageName();
         appDirectory = "/data/data/"+applicationName+"/";
-        storageDirectory = (PHONE_TYPE == 1) ? "/storage/6234-3231/Data/" : "/storage/AEE2-2820/Data/";
+        storageDirectory = (PHONE_TYPE == 2) ? "/storage/6234-3231/Data/" : "/storage/AEE2-2820/Data/";
 
         fileNameStoreData= appDirectory + "directoryTest/mem2Character2ManifestMapFileData2.raw";
         fileNameStoreLabel= appDirectory + "directoryTest/mem2Character2ManifestMapFileLabel2.raw";
@@ -203,15 +205,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 cmdString=cmdString+" batchsize="+Integer.toString(batchsize);
                 cmdString=cmdString+" numtrain="+Integer.toString(nbTrainingImages);
                 cmdString=cmdString+" learningrate="+Float.toString(learningRate);
+                cmdString = cmdString + " momentum=" + Float.toString(momentum);
+                cmdString = cmdString + " weightdecay=" + Float.toString(weightdecay);
 
                 long start = Debug.threadCpuTimeNanos();
-
+                long start_real = System.nanoTime();
                 t.training(appDirectory,cmdString);
 
                 long elapsed = Debug.threadCpuTimeNanos() - start;
+                long elapsed_real= System.nanoTime() - start_real;
                 Log.d("CPU time for training: ", String.valueOf(elapsed)); // test
+                Log.d("Realtime for training: ", String.valueOf(elapsed_real)); // test
 
-                writeTrainResults(String.valueOf(elapsed));
+                writeTrainResults(String.valueOf(elapsed), String.valueOf(elapsed_real));
 
                 Log.d("Run exp", "Training done for id " + id);
             }
@@ -316,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void writeTrainResults(String elapsed) {
+    private void writeTrainResults(String elapsed, String elapsed_real) {
         FileWriter out = null;
         try {
             out = new FileWriter(resFile, true);
@@ -324,6 +330,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             out.write("* Training * \n");
             out.write("************\n");
             out.write("Elapsed CPU time: " + elapsed + "\n");
+            out.write("Elapsed Real time: " + elapsed_real + "\n");
 
             out.write("\n");
             out.close();
@@ -343,6 +350,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             out.write("numEpochs: " + numepochs + "\n");
             out.write("batchSize: " + batchsize+ "\n");
             out.write("learningRate: " + learningRate + "\n");
+            out.write("momentum: " + momentum+ "\n");
+            out.write("weightdecay: " + weightdecay + "\n");
             out.write("nbTrainingImages: " + nbTrainingImages+ "\n");
             out.write("trainManifest: " + trainManifest + "\n");
         //    out.write("predInputFile: " + predInputFile+ "\n");
@@ -396,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private String createId() {
-        String fullDef = netdef+numepochs+batchsize+learningRate+nbTrainingImages+trainManifest+loadweightsfile;
+        String fullDef = netdef+numepochs+batchsize+learningRate+momentum+weightdecay+nbTrainingImages+trainManifest+loadweightsfile;
         return String.valueOf(longHash(fullDef));
     }
 
