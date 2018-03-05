@@ -30,7 +30,7 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TransferCLlib t;
 
-    final int PHONE_TYPE = 1;
+    final int PHONE_TYPE = 2;
     String id;                          // Unique id identifying experiment setup
 
     String applicationName;

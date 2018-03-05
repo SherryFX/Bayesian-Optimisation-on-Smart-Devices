@@ -3,7 +3,7 @@
 function [ ret ] = target_MobileTF(xx, noise)
 
 % cd /Users/HFX/adb-fastboot/platform-tools;
-cmd_devices = '/Users/HFX/adb-fastboot/platform-tools/adb devices';
+% cmd_devices = '/Users/HFX/adb-fastboot/platform-tools/adb devices';
 
 % cd '/Users/HFX/Desktop/Bayesian\ Optimization\ on\ Smart\ Devices/MyApplication';
 cmd_install= '/Users/HFX/Desktop/Bayesian\ Optimization\ on\ Smart\ Devices/MyApplication/gradlew installDebug';
