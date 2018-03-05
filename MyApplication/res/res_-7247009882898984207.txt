@@ -1,0 +1,33 @@
+****************
+* General Info * 
+****************
+netdef: 1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n
+numEpochs: 500
+batchSize: 512
+learningRate: 0.001
+nbTrainingImages: 50000
+trainManifest: mnist/imgs/trainmanifest10.txt
+weightsFile: EMNIST/letters_imgs/weights26.dat
+
+************
+* Training * 
+************
+Elapsed CPU time: 583800608535
+Elapsed Real time: 5181792597242
+
+**************
+* Prediction *
+**************
+Accuracy: 0.68
+
+************
+* Training * 
+************
+Elapsed CPU time: 605413171699
+Elapsed Real time: 5211828773846
+
+**************
+* Prediction *
+**************
+Accuracy: 0.6644
+
