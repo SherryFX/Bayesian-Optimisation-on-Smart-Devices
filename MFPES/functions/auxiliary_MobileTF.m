@@ -3,31 +3,37 @@ function [ ret ] = auxiliary_MobileTF(xx, noise)
     load convnet
     
     % Fix the correct file path for image data
-    datasetPath = fullfile(matlabroot,'toolbox','nnet','nndemos', ...
-        'nndatasets','DigitDataset');
+    load homeDir;
+    datasetPath = fullfile(homeDir,'TFimgs');
     data = imageDatastore(datasetPath, ...
         'IncludeSubfolders',true,'LabelSource','foldernames');
     
-    [trainDigitData,testDigitData] = splitEachLabel(data,0.5,'randomize');
+    [trainDigitData,testDigitData] = splitEachLabel(data,0.9,'randomize');
     
-    layersTransfer = net.Layers(1:end-3);
-    
-    layers = [ ...
-    layersTransfer
-    fullyConnectedLayer(numClasses,'WeightLearnRateFactor',20,'BiasLearnRateFactor',20)
-    softmaxLayer
-    classificationLayer];
+    layersTransfer = convnet.Layers(1:end-3);
+    numClasses = 10;
+    layers = [layersTransfer
+        fullyConnectedLayer(numClasses,'WeightLearnRateFactor',20,'BiasLearnRateFactor',20)
+        softmaxLayer
+        classificationLayer];
 
     % Replace parameters with xx values.
     optionsTransfer = trainingOptions('sgdm', ...
-                            'MaxEpochs',5, ...
+                            'MaxEpochs',100, ...
                             'InitialLearnRate',0.0001, ...
-                            'MiniBatchSize',64);
-    
+                            'MiniBatchSize',128);
+    % Momentum 0.9 [0, 1]
+    % L2Regularization, 0.0001 (weight decay)
+                        
     t = cputime;
     netTransfer = trainNetwork(trainDigitData,layers,optionsTransfer);
-    e = cputime-t;
-    
+    e = cputime - t;
+%   (100, 0.001 , 512) 2.0740e+04, 1.9182e+04
+%   (50 , 0.001 , 512) 1.0215e+04, 9.3614e+03
+%   (25 , 0.001 , 512) 4.8956e+03, 4.9600e+03
+%   (25 , 0.0001, 512) 5.0860e+03, 4.9686e+03
+%   (100, 0.0001, 128) 1.9749e+04, 
+
     YPred = classify(netTransfer,testDigitData);
     YTest = testDigitData.Labels;
 
