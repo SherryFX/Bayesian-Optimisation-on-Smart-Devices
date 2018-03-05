@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";  // NOT of pretrained model but of current model
     // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
     // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
-    int numepochs=100;                   // [20, *100,500, 1000]
+    int numepochs=100;                   // [20, *100,500]
     int batchsize=256;                  // [64, 128, *256, 512]
-    float learningRate=0.001f;          // [0.00001, 0.0001, *0.001, 0.01, 0.1]
+    float learningRate=0.001f;          // [0.00001, 0.0001, *0.001]
     float momentum=0.1f;                // default: 0.0f, [0, 1]
     float weightdecay=0.0001f;             // default: 0.0f
 
