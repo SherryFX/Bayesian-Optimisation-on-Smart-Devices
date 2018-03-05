@@ -19,7 +19,8 @@ experimentNo = 1;
 options = multigpOptions('ftc');
 options.kernType = 'gg';
 options.optimiser = 'scg';
-options.nlf = 1;
+options.nlf = 1; % NO. of latent function
+options.M = 4; % No. of output types
 
 q = 1; % Input dimension
 d = size(yTemp, 2) + options.nlf;
@@ -31,8 +32,8 @@ y = cell(size(yTemp, 2)+options.nlf,1);
 % the whole kernel structure, and we don't have access to any data from the
 % latent force, we just put ones in the vector X and empty in the vector y.
 
-  yTemp{2} = -yTemp{2};
-  yTemp{4} = -yTemp{4};
+%   yTemp{2} = -yTemp{2};
+%   yTemp{4} = -yTemp{4};
 
 
 for j=1:options.nlf
@@ -60,5 +61,5 @@ capName = dataSetName;
 capName(1) = upper(capName(1));
 save(['dem' capName num2str(experimentNo) '.mat'], 'model');
 
-ggToyResults(dataSetName, experimentNo, XTemp, yTemp);
+% ggToyResults(dataSetName, experimentNo, XTemp, yTemp);
 

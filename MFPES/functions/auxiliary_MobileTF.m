@@ -22,9 +22,11 @@ function [ ret ] = auxiliary_MobileTF(xx, noise)
 
     % Replace parameters with xx values.
     optionsTransfer = trainingOptions('sgdm', ...
-                            'MaxEpochs',100, ...
+                            'MaxEpochs',20, ...
                             'InitialLearnRate',0.0001, ...
-                            'MiniBatchSize',128);
+                            'MiniBatchSize',128, ...
+                            'Momentum', 0.9, ...
+                            'L2Regularization', 0.0001);
     % Momentum 0.9 [0, 1]
     % L2Regularization, 0.0001 (weight decay)
                         
@@ -38,7 +40,7 @@ function [ ret ] = auxiliary_MobileTF(xx, noise)
 %   (100, 0.0001, 128) 1.9749e+04, 
 
     YPred = classify(netTransfer,testData);
-    YTest = testDigitData.Labels;
+    YTest = testData.Labels;
 
     accuracy = sum(YPred==YTest)/numel(YTest);
     
