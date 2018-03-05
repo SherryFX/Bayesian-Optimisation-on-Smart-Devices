@@ -1,0 +1,11 @@
+****************
+* General Info * 
+****************
+netdef: 1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-36n
+numEpochs: 100
+batchSize: 256
+learningRate: 0.002
+nbTrainingImages: 50000
+trainManifest: mnist/imgs/trainmanifest10.txt
+weightsFile: EMNIST/letters_imgs/weights26.dat
+
