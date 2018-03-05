@@ -4,11 +4,14 @@ function [ ret ] = auxiliary_MobileTF(xx, noise)
     
     % Fix the correct file path for image data
     load homeDir;
-    datasetPath = fullfile(homeDir,'TFimgs');
-    data = imageDatastore(datasetPath, ...
+    trainDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/mnist/imgs');
+    testDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/mnist/val_imgs');
+    trainData = imageDatastore(trainDatasetPath, ...
+        'IncludeSubfolders',true,'LabelSource','foldernames');
+    testData = imageDatastore(testDatasetPath, ...
         'IncludeSubfolders',true,'LabelSource','foldernames');
     
-    [trainDigitData,testDigitData] = splitEachLabel(data,0.9,'randomize');
+%     [trainData,testData] = splitEachLabel(data,0.9,'randomize');
     
     layersTransfer = convnet.Layers(1:end-3);
     numClasses = 10;
@@ -26,7 +29,7 @@ function [ ret ] = auxiliary_MobileTF(xx, noise)
     % L2Regularization, 0.0001 (weight decay)
                         
     t = cputime;
-    netTransfer = trainNetwork(trainDigitData,layers,optionsTransfer);
+    netTransfer = trainNetwork(trainData,layers,optionsTransfer);
     e = cputime - t;
 %   (100, 0.001 , 512) 2.0740e+04, 1.9182e+04
 %   (50 , 0.001 , 512) 1.0215e+04, 9.3614e+03
@@ -34,7 +37,7 @@ function [ ret ] = auxiliary_MobileTF(xx, noise)
 %   (25 , 0.0001, 512) 5.0860e+03, 4.9686e+03
 %   (100, 0.0001, 128) 1.9749e+04, 
 
-    YPred = classify(netTransfer,testDigitData);
+    YPred = classify(netTransfer,testData);
     YTest = testDigitData.Labels;
 
     accuracy = sum(YPred==YTest)/numel(YTest);

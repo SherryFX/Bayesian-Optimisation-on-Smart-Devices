@@ -6,13 +6,17 @@ cd /Users/HFX/adb-fastboot/platform-tools;
 cmd_devices = './adb devices';
 
 cd /Users/HFX/Desktop/Bayesian\ Optimization\ on\ Smart\ Devices/MyApplication;
-cmd_build= './gradlew assembleDebug';
 cmd_install= './gradlew installDebug';
-cmd_run='/Users/HFX/adb-fastboot/platform-tools/adb shell am start -n com.example.myapplication/com.example.myapplication.MainActivity';
 
-[status,cmdout] = system(command);
+[status,cmdout] = system(cmd_install);
+
+if status == 0
+    cmd_run='/Users/HFX/adb-fastboot/platform-tools/adb shell am start -n com.example.myapplication/com.example.myapplication.MainActivity';
+    [status,cmdout] = system(cmd_run);
+end
 
 % process cmdout
+cmdout
 
 end
 

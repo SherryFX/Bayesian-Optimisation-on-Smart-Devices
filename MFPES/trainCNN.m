@@ -4,13 +4,16 @@ clear all, close all
 
 % Fix the correct file path for image data
 load homeDir;
-datasetPath = fullfile(homeDir,'TFimgs');
-data = imageDatastore(datasetPath,...
+trainDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/EMNIST_letters/letters_imgs');
+testDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/EMNIST_letters/letters_val_imgs');
+trainData = imageDatastore(trainDatasetPath,...
+        'IncludeSubfolders',true,'LabelSource','foldernames');
+testData = imageDatastore(testDatasetPath,...
         'IncludeSubfolders',true,'LabelSource','foldernames');
     
-[trainData,testData] = splitEachLabel(data,0.9,'randomize');
+% [trainData,testData] = splitEachLabel(data,0.9,'randomize');
 
-% 1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-9n
+% 1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-26n
 layers = [imageInputLayer([28 28 1]);
           convolution2dLayer(5,8,'Padding',1);
           reluLayer;
@@ -20,7 +23,7 @@ layers = [imageInputLayer([28 28 1]);
           maxPooling2dLayer(3,'Stride',3);
           fullyConnectedLayer(150);
           reluLayer;
-          fullyConnectedLayer(10)
+          fullyConnectedLayer(26)
           softmaxLayer
           classificationLayer];
 % https://www.mathworks.com/help/nnet/ref/tansig.html
@@ -31,7 +34,7 @@ layers = [imageInputLayer([28 28 1]);
 % layers(9).transferFcn = 'tansig';
 
 % Standardise the parameters
-options = trainingOptions('sgdm','MaxEpochs',20,'InitialLearnRate',0.0001);
+options = trainingOptions('sgdm','MaxEpochs',23,'InitialLearnRate',0.002);
 convnet = trainNetwork(trainData,layers,options);
 
 YPred = classify(convnet,testData);
