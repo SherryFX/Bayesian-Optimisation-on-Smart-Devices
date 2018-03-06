@@ -4,8 +4,14 @@ clear all, close all
 
 % Fix the correct file path for image data
 load homeDir;
-trainDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/EMNIST_letters/letters_imgs');
-testDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/EMNIST_letters/letters_val_imgs');
+is_fx = 0;
+if (is_fx) 
+    trainDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/EMNIST_letters/letters_imgs');
+    testDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/EMNIST_letters/letters_val_imgs');
+else
+    trainDatasetPath = fullfile('C:\Users\leona\Downloads\Bayesian-Optimisation-on-Smart-Devices\Data\EMNIST\letters_imgs');
+    testDatasetPath = fullfile('C:\Users\leona\Downloads\Bayesian-Optimisation-on-Smart-Devices\Data\EMNIST\letters_val_imgs');
+end
 trainData = imageDatastore(trainDatasetPath,...
         'IncludeSubfolders',true,'LabelSource','foldernames');
 testData = imageDatastore(testDatasetPath,...
