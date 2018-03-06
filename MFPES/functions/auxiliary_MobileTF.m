@@ -1,10 +1,9 @@
 % https://www.mathworks.com/help/nnet/examples/transfer-learning-and-fine-tuning-of-convolutional-neural-networks.html?requestedDomain=true#d119e2174
 function [ ret, acc, ctime ] = auxiliary_MobileTF(xx, noise)
-    load convnet
-    
+    load convnet;
     % Fix the correct file path for image data
     load homeDir;
-    is_fx = 0;
+    init;
     if (is_fx)
         trainDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/mnist/imgs');
         testDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/mnist/val_imgs'); 

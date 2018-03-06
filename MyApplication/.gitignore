@@ -11,3 +11,4 @@
 /gradle
 gradlew.bat
 /app/build.gradle
+gradle.properties

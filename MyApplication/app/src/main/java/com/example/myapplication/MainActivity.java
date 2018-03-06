@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -23,14 +24,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TransferCLlib t;
 
-    final int PHONE_TYPE = 2;
+    final int PHONE_TYPE = 1;
     String id;                          // Unique id identifying experiment setup
 
     String applicationName;
@@ -62,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";  // NOT of pretrained model but of current model
     // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
     // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
-    int numepochs=100;                   // [20, *100,500]
+    int numepochs=20;                   // [20, *100,500]
     int batchsize=256;                  // [64, 128, *256, 512]
-    float learningRate=0.001f;          // [0.00001, 0.0001, *0.001]
+    float learningrate =0.001f;          // [0.00001, 0.0001, *0.001]
     float momentum=0.1f;                // default: 0.0f, [0, 1]
     float weightdecay=0.0001f;             // default: 0.0f
 
@@ -87,6 +85,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.d("Is storage available: ", String.valueOf(isExternalStorageWritable())); // test
 
+        Intent intent = getIntent();
+
+        if (intent != null) {
+            Log.d("MainActivity", "Activity launched with intent");
+            numepochs = intent.getIntExtra("numepochs", 20);
+            batchsize = intent.getIntExtra("batchsize", 128);
+            learningrate = intent.getFloatExtra("learningrate", 0.001f);
+            momentum = intent.getFloatExtra("momentum", 0.1f);
+            weightdecay = intent.getFloatExtra("weightdecay", 0.0001f);
+        }
+
         // Setup files
         applicationName = getApplicationContext().getPackageName();
         appDirectory = "/data/data/"+applicationName+"/";
@@ -108,6 +117,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         predOutputFile = "/storage/emulated/0/Android/data/com.example.myapplication/files/pred.txt";
 
         id = createId();
+
+        Log.d("Setup", "id:" + id);
+        Log.d("Setup", "numepochs:" + numepochs);
+        Log.d("Setup", "batchsize:" + batchsize);
+        Log.d("Setup", "learningrate:" + learningrate);
+        Log.d("Setup", "momentum:" + momentum);
+        Log.d("Setup", "weightdecay:" + weightdecay);
 
         initialiseResultsFile();
 
@@ -204,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 cmdString=cmdString+" numepochs="+Integer.toString(numepochs);
                 cmdString=cmdString+" batchsize="+Integer.toString(batchsize);
                 cmdString=cmdString+" numtrain="+Integer.toString(nbTrainingImages);
-                cmdString=cmdString+" learningrate="+Float.toString(learningRate);
+                cmdString=cmdString+" learningrate="+Float.toString(learningrate);
                 cmdString = cmdString + " momentum=" + Float.toString(momentum);
                 cmdString = cmdString + " weightdecay=" + Float.toString(weightdecay);
 
@@ -349,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             out.write("netdef: " + netdef + "\n");
             out.write("numEpochs: " + numepochs + "\n");
             out.write("batchSize: " + batchsize+ "\n");
-            out.write("learningRate: " + learningRate + "\n");
+            out.write("learningrate: " + learningrate + "\n");
             out.write("momentum: " + momentum+ "\n");
             out.write("weightdecay: " + weightdecay + "\n");
             out.write("nbTrainingImages: " + nbTrainingImages+ "\n");
@@ -405,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private String createId() {
-        String fullDef = netdef+numepochs+batchsize+learningRate+momentum+weightdecay+nbTrainingImages+trainManifest+loadweightsfile;
+        String fullDef = netdef+numepochs+batchsize+ learningrate +momentum+weightdecay+nbTrainingImages+trainManifest+loadweightsfile;
         return String.valueOf(longHash(fullDef));
     }
 
