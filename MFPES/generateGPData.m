@@ -23,6 +23,7 @@ for ne = numepochs
                     [ret, ctime, rtime, acc] = auxiliary_MobileTF(0,0,params);
                     A = {ne, bs, lr, mm, wd, ctime, rtime acc};
                     xlswrite(res_file, A, ['A' row ':G' row]);
+                    row = row + 1;
                 end
             end
         end

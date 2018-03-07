@@ -7,4 +7,4 @@ params.learningrate = 0.001;
 params.momentum = 0.2;
 params.weightdecay = 0.0002;
 
-[cputime, acc] = target_MobileTF(0,0,params);
+[ctime, rtime, acc] = target_MobileTF(0,0,params);

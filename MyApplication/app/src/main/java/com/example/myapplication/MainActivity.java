@@ -360,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int[] neList= {20, 50, 75, 86, 100};
             int[] bsList = {50, 128, 256 ,512};
             float[] lrList = {0.00001f, 0.0001f, 0.001f};
-            float[] mmList = {0f, 0.5f, 0.9f, 1};
+            float[] mmList = {0f, 0.5f, 0.9f, 1f};
             float[] wdList = {0.00001f, 0.0001f, 0.001f};
 
             int len = neList.length * bsList.length * lrList.length * mmList.length * wdList.length;
@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     r1.run();
                     r2.run();
                     r3.run();
-                    out.write(numepochs + "," + batchsize + "," + learningrate + "," + momentum + "," + weightdecay + "," + cputime + "," + realtime + "," + acc);
+                    out.write(numepochs + "," + batchsize + "," + learningrate + "," + momentum + "," + weightdecay + "," + cputime + "," + realtime + "," + acc + "\n");
                 }
 
                 out.close();
