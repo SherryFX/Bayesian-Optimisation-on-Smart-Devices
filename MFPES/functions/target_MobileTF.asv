@@ -42,7 +42,7 @@ if status == 0
     
     cmd_pull = [cmd_adb ' pull ' ...
         phone_dir '/' id '/iter_' num2str(iter) '_results.csv ' ...
-        res_dir '/' id '/iter_' num2str(iter) '_results.csv'];
+        res_dir '/' id '/iter_' num2str(iter) '_results'];
     
     % Poll every few seconds until app finishes running 
     while(true) 
