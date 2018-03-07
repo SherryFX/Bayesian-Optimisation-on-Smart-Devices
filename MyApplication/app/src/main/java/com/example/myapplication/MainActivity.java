@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Debug;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
@@ -31,10 +32,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final int PHONE_TYPE = 1;
     String id;                          // Unique id identifying experiment setup
 
+    // Bayesian Optimisation related fields (see MFPES)
+    boolean isMFPES = false;
+    String expId;
+    int expIter;
+    String expResultsFile;
+    File expResFile;
+
     String applicationName;
     String appDirectory;
     String storageDirectory;
-    String resultsFile;
     File resFile;
     String resDir= Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_DOCUMENTS).toString() + "/MyApplication";
@@ -94,6 +101,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             learningrate = intent.getFloatExtra("learningrate", 0.001f);
             momentum = intent.getFloatExtra("momentum", 0.1f);
             weightdecay = intent.getFloatExtra("weightdecay", 0.0001f);
+            expIter = intent.getIntExtra("iter", -1);
+            expId = intent.getStringExtra("id");
+
+            isMFPES = true;
+            resDir = resDir + "/" + expId;
         }
 
         // Setup files
@@ -125,7 +137,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("Setup", "momentum:" + momentum);
         Log.d("Setup", "weightdecay:" + weightdecay);
 
-        initialiseResultsFile();
+        new File(resDir).mkdirs();
+        initialiseFiles();
 
 
 //        Log.d("Test", "onCreate: " + getApplicationContext().getApplicationInfo().dataDir); // test
@@ -265,6 +278,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return runnable;
     }
+
+    private void onExperimentDone() {
+        if(isMFPES) {
+            expResFile.renameTo(new File(resDir, expResultsFile + ".csv"));
+        }
+    }
     public void prepareTrainingFiles(View v) {
         //this method prepares the training files (the training file and their labels are respectively stored in one binary file) and the mean And stdDev are stored in one file
         Runnable runnable = createPreparationRunnable();
@@ -295,6 +314,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             r1.run();
             r2.run();
             r3.run();
+
+            onExperimentDone();
         }
     }
 
@@ -350,6 +371,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             out.write("\n");
             out.close();
+
+            if (isMFPES) {
+                out = new FileWriter(expResFile, true);
+                out.write("cputime," + elapsed + "\n");
+                out.write("realtime," + elapsed_real + "\n");
+                out.close();
+            }
         } catch (IOException e) {
             Log.e("Writing", "File not found");
         }
@@ -391,24 +419,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             out.write("\n");
             out.close();
+
+            if (isMFPES) {
+                out = new FileWriter(expResFile, true);
+                out.write("accuracy," + calculateAccuracy() + "\n");
+                out.close();
+            }
         } catch (IOException e) {
             Log.e("Writing", "File not found");
         }
     }
-    private void initialiseResultsFile() {
-        resultsFile = "res_" + id + ".txt";
-        new File(resDir).mkdirs();
+    private void initialiseFiles() {
+        String resultsFile = (isMFPES) ? "iter_" + expIter + ".cfg" : "res_" + id + ".txt";
         resFile = new File(resDir, resultsFile);
         try {
             if (!resFile.exists()) {
-                Log.d("initialiseResultsFile", "File does not exist");
+                Log.d("initialiseFiles", "File does not exist");
                 resFile.createNewFile();
                 writeGeneral();
             } else {
-                Log.d("initialiseResultsFile", "File already exists");
+                Log.d("initialiseFiles", "File already exists");
             }
         } catch (IOException e) {
-            Log.e("initialiseResultsFile", e.toString());
+            Log.e("initialiseFiles", e.toString());
+        }
+
+        if (isMFPES) {
+            expResultsFile = "iter_" + expIter + "_results";
+            expResFile = new File(resDir, expResultsFile + ".temp");
+            try {
+                if (!expResFile.exists()) {
+                    Log.d("initialiseFiles", "ExpFile does not exist");
+                    expResFile.createNewFile();
+                } else {
+                    Log.d("initialiseFiles", "ExpFile already exists");
+                }
+            } catch (IOException e) {
+                Log.e("initialiseFiles", e.toString());
+            }
         }
     }
 
