@@ -9,3 +9,15 @@ test accuracy: 19260/20800 92.5962%
 after tests 645 ms
 record epoch=23
 wrote weights to file, filesize 183KB
+
+weights26_relu.dat
+
+deepcl_train.exe datadir=../../data/EMNIST/ trainfile=letters_imgs/trainmanifest26_no_prefix.txt validatefile=letters_val_imgs/valmanifest26_no_prefix.txt netdef=8c5z-relu-mp2-16c5z-relu-mp3-150n-relu-26n numepochs=23 learningrate=0.002
+
+after epoch 23 13619 ms
+ training loss: 11109.9
+ train accuracy: 120349/124800 96.4335%
+test accuracy: 19213/20800 92.3702%
+after tests 803 ms
+record epoch=23
+wrote weights to file, filesize 183KB

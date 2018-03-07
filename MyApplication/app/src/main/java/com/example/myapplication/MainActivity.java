@@ -36,8 +36,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     boolean isMFPES = false;
     String expId;
     int expIter;
+    String expResDir;
     String expResultsFile;
     File expResFile;
+    String expConfigFile;
+    File expConFile;
 
     String applicationName;
     String appDirectory;
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int nbTrainingImages = 50000;
     int nbChannels = 1;                 // Black and white => 1; color =>3
     int imageSize=28;
-    String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";  // NOT of pretrained model but of current model
+    String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-relu-10n";  // NOT of pretrained model but of current model
     // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
     // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
     int numepochs=20;                   // [20, *100,500]
@@ -75,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView tv;
     ScrollView logContainer;
+
+    float cputime;
+    float realtime;
+    float acc;
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -96,16 +103,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (intent != null) {
             Log.d("MainActivity", "Activity launched with intent");
-            numepochs = intent.getIntExtra("numepochs", 20);
+            numepochs = intent.getIntExtra("numepochs", 100);
             batchsize = intent.getIntExtra("batchsize", 128);
-            learningrate = intent.getFloatExtra("learningrate", 0.001f);
+            learningrate = intent.getFloatExtra("learningrate", 0.002f);
             momentum = intent.getFloatExtra("momentum", 0.1f);
             weightdecay = intent.getFloatExtra("weightdecay", 0.0001f);
             expIter = intent.getIntExtra("iter", -1);
             expId = intent.getStringExtra("id");
 
-            isMFPES = true;
-            resDir = resDir + "/" + expId;
+            isMFPES = (expId != null);
+            Log.d("isMFPES", String.valueOf(isMFPES));
+
+            if (isMFPES) expResDir = resDir + "/" + expId;
         }
 
         // Setup files
@@ -121,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         trainManifest2 = storageDirectory + trainManifest;
 
         storeweightsfile= appDirectory + "directoryTest/weightsTransferred.dat";
-        loadweightsfile = "EMNIST/letters_imgs/weights26.dat";
+        loadweightsfile = "EMNIST/letters_imgs/weights26_relu.dat";
         loadweightsfile2 = storageDirectory + loadweightsfile;     // Trained task/domain weights
 
         predInputFile = "mnist/val_imgs/valmanifest10.txt";
@@ -137,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("Setup", "momentum:" + momentum);
         Log.d("Setup", "weightdecay:" + weightdecay);
 
-        new File(resDir).mkdirs();
         initialiseFiles();
 
 
@@ -196,7 +204,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * Run experiment
          */
 
-        runExperiment();
+        //runExperiment();
+        generateGPData();
     }
 
     private Runnable createPreparationRunnable() {
@@ -247,6 +256,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("Realtime for training: ", String.valueOf(elapsed_real)); // test
 
                 writeTrainResults(String.valueOf(elapsed), String.valueOf(elapsed_real));
+                cputime = elapsed;
+                realtime = elapsed_real;
 
                 Log.d("Run exp", "Training done for id " + id);
             }
@@ -270,6 +281,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        +"/preloadingData/pred2.txt";
                 t.prediction(appDirectory,cmdString);
 
+                acc = calculateAccuracy();
                 writePredResults();
 
                 Log.d("Run exp", "Prediction done for id " + id);
@@ -281,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void onExperimentDone() {
         if(isMFPES) {
-            expResFile.renameTo(new File(resDir, expResultsFile + ".csv"));
+            expResFile.renameTo(new File(expResDir, expResultsFile + ".csv"));
         }
     }
     public void prepareTrainingFiles(View v) {
@@ -321,6 +333,90 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void runExperiment() {
         Runnable runnable = new ExperimentRunnable();
+        new Thread(runnable).start();
+    }
+
+    public class generateGPDataRunnable implements Runnable {
+        String gpResDir = resDir;
+        String gpResFile = "target_res.csv";
+
+        public void run() {
+            new File(gpResDir).mkdirs();
+            File resFile = new File(gpResDir, gpResFile);
+            try {
+                if (!resFile.exists()) {
+                    Log.d("initialiseFiles", "File does not exist");
+                    resFile.createNewFile();
+                    FileWriter out = new FileWriter(resFile);
+                    out.write("numepochs,batchsize,learningrate,momentum,weightdecay,cputime,realtime,acc\n");
+                    out.close();
+                } else {
+                    Log.d("initialiseFiles", "File already exists");
+                }
+            } catch (IOException e) {
+                Log.e("initialiseFiles", e.toString());
+            }
+
+            int[] neList= {20, 50, 75, 86, 100};
+            int[] bsList = {50, 128, 256 ,512};
+            float[] lrList = {0.00001f, 0.0001f, 0.001f};
+            float[] mmList = {0f, 0.5f, 0.9f, 1f};
+            float[] wdList = {0.00001f, 0.0001f, 0.001f};
+
+            int len = neList.length * bsList.length * lrList.length * mmList.length * wdList.length;
+            int[] nes = new int[len];
+            int[] bss = new int[len];
+            float[] lrs = new float[len];
+            float[] mms = new float[len];
+            float[] wds = new float[len];
+            int i = 0;
+            for (int ne : neList) {
+                for (int bs : bsList) {
+                    for (float lr : lrList) {
+                        for (float mm : mmList) {
+                            for (float wd : wdList) {
+                                nes[i] = ne;
+                                bss[i] = bs;
+                                lrs[i] = lr;
+                                mms[i] = mm;
+                                wds[i] = wd;
+                                i++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            FileWriter out = null;
+            try {
+                out = new FileWriter(resFile);
+
+                for (i = 0; i < len; i++) {
+                    Log.d("generateGPData", "i: " + i);
+                    numepochs = nes[i];
+                    batchsize = bss[i];
+                    learningrate = lrs[i];
+                    momentum = mms[i];
+                    weightdecay = wds[i];
+
+                    Runnable r1 = createPreparationRunnable();
+                    Runnable r2 = createTrainingRunnable();
+                    Runnable r3 = createPredictRunnable();
+                    r1.run();
+                    r2.run();
+                    r3.run();
+                    out.write(numepochs + "," + batchsize + "," + learningrate + "," + momentum + "," + weightdecay + "," + cputime + "," + realtime + "," + acc + "\n");
+                }
+
+                out.close();
+            } catch (IOException e) {
+                Log.e("generateGPData", "Error writing res");
+            }
+        }
+    }
+
+    public void generateGPData() {
+        Runnable runnable = new generateGPDataRunnable();
         new Thread(runnable).start();
     }
 
@@ -373,6 +469,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             out.close();
 
             if (isMFPES) {
+                out = new FileWriter(expConFile, true);
+                out.write("************\n");
+                out.write("* Training * \n");
+                out.write("************\n");
+                out.write("Elapsed CPU time: " + elapsed + "\n");
+                out.write("Elapsed Real time: " + elapsed_real + "\n");
+
+                out.write("\n");
+                out.close();
+
                 out = new FileWriter(expResFile, true);
                 out.write("cputime," + elapsed + "\n");
                 out.write("realtime," + elapsed_real + "\n");
@@ -383,10 +489,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void writeGeneral() {
+    private void writeGeneral(File file) {
         FileWriter out = null;
         try {
-            out = new FileWriter(resFile,true);
+            out = new FileWriter(file,true);
             out.write("****************\n");
             out.write("* General Info * \n");
             out.write("****************\n");
@@ -421,6 +527,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             out.close();
 
             if (isMFPES) {
+
+                out = new FileWriter(expConFile, true);
+                out.write("**************\n");
+                out.write("* Prediction *\n");
+                out.write("**************\n");
+                out.write("Accuracy: " + calculateAccuracy() + "\n");
+
+                out.write("\n");
+                out.close();
+
                 out = new FileWriter(expResFile, true);
                 out.write("accuracy," + calculateAccuracy() + "\n");
                 out.close();
@@ -430,13 +546,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void initialiseFiles() {
-        String resultsFile = (isMFPES) ? "iter_" + expIter + ".cfg" : "res_" + id + ".txt";
+        new File(resDir).mkdirs();
+        if (isMFPES) new File(expResDir).mkdirs();
+        String resultsFile = "res_" + id + ".txt";
         resFile = new File(resDir, resultsFile);
         try {
             if (!resFile.exists()) {
                 Log.d("initialiseFiles", "File does not exist");
                 resFile.createNewFile();
-                writeGeneral();
+                writeGeneral(resFile);
             } else {
                 Log.d("initialiseFiles", "File already exists");
             }
@@ -445,12 +563,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (isMFPES) {
+            expConfigFile = "iter_" + expIter + ".cfg";
+            expConFile = new File(expResDir, expConfigFile);
             expResultsFile = "iter_" + expIter + "_results";
-            expResFile = new File(resDir, expResultsFile + ".temp");
+            expResFile = new File(expResDir, expResultsFile + ".temp");
             try {
                 if (!expResFile.exists()) {
                     Log.d("initialiseFiles", "ExpFile does not exist");
                     expResFile.createNewFile();
+                    writeGeneral(expConFile);
+                } else {
+                    Log.d("initialiseFiles", "ExpFile already exists");
+                }
+                if (!expConFile.exists()) {
+                    Log.d("initialiseFiles", "ExpFile does not exist");
+                    expConFile.createNewFile();
                 } else {
                     Log.d("initialiseFiles", "ExpFile already exists");
                 }
