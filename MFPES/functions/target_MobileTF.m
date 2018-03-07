@@ -1,6 +1,6 @@
 % We evaluate the target function.
 
-function [ ret ] = target_MobileTF(xx, noise, params)
+function [ cputime, acc ] = target_MobileTF(xx, noise, params)
 global is_fx id home_dir phone_dir
 
 numepochs = params.numepochs;
@@ -49,7 +49,9 @@ if status == 0
         pause(5);
         [pull_status, ~] = system(cmd_pull);
         if (pull_status == 0)
-            % process iter file
+            [num, text, raw] = xlsread([res_dir '/' id '/iter_' num2str(iter) '_results.csv']);
+            cputime = num(1);
+            acc = num(3);
             break;
         end
     end
