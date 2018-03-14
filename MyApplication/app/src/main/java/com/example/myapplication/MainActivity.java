@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int nbTrainingImages = 50000;
     int nbChannels = 1;                 // Black and white => 1; color =>3
     int imageSize=28;
-    String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-relu-10n";  // NOT of pretrained model but of current model
+    String netdef ="1s8c5z-relu-mp2-1s16c5z-relu-mp3-150n-tanh-10n";  // NOT of pretrained model but of current model
     // String netdef="1s8c5z-relu-mp2-1s16c5z-relu-mp3-152n-tanh-10n";// see https://github.com/hughperkins/DeepCL/blob/master/doc/Commandline.md
     // String netdef="1s8c1z-relu-mp2-1s16c1z-relu-mp3-150n-tanh-101n";
     int numepochs=20;                   // [20, *100,500]
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     float realtime;
     float acc;
 
+    int ii;
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -103,13 +105,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (intent != null) {
             Log.d("MainActivity", "Activity launched with intent");
-            numepochs = intent.getIntExtra("numepochs", 100);
+            numepochs = intent.getIntExtra("numepochs", 20);
             batchsize = intent.getIntExtra("batchsize", 128);
-            learningrate = intent.getFloatExtra("learningrate", 0.002f);
-            momentum = intent.getFloatExtra("momentum", 0.1f);
-            weightdecay = intent.getFloatExtra("weightdecay", 0.0001f);
+            learningrate = intent.getFloatExtra("learningrate", 0.001f);
+            momentum = intent.getFloatExtra("momentum", 0.0f);
+            weightdecay = intent.getFloatExtra("weightdecay", 0.001f);
             expIter = intent.getIntExtra("iter", -1);
             expId = intent.getStringExtra("id");
+
+            ii = intent.getIntExtra("i", -1);
 
             isMFPES = (expId != null);
             Log.d("isMFPES", String.valueOf(isMFPES));
@@ -130,12 +134,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         trainManifest2 = storageDirectory + trainManifest;
 
         storeweightsfile= appDirectory + "directoryTest/weightsTransferred.dat";
-        loadweightsfile = "EMNIST/letters_imgs/weights26_relu.dat";
+        loadweightsfile = "EMNIST/letters_imgs/weights26.dat";
         loadweightsfile2 = storageDirectory + loadweightsfile;     // Trained task/domain weights
 
         predInputFile = "mnist/val_imgs/valmanifest10.txt";
         predInputFile2 =  storageDirectory + predInputFile;
         predOutputFile = "/storage/emulated/0/Android/data/com.example.myapplication/files/pred.txt";
+
+
+        new File( "/storage/emulated/0/Android/data/com.example.myapplication/files").mkdirs();
+        deleteCache(getApplicationContext());
 
         id = createId();
 
@@ -231,6 +239,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Runnable createTrainingRunnable() {
         Runnable runnable = new Runnable() {
             public void run() {
+                Log.d("createTrainingRunnable", "numepochs" + Integer.toString(numepochs));
+                Log.d("createTrainingRunnable", "batchsize" + Integer.toString(batchsize));
+                Log.d("createTrainingRunnable", "learningrate" + Float.toString(learningrate));
+                Log.d("createTrainingRunnable", "momentum" + Float.toString(momentum));
+                Log.d("createTrainingRunnable", "weightdecay " + Float.toString(weightdecay));
+
                 String cmdString="train filename_label="+fileNameStoreLabel;
                 cmdString=cmdString+" filename_data="+fileNameStoreData;
                 cmdString=cmdString+" imageSize="+Integer.toString(imageSize);
@@ -345,13 +359,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             File resFile = new File(gpResDir, gpResFile);
             try {
                 if (!resFile.exists()) {
-                    Log.d("initialiseFiles", "File does not exist");
+                    Log.d("generate", "File does not exist");
                     resFile.createNewFile();
-                    FileWriter out = new FileWriter(resFile);
+                    FileWriter out = new FileWriter(resFile, true);
                     out.write("numepochs,batchsize,learningrate,momentum,weightdecay,cputime,realtime,acc\n");
+                    out.flush();
                     out.close();
                 } else {
-                    Log.d("initialiseFiles", "File already exists");
+                    Log.d("generate", "File already exists");
                 }
             } catch (IOException e) {
                 Log.e("initialiseFiles", e.toString());
@@ -389,25 +404,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             FileWriter out = null;
             try {
-                out = new FileWriter(resFile);
+                out = new FileWriter(resFile, true);
 
-                for (i = 0; i < len; i++) {
-                    Log.d("generateGPData", "i: " + i);
-                    numepochs = nes[i];
-                    batchsize = bss[i];
-                    learningrate = lrs[i];
-                    momentum = mms[i];
-                    weightdecay = wds[i];
+                if (ii != -1) {
+                    Log.d("generateGPData", "i: " + ii);
+                    numepochs = nes[ii];
+                    batchsize = bss[ii];
+                    learningrate = lrs[ii];
+                    momentum = mms[ii];
+                    weightdecay = wds[ii];
 
                     Runnable r1 = createPreparationRunnable();
                     Runnable r2 = createTrainingRunnable();
                     Runnable r3 = createPredictRunnable();
                     r1.run();
                     r2.run();
-                    r3.run();
+                    r3.run();/*
+                    while (acc < 0.5) {
+                        r1.run();
+                        r2.run();
+                        r3.run();
+                    }*/
                     out.write(numepochs + "," + batchsize + "," + learningrate + "," + momentum + "," + weightdecay + "," + cputime + "," + realtime + "," + acc + "\n");
-                }
+                    out.flush();
 
+                } else {
+                    for (i = 19; i < len; i++) {
+                        Log.d("generateGPData", "i: " + i);
+                        numepochs = nes[i];
+                        batchsize = bss[i];
+                        learningrate = lrs[i];
+                        momentum = mms[i];
+                        weightdecay = wds[i];
+
+                        Runnable r1 = createPreparationRunnable();
+                        Runnable r2 = createTrainingRunnable();
+                        Runnable r3 = createPredictRunnable();
+                        r1.run();
+                        r2.run();
+                        r3.run();
+                        out.write(numepochs + "," + batchsize + "," + learningrate + "," + momentum + "," + weightdecay + "," + cputime + "," + realtime + "," + acc + "\n");
+                        out.flush();
+                    }
+                }
                 out.close();
             } catch (IOException e) {
                 Log.e("generateGPData", "Error writing res");
@@ -653,6 +692,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.e("calculateAccuracy read", e.toString());
         }
         return ((float) nCorrect) / N;
+    }
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            Log.d("deleteCache", "Deleting " + dir.getAbsolutePath());
+            deleteDir(dir);
+        } catch (Exception e) {
+            Log.e("deleteCache", "Error deleting cache!");
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if(dir!= null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
     }
 
 }
