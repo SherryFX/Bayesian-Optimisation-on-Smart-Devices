@@ -11,7 +11,7 @@ clear
 rand('twister',1e6);
 randn('state',1e6);
 
-dataSetName = 'ggToy'; % To be replaced with MobileTF data
+dataSetName = 'mobileTF'; % To be replaced with MobileTF data
 experimentNo = 1;
 
 [XTemp, yTemp, XTestTemp, yTestTemp] = mapLoadData(dataSetName);
@@ -22,7 +22,7 @@ options.optimiser = 'scg';
 options.nlf = 1; % NO. of latent function (1)
 options.M = 2; % No. of output types
 
-q = 1; % Input dimension
+q = 5; % Input dimension
 d = size(yTemp, 2) + options.nlf;
 
 X = cell(size(yTemp, 2)+options.nlf,1);

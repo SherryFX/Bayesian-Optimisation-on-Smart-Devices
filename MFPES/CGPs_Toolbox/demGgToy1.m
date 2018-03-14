@@ -1,4 +1,4 @@
-
+ 
 % DEMGGTOY1 Demo of full multi output GP with missing data.
 %
 %	Description:

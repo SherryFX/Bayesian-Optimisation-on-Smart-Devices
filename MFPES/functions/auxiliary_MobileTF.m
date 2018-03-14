@@ -29,7 +29,7 @@ function [ ret, acc, ctime ] = auxiliary_MobileTF(xx, noise)
     optionsTransfer = trainingOptions('sgdm', ...
                             'MaxEpochs',20, ...
                             'InitialLearnRate',0.0001, ...
-                            'MiniBatchSize',128, ...
+                            'MiniBatchSize',100, ...
                             'Momentum', 0.9, ...
                             'L2Regularization', 0.0001);
     % Momentum 0.9 [0, 1]
@@ -52,12 +52,12 @@ function [ ret, acc, ctime ] = auxiliary_MobileTF(xx, noise)
     % Heavily penalise if accuracy is below threshold.
     % Consider passing threshold as argument.
     if accuracy < 0.75
-        penalty = 10^5;
+        penalty = 1;
     else
-        penalty = 0;
+        penalty = accuracy;
     end
     
-    ret = e + noise + penalty;
+    ret = e/penalty + noise;
     acc = accuracy;
     ctime=e;
 end

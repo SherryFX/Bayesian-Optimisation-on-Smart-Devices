@@ -24,8 +24,8 @@ opts.direct.showits = 0;
 
 task = {@target_Hartmann, @auxiliary_Hartmann, Name, noise};
  
-xmin = [0, 0, 0, 0, 0, 0];
-xmax = [1, 1, 1, 1, 1, 1];
+xmin = [20, 0.00001, 0, 0, 0, 0];
+xmax = [100, 0.001, 1, 1, 1, 1];
 
 t = 1;
 nSample = 50;
