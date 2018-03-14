@@ -22,6 +22,17 @@ opts.direct.showits = 0;
 
 task = {@target_MobileTF, @auxiliary_MobileTF, Name, noise};
 
+% load_settings;
+% 
+% % Initialise params
+% params.numepochs = 1;
+% params.batchsize = 128;
+% params.learningrate = 0.001;
+% params.momentum = 0.2;
+% params.weightdecay = 0.0002;
+% 
+% [ctime, rtime, acc] = target_MobileTF(0,0,params);
+
 xmin = [20, 0.00001, 50, 0, 0.0001]; % how to ensure values vary discretely for some??
 xmax = [100, 0.001, 512, 1, 0.001];
 

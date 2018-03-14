@@ -1,16 +1,17 @@
 % https://www.mathworks.com/help/nnet/examples/transfer-learning-and-fine-tuning-of-convolutional-neural-networks.html?requestedDomain=true#d119e2174
-function [ ret, acc, ctime ] = auxiliary_MobileTF(xx, noise)
+function [ ret, ctime, rtime, acc ] = auxiliary_MobileTF(params, noise)
     load convnet;
-    % Fix the correct file path for image data
-    load homeDir;
-    init;
-    if (is_fx)
-        trainDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/mnist/imgs');
-        testDatasetPath = fullfile('/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/Data/mnist/val_imgs'); 
-    else
-        trainDatasetPath = fullfile('C:\Users\leona\Downloads\Bayesian-Optimisation-on-Smart-Devices\Data\mnist\imgs');
-        testDatasetPath = fullfile('C:\Users\leona\Downloads\Bayesian-Optimisation-on-Smart-Devices\Data\mnist\val_imgs');
-    end
+    global home_dir 
+    
+    numepochs = params.numepochs;
+    batchsize = params.batchsize;
+    learningrate = params.learningrate;
+    momentum = params.momentum;
+    weightdecay = params.weightdecay;
+
+    trainDatasetPath = fullfile([home_dir '/Data/mnist/imgs']);
+    testDatasetPath = fullfile([home_dir '/Data/mnist/val_imgs']); 
+    
     trainData = imageDatastore(trainDatasetPath, ...
         'IncludeSubfolders',true,'LabelSource','foldernames');
     testData = imageDatastore(testDatasetPath, ...
@@ -27,17 +28,17 @@ function [ ret, acc, ctime ] = auxiliary_MobileTF(xx, noise)
 
     % Replace parameters with xx values.
     optionsTransfer = trainingOptions('sgdm', ...
-                            'MaxEpochs',20, ...
-                            'InitialLearnRate',0.0001, ...
-                            'MiniBatchSize',100, ...
-                            'Momentum', 0.9, ...
-                            'L2Regularization', 0.0001);
-    % Momentum 0.9 [0, 1]
-    % L2Regularization, 0.0001 (weight decay)
+                            'MaxEpochs',numepochs, ...
+                            'InitialLearnRate',learningrate, ...
+                            'MiniBatchSize',batchsize, ...
+                            'Momentum', momentum, ...
+                            'L2Regularization', weightdecay);
                         
     t = cputime;
+    tic
     netTransfer = trainNetwork(trainData,layers,optionsTransfer);
     e = cputime - t;
+    re = toc;
 %   (100, 0.001 , 512) 2.0740e+04, 1.9182e+04
 %   (50 , 0.001 , 512) 1.0215e+04, 9.3614e+03
 %   (25 , 0.001 , 512) 4.8956e+03, 4.9600e+03
@@ -60,5 +61,6 @@ function [ ret, acc, ctime ] = auxiliary_MobileTF(xx, noise)
     ret = e/penalty + noise;
     acc = accuracy;
     ctime=e;
+    rtime=re;
 end
 
