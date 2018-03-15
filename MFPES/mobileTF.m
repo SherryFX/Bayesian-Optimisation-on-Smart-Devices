@@ -36,7 +36,7 @@ task = {@target_MobileTF, @auxiliary_MobileTF, Name, noise};
 xmin = [20, 0.00001, 50, 0, 0.0001]; % how to ensure values vary discretely for some??
 xmax = [100, 0.001, 512, 1, 0.001];
 
-t = 1;
+t = 1; 
 nSample = 50;
 nFeatures = 200;
 
@@ -59,7 +59,7 @@ result.umax_x = zeros(T, N, d);
 result.c = zeros(T, N, 2);
 result.EPc = zeros(T, N, 2);
 
-givenX = load('start_dim6'); % is this for data? need to change then?
+givenX = load('start_dim6'); % random samples for initialization
 initX = cell(M, 1);
 
 for loop = 1:T
@@ -109,15 +109,20 @@ for loop = 1:T
         b = toc;
         disp(['Next point selected: Elapsed time is ', num2str(b), ' seconds']);
 
+        % transfer the values back, add here
+        
         y = getObsValue(task, optimum', M, type); %task{type}(optimum', noise(type), S);
         f = getFuncValue(task, optimum', M, type); %task{type}(optimum', 0, S);
 
         [Xnew, ynew] = updateXY(model, optimum', y, type);
+        
+%  can consider removing this, no point training
+%         if(mod(it, update) == 0)
+%             model.train = 1;
+%         end
 
-        if(mod(it, update) == 0)
-            model.train = 1;
-        end
         model = updateBO(model, Xnew, ynew);
+       
 
         result.X(loop, it, :) = optimum';
         result.y(loop, it) = y;
