@@ -1,26 +1,30 @@
 clear all, close all
 
 Name = 'MobileTF';
-experimentNo = '_multi_PES_h';
+experimentNo = '_multi_PES_';
+path = '/Users/HFX/Desktop/Bayesian\ Optimization\ on\ Smart\ Devices/MFPES/results';
+fname = 'mobileTF.txt';
 
 load('mobileTF');
+model.train = 0;
+ymean = [0, 0]; % try setting to average to see if it actually helps with the results
 
-noise = [sqrt(0.001), 0.01];    % noise variance for each task
+% noise = [sqrt(0.001), 0.01];    % noise variance for each task
 
-cost = [10, 1];
-N = 500;    % maximal no. of observations (NEED TO CHANGE!)
+cost = [5, 1];
+N = 200;    % maximal no. of observations (NEED TO CHANGE!)
+Budget = 72; % training budget: 90 minutes
 M = 2;  % no. of output types
 nlf = 1;    % no. of latent functions
-update = 1000;  % when to update the CMOGP hyperparameters
-model.train = 0;
-T = 10;
+update = 100000;  % when to update the CMOGP hyperparameters
+T = 5;
 
-opts.discrete = 1;  % (1: multi-start, 0: Direct) for optimization
+opts.discrete = 0;  % (1: multi-start, 0: Direct) for optimization
 opts.dis_num = 10;
 opts.num = 500;
 opts.direct.showits = 0;
 
-task = {@target_MobileTF, @auxiliary_MobileTF, Name, noise};
+task = {@target_MobileTF, @auxiliary_MobileTF, Name}; % can add noise if necessary
 
 % load_settings;
 % 
@@ -33,8 +37,9 @@ task = {@target_MobileTF, @auxiliary_MobileTF, Name, noise};
 % 
 % [ctime, rtime, acc] = target_MobileTF(0,0,params);
 
-xmin = [20, 0.00001, 50, 0, 0.0001]; % how to ensure values vary discretely for some??
-xmax = [100, 0.001, 512, 1, 0.001];
+% num epochs, batchsize, LR, momentum, weight-decay
+xmin = [20, 50, log(10.^-5), 0, log(10.^-5)];
+xmax = [100, 512, log(10.^-3), 1, log(10.^-3)];
 
 t = 1; 
 nSample = 50;
@@ -44,53 +49,63 @@ model.M = M;
 model.q = size(xmin, 2);
 model.nlf = nlf;
 model.approx = 'ftc';
+model.xmin = xmin;
+model.xmax = xmax;
+model.ymean = ymean;
 
 d = model.q;
 result.X = zeros(T, N, d);
 result.y = zeros(T, N);
 result.type = zeros(T, N);
-result.cost = zeros(T, N);
-% result.ymax = zeros(T, N);  % Simple regret
-% result.fmax = zeros(T, N);
-% result.optimum = zeros(T, N, d);
-result.umax_f = zeros(T, N);   % Immediate regret
+result.ymax = zeros(T, N);
+result.fmax = zeros(T, N);
+result.umax_f = zeros(T, N);
 result.umax_x = zeros(T, N, d);
-
 result.c = zeros(T, N, 2);
-result.EPc = zeros(T, N, 2);
+result.time_pre = zeros(T, N);
+result.time_real = zeros(T, N);
+% newly added, check?
+result.cputime = zeros(T, N);
+result.realtime = zeros(T, N);
+result.acc = zeros(T, N);
 
-givenX = load('start_dim6'); % random samples for initialization
+load('start_mobile'); % createa random samples for BO.
 initX = cell(M, 1);
+initY = cell(M, 1);
+initT = cell(M, 1);
 
 for loop = 1:T
     
+    S = 0;
     for i=1:M
-        initX{i} = givenX.X{i}(loop, :);
+        tmp = start_mobile{loop};
+        initX{i} = tmp.X{i};
+        initY{i} = tmp.y{i};
+        S = S + sum(tmp.t{i});
     end
-    [model, Xobs, Yobs] = initializeBO(model, 'given', task, xmin, xmax, initX);
+	
+    [model, Xobs, Yobs] = initializeBO(model, 'mobile', task, xmin, xmax, initX, initY);   
+    model.ymean = ymean;
     
-    S = sum(cost);
-    
-    % result.ymax(loop, S-cost(2):S) = max(Yobs{t});
-    % result.fmax(loop, S-cost(2):S) = getFuncValue(task, Xobs{t}, M, t); %task{t}(Xobs{t}, 0, 0);
-    [result.umax_f(loop, S-cost(2):S), result.umax_x(loop, 1, :)] = getMaxMean(model, xmin, xmax, task, t, opts);
+    result.ymax(loop, 1) = max(Yobs{t});
+    result.fmax(loop, 1) = max(getFuncValue(task, Xobs{t}, M, t));
 
-    result.optimum(loop, 1, :) = Xobs{t};
+    [result.umax_f(loop,1), result.umax_x(loop, 1, :)] = getMaxMean(model, xmin, xmax, task, t, opts);
+    result.time_real(loop, 1) = S;
     
-    it = 1;
-    while S <= N-cost(t)
+    it = 2;
+    while S <= Budget
 
         disp(['%%%%%%%%%%%%%%%%%%%%% Step: ', num2str(loop), ', ', num2str(it),  ', cost: ', num2str(S),' %%%%%%%%%%%%%%%%%%%%%']);
         tic
         [xstar, values, params] = sampleXstar(model, nSample, nFeatures, xmin, xmax);
         b = toc;
+        
         disp(['xstar sampling finished. ', num2str(b), ' seconds']);
         % We call the ep method
         target_xstar = reshape(xstar(1, :, :), nSample, d);
-        EPc = getFactor_EP(target_xstar, values, params); 
-        result.EPc(loop, it, :) = EPc;
-        
-        [fi_xstar, modelnew] = EPapproximation(target_xstar, model, 100, EPc); % Eq. (5.16)
+
+        [fi_xstar, modelnew] = EPapproximation(target_xstar, model, 100); % Eq. (5.16)
 
         disp('First EP approximation finished.');
         acq_func = cell(M, 1);
@@ -109,48 +124,40 @@ for loop = 1:T
         b = toc;
         disp(['Next point selected: Elapsed time is ', num2str(b), ' seconds']);
 
-        % transfer the values back, add here
+        optimum = optimum';
+        optimumX = transX(optimum, 'mobile', true);
         
-        y = getObsValue(task, optimum', M, type); %task{type}(optimum', noise(type), S);
-        f = getFuncValue(task, optimum', M, type); %task{type}(optimum', 0, S);
+%         [ys, yt] = getObsValue_mobile(optimumX, M, type); %task{type}(optimum', noise(type), S);
+        ys = 1;
+        yt = 1;
+        f = getFuncValue_mobile(optimumX, M, type); %task{type}(optimum', 0, S);
 
-        [Xnew, ynew] = updateXY(model, optimum', y, type);
-        
-%  can consider removing this, no point training
-%         if(mod(it, update) == 0)
-%             model.train = 1;
-%         end
+        [Xnew, ynew] = updateXY(model, optimum, ys-model.ymean(type), type);
 
+        if(mod(it, update) == 0)
+            model.train = 1;
+        end
         model = updateBO(model, Xnew, ynew);
-       
+		model.ymean = ymean;
 
-        result.X(loop, it, :) = optimum';
-        result.y(loop, it) = y;
+        result.X(loop, it, :) = optimumX;
+        result.y(loop, it) = ys;
         result.type(loop, it) = type;
-        result.cost(loop, it) = S + cost(type);
+        result.time_real(loop, it) = result.time_real(loop, it-1) + yt; % change to suit context
         
-        % result.ymax(loop, S+1:S+cost(type)) = result.ymax(loop, S);      
-        % if type == t && y > result.ymax(loop, S)            
-        %         result.ymax(loop, S+cost(type)) = y;
-        % end
+        result.ymax(loop, it) = max(ys, result.ymax(loop, it-1));
+        result.fmax(loop, it) = max(f, result.fmax(loop, it-1));
         
-        % result.fmax(loop, S+1:S+cost(type)) = result.fmax(loop, S);      
-        % if type == t && f > result.fmax(loop, S)            
-        %         result.fmax(loop, S+cost(type)) = f;
-        %         result.optimum(loop, it+1, :) = optimum';
-        % else
-        %     result.optimum(loop, it+1, :) = result.optimum(loop, it, :);
-        % end
-        
-        result.umax_f(loop, S+1:S+cost(type)) = result.umax_f(loop, S);      
-        [result.umax_f(loop, S+cost(type)), result.umax_x(loop, it+1, :)] = getMaxMean1(model, xmin, xmax, task, t, opts, result.umax_x(loop, it, :));
-        
-        S = S + cost(type);
+        [result.umax_f(loop, it), result.umax_x(loop, it, :)] = getMaxMean1(model, xmin, xmax, task, t, opts, result.umax_x(loop, it-1, :));
+
+        S = result.time_real(loop, it);
         it = it + 1;
     end 
     % result.ymax(loop, S+1:N) = result.ymax(loop, S);
     % result.fmax(loop, S+1:N) = result.fmax(loop, S);
     result.umax_f(loop, S+1:N) = result.umax_f(loop, S);
     
+%     save([path, Name, experimentNo, '_result'], 'result', 'model');       
     save([path, Name, experimentNo, '_result'], 'result', 'model');
+
 end

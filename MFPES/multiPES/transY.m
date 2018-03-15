@@ -10,6 +10,8 @@ function ynew = transY(y, ymean, method, inverse)
                 ynew = y + ymean;
             case 'cnn'
                 ynew = y + ymean;
+            case 'mobile'
+                ynew = y + ymean;
             otherwise
                 ynew = y;
         end
@@ -19,6 +21,8 @@ function ynew = transY(y, ymean, method, inverse)
                 ynew = y - ymean;
             case 'cnn'
                 ynew = y - ymean;
+            case 'mobile'
+                ynew = y + ymean;
             otherwise
                 ynew = y;
         end

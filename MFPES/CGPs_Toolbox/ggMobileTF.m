@@ -1,9 +1,5 @@
 
 % GGMOBILETF Demo of full multi output GP with missing data.
-%
-%	Description:
-%	% 	demGgToy1.m SVN version 289
-% 	last update 2009-03-04T20:54:21.000000Z
 
 
 % clc

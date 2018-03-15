@@ -20,7 +20,7 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
         cmd_install= ['cd ' home_dir '/MyApplication & ' home_dir '/MyApplication/gradlew installDebug'];
     end
 
-    [status,cmdout] = system(cmd_install)
+    [status,cmdout] = system(cmd_install);
 
     if status == 0
         if (is_fx)

@@ -17,7 +17,7 @@ Budget = 72; % training budget: 90 minutes
 M = 2;
 nlf = 1;
 update = 100000;
-T = 5;
+T = 5; % number of BO to run to get average results to show consistent performance
 
 opts.discrete = 0;
 opts.dis_num = 10;
