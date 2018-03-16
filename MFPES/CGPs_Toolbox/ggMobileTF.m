@@ -10,6 +10,8 @@ randn('state',1e6);
 dataSetName = 'mobileTF'; % To be replaced with MobileTF data
 experimentNo = 1;
 
+aux = xlsread("/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/res/auxiliary_res.xlsx");
+
 [XTemp, yTemp, XTestTemp, yTestTemp] = mapLoadData(dataSetName);
 
 options = multigpOptions('ftc');
