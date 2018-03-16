@@ -1,5 +1,5 @@
 % https://www.mathworks.com/help/nnet/examples/transfer-learning-and-fine-tuning-of-convolutional-neural-networks.html?requestedDomain=true#d119e2174
-function [ ret, ctime, rtime, acc ] = auxiliary_MobileTF(xx, noise, params)
+function [ ret, ctime, rtime, acc ] = auxiliary_MobileTF(params, noise)
     load convnet;
     global home_dir 
     
@@ -33,8 +33,6 @@ function [ ret, ctime, rtime, acc ] = auxiliary_MobileTF(xx, noise, params)
                             'MiniBatchSize',batchsize, ...
                             'Momentum', momentum, ...
                             'L2Regularization', weightdecay);
-    % Momentum 0.9 [0, 1]
-    % L2Regularization, 0.0001 (weight decay)
                         
     t = cputime;
     tic
@@ -55,12 +53,12 @@ function [ ret, ctime, rtime, acc ] = auxiliary_MobileTF(xx, noise, params)
     % Heavily penalise if accuracy is below threshold.
     % Consider passing threshold as argument.
     if accuracy < 0.75
-        penalty = 10^5;
+        penalty = 1;
     else
-        penalty = 0;
+        penalty = accuracy;
     end
     
-    ret = e + noise + penalty;
+    ret = e/penalty + noise;
     acc = accuracy;
     ctime=e;
     rtime=re;

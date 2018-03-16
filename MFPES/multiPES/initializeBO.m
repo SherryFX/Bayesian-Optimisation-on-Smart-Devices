@@ -46,11 +46,17 @@ function [model, X, Y] = initializeBO(model, method, task, xmin, xmax, givenX, g
                 Y{i} = givenY{i};
             end
             
+        case 'mobile'
+            for i=1:M
+                X{i} = givenX{i};
+                Y{i} = givenY{i};
+            end 
+            
         otherwise
             error('Invalid initialization method.')
     end
     
-    if ~strcmp(method, 'lr') && ~strcmp(method, 'cnn')
+    if ~strcmp(method, 'lr') && ~strcmp(method, 'cnn') && ~strcmp(method, 'mobile')
         for i=1:M
             Y{i} = getObsValue(task, X{i}, M, i);
         end
