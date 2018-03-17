@@ -1,7 +1,6 @@
 
 % GGMOBILETF Demo of full multi output GP with missing data.
 
-
 % clc
 clear
 rand('twister',1e6);
@@ -10,9 +9,17 @@ randn('state',1e6);
 dataSetName = 'mobileTF'; % To be replaced with MobileTF data
 experimentNo = 1;
 
+tar = csvread("/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/res/target_res.csv", 1, 0);
 aux = xlsread("/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/res/auxiliary_res.xlsx");
 
-[XTemp, yTemp, XTestTemp, yTestTemp] = mapLoadData(dataSetName);
+XTemp =  cell([1 2]);
+XTemp{1} = tar(:, 1:5);
+XTemp{2} = aux(:, 1:5);
+yTemp =  cell([1 4]);
+yTemp{1} = tar(:, 6);
+yTemp{2} = tar(:, 8);
+yTemp{3} = aux(:, 6);
+yTemp{2} = aux(:, 8);
 
 options = multigpOptions('ftc');
 options.kernType = 'gg';
@@ -29,9 +36,6 @@ y = cell(size(yTemp, 2)+options.nlf,1);
 % When we want to include the structure of the latent force kernel within
 % the whole kernel structure, and we don't have access to any data from the
 % latent force, we just put ones in the vector X and empty in the vector y.
-
-%   yTemp{2} = -yTemp{2};
-%   yTemp{4} = -yTemp{4};
 
 
 for j=1:options.nlf

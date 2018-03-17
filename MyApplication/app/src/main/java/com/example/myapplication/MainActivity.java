@@ -212,8 +212,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * Run experiment
          */
 
-        //runExperiment();
-        generateGPData();
+        runExperiment();
+//        generateGPData();
     }
 
     private Runnable createPreparationRunnable() {
