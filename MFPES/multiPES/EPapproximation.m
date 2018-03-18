@@ -34,7 +34,14 @@ function [ret, modelnew] = EPapproximation(xstar, model, max_iter, c)
     end
         
     modelnew = cell(M, nSamples);
-    options = model.options;
+%     options = model.options;
+    options = multigpOptions(model.approx);
+    options.kernType = 'gg';
+    options.optimiser = 'scg';
+    options.nlf = model.nlf;
+    options.q = model.q;
+    options.d = model.M + options.nlf;
+    options.M = model.M;
 
     for i=1:M
         for j=1:nSamples        

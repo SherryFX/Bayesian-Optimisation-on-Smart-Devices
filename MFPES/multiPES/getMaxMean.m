@@ -14,7 +14,8 @@ function [f_xstar, xstar] = getMaxMean(model, xmin, xmax, task, t, opts)
     
     task_type = task{M+1};
     xstar = transX(xstar, lower(task_type), true);
-    f_xstar = getFuncValue_mobile(task, xstar, M, t);
+    f_xstar = getFuncValue_mobile(xstar, model, t);
+%     f_xstar = getFuncValue(task, xstar, M, t);
 end
 
 function [ ret ] = getPosteriorMean(model, xtest, t)

@@ -1,6 +1,6 @@
-function [ ret ] = getFuncValue_mobile(x, name, t)
+function [ ret ] = getFuncValue_mobile(x, model, t)
 
-    load(name)
+%     load(name)
     x = transX(x, 'mobile');
     nlf = model.nlf;
     [mu, ~] = multigpPosteriorMeanVar(model, x);

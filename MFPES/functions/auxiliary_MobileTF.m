@@ -3,11 +3,18 @@ function [ ret, ctime, rtime, acc ] = auxiliary_MobileTF(params, noise)
     load convnet;
     global home_dir 
     
-    numepochs = params.numepochs;
-    batchsize = params.batchsize;
-    learningrate = params.learningrate;
-    momentum = params.momentum;
-    weightdecay = params.weightdecay;
+%     numepochs = params.numepochs;
+%     batchsize = params.batchsize;
+%     learningrate = params.learningrate;
+%     momentum = params.momentum;
+%     weightdecay = params.weightdecay;
+% Z1 = Z(find(Z~=A))
+    
+    numepochs = 20;
+    batchsize = 50;
+    learningrate = 0.0001;
+    momentum = 0.99;
+    weightdecay = 0.0001;
 
     trainDatasetPath = fullfile([home_dir '/Data/mnist/imgs']);
     testDatasetPath = fullfile([home_dir '/Data/mnist/val_imgs']); 
@@ -22,7 +29,8 @@ function [ ret, ctime, rtime, acc ] = auxiliary_MobileTF(params, noise)
     layersTransfer = convnet.Layers(1:end-3);
     numClasses = 10;
     layers = [layersTransfer
-        fullyConnectedLayer(numClasses,'WeightLearnRateFactor',20,'BiasLearnRateFactor',20)
+%         fullyConnectedLayer(numClasses,'WeightLearnRateFactor',20,'BiasLearnRateFactor',20)
+        fullyConnectedLayer(numClasses)
         softmaxLayer
         classificationLayer];
 

@@ -38,7 +38,7 @@ function [f_xstar, xstar] = getMaxMean1(model, xmin, xmax, task, t, opts, x_prev
     end
     
     xstar = transX(x, lower(task_type), true);
-    f_xstar = getFuncValue(task, xstar, M, t);
+    f_xstar = getFuncValue_mobile(xstar, model, t);
     
 end
 

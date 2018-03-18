@@ -5,14 +5,14 @@ experimentNo = '_multi_PES_';
 path = '/Users/HFX/Desktop/Bayesian\ Optimization\ on\ Smart\ Devices/MFPES/results';
 fname = 'mobileTF.txt';
 
-load('mobileTF');
+load('mobileTF_model');
 model.train = 0;
 ymean = [0, 0]; % try setting to average to see if it actually helps with the results
 
 % noise = [sqrt(0.001), 0.01];    % noise variance for each task
 
 cost = [5, 1];
-N = 200;    % maximal no. of observations (NEED TO CHANGE!)
+N = 200;    % maximal no. of observations
 Budget = 72; % training budget: 90 minutes
 M = 2;  % no. of output types
 nlf = 1;    % no. of latent functions
@@ -39,7 +39,7 @@ task = {@target_MobileTF, @auxiliary_MobileTF, Name}; % can add noise if necessa
 
 % num epochs, batchsize, LR, momentum, weight-decay
 xmin = [20, 50, log(10.^-5), 0, log(10.^-5)];
-xmax = [100, 512, log(10.^-3), 1, log(10.^-3)];
+xmax = [100, 512, log(10.^-3), 0.99, log(10.^-3)];
 
 t = 1; 
 nSample = 50;
@@ -62,6 +62,7 @@ result.fmax = zeros(T, N);
 result.umax_f = zeros(T, N);
 result.umax_x = zeros(T, N, d);
 result.c = zeros(T, N, 2);
+result.EPc = zeros(T, N, 2); % added!
 result.time_pre = zeros(T, N);
 result.time_real = zeros(T, N);
 % newly added, check?
@@ -69,26 +70,26 @@ result.cputime = zeros(T, N);
 result.realtime = zeros(T, N);
 result.acc = zeros(T, N);
 
-load('start_mobile'); % createa random samples for BO.
+given = load('start_mobileTF'); % create random samples for BO.
 initX = cell(M, 1);
 initY = cell(M, 1);
-initT = cell(M, 1);
+% initT = cell(M, 1);
 
 for loop = 1:T
     
     S = 0;
     for i=1:M
-        tmp = start_mobile{loop};
-        initX{i} = tmp.X{i};
-        initY{i} = tmp.y{i};
-        S = S + sum(tmp.t{i});
+%         tmp = start_mobileTF{loop};
+        initX{i} = given.X{i}(loop, :);
+        initY{i} = given.y{i}(loop);
+%         S = S + sum(tmp.t{i});
     end
 	
     [model, Xobs, Yobs] = initializeBO(model, 'mobile', task, xmin, xmax, initX, initY);   
     model.ymean = ymean;
     
     result.ymax(loop, 1) = max(Yobs{t});
-    result.fmax(loop, 1) = max(getFuncValue(task, Xobs{t}, M, t));
+    result.fmax(loop, 1) = max(getFuncValue_mobile(Xobs{t}, model, t));
 
     [result.umax_f(loop,1), result.umax_x(loop, 1, :)] = getMaxMean(model, xmin, xmax, task, t, opts);
     result.time_real(loop, 1) = S;
@@ -104,8 +105,11 @@ for loop = 1:T
         disp(['xstar sampling finished. ', num2str(b), ' seconds']);
         % We call the ep method
         target_xstar = reshape(xstar(1, :, :), nSample, d);
-
-        [fi_xstar, modelnew] = EPapproximation(target_xstar, model, 100); % Eq. (5.16)
+        % added!
+        EPc = getFactor_EP(target_xstar, values, params); 
+        result.EPc(loop, it, :) = EPc;
+        
+        [fi_xstar, modelnew] = EPapproximation(target_xstar, model, 100, EPc); % Eq. (5.16)
 
         disp('First EP approximation finished.');
         acq_func = cell(M, 1);
@@ -130,7 +134,7 @@ for loop = 1:T
 %         [ys, yt] = getObsValue_mobile(optimumX, M, type); %task{type}(optimum', noise(type), S);
         ys = 1;
         yt = 1;
-        f = getFuncValue_mobile(optimumX, M, type); %task{type}(optimum', 0, S);
+        f = getFuncValue_mobile(optimumX, model, type); %task{type}(optimum', 0, S);
 
         [Xnew, ynew] = updateXY(model, optimum, ys-model.ymean(type), type);
 

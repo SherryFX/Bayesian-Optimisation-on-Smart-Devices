@@ -9,23 +9,23 @@ randn('state',1e6);
 dataSetName = 'mobileTF'; % To be replaced with MobileTF data
 experimentNo = 1;
 
-tar = csvread("/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/res/target_res.csv", 1, 0);
-aux = xlsread("/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/res/auxiliary_res.xlsx");
+% tar = csvread("/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/res/target_res.csv", 1, 0);
+% aux = xlsread("/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/res/auxiliary_res_merged.xlsx");
+
+load('EMINIST_dataset');
 
 XTemp =  cell([1 2]);
-XTemp{1} = tar(:, 1:5);
-XTemp{2} = aux(:, 1:5);
-yTemp =  cell([1 4]);
-yTemp{1} = tar(:, 6);
-yTemp{2} = tar(:, 8);
-yTemp{3} = aux(:, 6);
-yTemp{2} = aux(:, 8);
+XTemp{1} = mainFiltered(:, 1:5);
+XTemp{2} = mainFiltered(:, 1:5);
+yTemp =  cell([1 2]);
+yTemp{1} = tarRatio;
+yTemp{2} = auxRatio;
 
 options = multigpOptions('ftc');
 options.kernType = 'gg';
 options.optimiser = 'scg';
 options.nlf = 1; % NO. of latent function (1)
-options.M = 2; % No. of output types
+options.M = 1; % No. of output types
 
 q = 5; % Input dimension
 d = size(yTemp, 2) + options.nlf;
@@ -52,7 +52,7 @@ model = multigpCreate(q, d, X, y, options);
 
 % Initialisation
 params = modelExtractParam(model);
-for i =1:M
+for i =1:options.M
     for j =1:model.q
         index = paramNameRegularExpressionLookup(model,['multi .* ' num2str(i) ...
             ' inverse width output \(' num2str(j) ',' num2str(j) '\)']);
