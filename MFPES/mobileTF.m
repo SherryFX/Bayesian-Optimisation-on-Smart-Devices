@@ -2,7 +2,7 @@ clear all, close all
 
 Name = 'MobileTF';
 experimentNo = '_multi_PES_';
-path = '/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/results';
+path = '/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/results/';
 fname = 'mobileTF.txt';
 
 load('mobileTF_model');
@@ -77,7 +77,7 @@ initY = cell(M, 1);
 
 for loop = 1:T
     
-    S = 50;
+    S = 70;
     for i=1:M
 %         tmp = start_mobileTF{loop};
         initX{i} = given.X{i}(loop, :);
