@@ -10,6 +10,8 @@ function [ ret, ctime, rtime, acc ] = auxiliary_MobileTF(params, noise)
 %     weightdecay = params.weightdecay;
 % Z1 = Z(find(Z~=A))
     
+    disp('Evaluating Auxiliary Function');
+
     numepochs = 20;
     batchsize = 50;
     learningrate = 0.0001;

@@ -2,7 +2,7 @@ clear all, close all
 
 Name = 'MobileTF';
 experimentNo = '_multi_PES_';
-path = '/Users/HFX/Desktop/Bayesian\ Optimization\ on\ Smart\ Devices/MFPES/results';
+path = '/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/results';
 fname = 'mobileTF.txt';
 
 load('mobileTF_model');
@@ -17,7 +17,7 @@ Budget = 72; % training budget: 90 minutes
 M = 2;  % no. of output types
 nlf = 1;    % no. of latent functions
 update = 100000;  % when to update the CMOGP hyperparameters
-T = 5;
+T = 1;
 
 opts.discrete = 0;  % (1: multi-start, 0: Direct) for optimization
 opts.dis_num = 10;
@@ -77,7 +77,7 @@ initY = cell(M, 1);
 
 for loop = 1:T
     
-    S = 0;
+    S = 50;
     for i=1:M
 %         tmp = start_mobileTF{loop};
         initX{i} = given.X{i}(loop, :);
@@ -130,11 +130,14 @@ for loop = 1:T
 
         optimum = optimum';
         optimumX = transX(optimum, 'mobile', true);
+        disp(['Selected point: ', num2str(optimumX(1)), ', ', num2str(optimumX(2)), ', ', num2str(optimumX(3)), ', ', num2str(optimumX(4)), ', ', num2str(optimumX(5))]);
+        disp(['Selected funciton: ', num2str(type)]);
         
 %         [ys, yt] = getObsValue_mobile(optimumX, M, type); %task{type}(optimum', noise(type), S);
         ys = 1;
         yt = 1;
         f = getFuncValue_mobile(optimumX, model, type); %task{type}(optimum', 0, S);
+        disp(['Function Value: ', num2str(f)]);
 
         [Xnew, ynew] = updateXY(model, optimum, ys-model.ymean(type), type);
 

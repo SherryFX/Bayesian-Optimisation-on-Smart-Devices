@@ -3,6 +3,8 @@
 function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
     global is_fx id home_dir phone_dir
 
+    disp('Evaluating Target Function');
+    
     numepochs = params.numepochs;
     batchsize = params.batchsize;
     learningrate = params.learningrate;
