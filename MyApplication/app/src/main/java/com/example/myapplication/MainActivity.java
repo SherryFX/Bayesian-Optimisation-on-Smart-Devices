@@ -30,7 +30,7 @@ import java.io.InputStreamReader;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TransferCLlib t;
 
-    final int PHONE_TYPE = 2;
+    final int PHONE_TYPE = 1;
     String id;                          // Unique id identifying experiment setup
 
     // Bayesian Optimisation related fields (see MFPES)

@@ -17,7 +17,7 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
     iter = 1;   % Determine from results folder 
 
     if (is_fx)
-        cmd_install= [home_dir '/MyApplication/gradlew installDebug'];
+        cmd_install= ['cd ' home_dir '/MyApplication ; ' home_dir '/MyApplication/gradlew installDebug'];
     else
         cmd_install= ['cd ' home_dir '/MyApplication & ' home_dir '/MyApplication/gradlew installDebug'];
     end
@@ -52,7 +52,7 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
             [pull_status, ~] = system(cmd_pull);
             if (pull_status == 0)
                 [num, text, raw] = xlsread([res_dir '/' id '/iter_' num2str(iter) '_results.csv']);
-                ctime = num(1);
+                ctime = num(1)/(10^9); % nanosec to sec
                 rtime = num(2);
                 acc = num(3);
                 break;
@@ -61,12 +61,12 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
     end
 
     %threshold to be set accordingly later
-    if acc < 0.75
+    if acc > mean(tarAcc)
         penalty = 1;
     else
         penalty = acc;
     end
     
-    ret = ctime/penalty + noise; 
+    ret = ctime/penalty + noise;
 end
 

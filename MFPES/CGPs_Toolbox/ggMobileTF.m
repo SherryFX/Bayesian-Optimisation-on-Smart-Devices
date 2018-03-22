@@ -12,20 +12,20 @@ experimentNo = 1;
 % tar = csvread("/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/res/target_res.csv", 1, 0);
 % aux = xlsread("/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/res/auxiliary_res_merged.xlsx");
 
-load('EMINIST_dataset');
+load('EMINIST_dataset_mean_thres_norm_ratio');
 
 XTemp =  cell([1 2]);
 XTemp{1} = mainFiltered(:, 1:5);
 XTemp{2} = mainFiltered(:, 1:5);
 yTemp =  cell([1 2]);
-yTemp{1} = tarRatio;
-yTemp{2} = auxRatio;
+yTemp{1} = -log(tarRatio); %-logTarRatio; %tarRatio; %normTarRatio;
+yTemp{2} = -log(auxRatio/4); %-scaledLogAuxRatio; %auxRatio; %normAuxRatio;
 
 options = multigpOptions('ftc');
 options.kernType = 'gg';
 options.optimiser = 'scg';
 options.nlf = 1; % NO. of latent function (1)
-options.M = 1; % No. of output types
+options.M = 2; % No. of output types
 
 q = 5; % Input dimension
 d = size(yTemp, 2) + options.nlf;
@@ -42,9 +42,17 @@ for j=1:options.nlf
    y{j} = [];
    X{j} = zeros(1, q);  
 end
+
+% ord = randperm(532);
+% for i = 1:size(yTemp, 2)
+%   y{i+options.nlf} = yTemp{i}(ord, :);
+%   XTemp{i} = XTemp{i}(ord, :);
+%   X{i+options.nlf} = transX(XTemp{i}, 'mobile', false);    
+% end
+
 for i = 1:size(yTemp, 2)
   y{i+options.nlf} = yTemp{i};
-  X{i+options.nlf} = XTemp{i};
+  X{i+options.nlf} = transX(XTemp{i}, 'mobile', false);    
 end
 
 % Creates the model
@@ -98,6 +106,3 @@ elapsed_time = cputime - init_time;
 capName = dataSetName;
 capName(1) = upper(capName(1));
 save(['dem' capName num2str(experimentNo) '.mat'], 'model');
-
-% ggToyResults(dataSetName, experimentNo, XTemp, yTemp);
-
