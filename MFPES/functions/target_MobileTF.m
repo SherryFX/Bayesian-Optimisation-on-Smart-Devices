@@ -61,7 +61,7 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
     end
 
     %threshold to be set accordingly later
-     if acc > mean(tarAcc)
+     if acc > 0.7400
         penalty = 1;
     else
         penalty = acc;

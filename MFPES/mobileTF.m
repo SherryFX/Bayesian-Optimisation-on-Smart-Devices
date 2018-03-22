@@ -14,11 +14,11 @@ ymean = [0, 0]; % try setting to average to see if it actually helps with the re
 
 cost = [5, 1];
 N = 200;    % maximal no. of observations
-Budget = 30; % training budget: 90 minutes
+Budget = 360; % training budget: 60 minutes
 M = 2;  % no. of output types
 nlf = 1;    % no. of latent functions
 update = 100000;  % when to update the CMOGP hyperparameters
-T = 50;
+T = 10;
 
 opts.discrete = 0;  % (1: multi-start, 0: Direct) for optimization
 opts.dis_num = 10;
@@ -40,7 +40,7 @@ task = {@target_MobileTF, @auxiliary_MobileTF, Name}; % can add noise if necessa
 
 % num epochs, batchsize, LR, momentum, weight-decay
 xmin = [20, 50, -log(10.^-3), 0, -log(10.^-3)];
-xmax = [100, 512, -log(10.^-5), 0.99,  -log(10.^-5)];
+xmax = [50, 512, -log(10.^-5), 0.99,  -log(10.^-5)];
 
 t = 1; 
 nSample = 50;
@@ -79,10 +79,8 @@ load('EMINIST_dataset');
 ord = randperm(532);
 ord = ord(1:50);
 XTemp =  cell([1 2]);
- XTemp{1} = transX(mainFiltered(ord, 1:5), 'mobile', false);
- XTemp{2} = transX(mainFiltered(ord, 1:5), 'mobile', false);
-%XTemp{1} = mainFiltered(ord, 1:5);
-%XTemp{2} = mainFiltered(ord, 1:5);
+XTemp{1} = transX(mainFiltered(ord, 1:5), 'mobile', false);
+XTemp{2} = transX(mainFiltered(ord, 1:5), 'mobile', false);
 yTemp =  cell([1 2]);
 tarCPU = mainFiltered(ord, 6)/(10^9); % nano sec to sec
 tarAcc = mainFiltered(ord, 7);
@@ -172,19 +170,19 @@ for loop = 1:T
         result.cputime(loop, it) = ctime;
         result.realtime(loop, it) = rtime;
         result.acc(loop, it) = acc;
-        result.time_real(loop, it) = result.time_real(loop, it-1) + yt;
+        result.time_real(loop, it) = result.time_real(loop, it-1);
         
         result.ymax(loop, it) = max(ys, result.ymax(loop, it-1));
         result.fmax(loop, it) = max(f, result.fmax(loop, it-1));
         
         [result.umax_f(loop, it), result.umax_x(loop, it, :)] = getMaxMean1(model, xmin, xmax, task, t, opts, result.umax_x(loop, it-1, :));
 
-        S = result.time_real(loop, it);
+        S = S + ctime;
         it = it + 1;
     end 
-    result.ymax(loop, S+1:N) = result.ymax(loop, S);
-    result.fmax(loop, S+1:N) = result.fmax(loop, S);
-    result.umax_f(loop, S+1:N) = result.umax_f(loop, S);
+    result.ymax(loop, it:N) = result.ymax(loop, it-1);
+    result.fmax(loop, it:N) = result.fmax(loop, it-1);
+    result.umax_f(loop, it:N) = result.umax_f(loop,it-1);
     
 %     save([path, Name, experimentNo, '_result'], 'result', 'model');       
     save([path, Name, experimentNo, '_result'], 'result', 'model');

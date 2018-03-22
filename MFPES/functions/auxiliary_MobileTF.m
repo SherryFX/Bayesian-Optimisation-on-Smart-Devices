@@ -56,7 +56,7 @@ function [ ret, ctime, rtime, acc ] = auxiliary_MobileTF(params, noise)
     
     % Heavily penalise if accuracy is below threshold.
     % Consider passing threshold as argument.
-    if accuracy > mean(auxAcc)
+    if accuracy > 0.9738
         penalty = 1;
     else
         penalty = accuracy;
