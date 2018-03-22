@@ -3,20 +3,14 @@ function [ ret, ctime, rtime, acc ] = auxiliary_MobileTF(params, noise)
     load convnet;
     global home_dir 
     
-%     numepochs = params.numepochs;
-%     batchsize = params.batchsize;
-%     learningrate = params.learningrate;
-%     momentum = params.momentum;
-%     weightdecay = params.weightdecay;
-% Z1 = Z(find(Z~=A))
+    numepochs = params.numepochs;
+    batchsize = params.batchsize;
+    learningrate = params.learningrate;
+    momentum = params.momentum;
+    weightdecay = params.weightdecay;
+% % Z1 = Z(find(Z~=A))
     
     disp('Evaluating Auxiliary Function');
-
-    numepochs = 20;
-    batchsize = 50;
-    learningrate = 0.0001;
-    momentum = 0.99;
-    weightdecay = 0.0001;
 
     trainDatasetPath = fullfile([home_dir '/Data/mnist/imgs']);
     testDatasetPath = fullfile([home_dir '/Data/mnist/val_imgs']); 
@@ -62,15 +56,13 @@ function [ ret, ctime, rtime, acc ] = auxiliary_MobileTF(params, noise)
     
     % Heavily penalise if accuracy is below threshold.
     % Consider passing threshold as argument.
-    if accuracy < 0.75
+    if accuracy > mean(auxAcc)
         penalty = 1;
     else
         penalty = accuracy;
     end
-    
     ret = e/penalty + noise;
     acc = accuracy;
     ctime=e;
     rtime=re;
 end
-

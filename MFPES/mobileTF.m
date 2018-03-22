@@ -1,11 +1,12 @@
 clear all, close all
 
 Name = 'MobileTF';
-experimentNo = '_multi_PES_';
+experimentNo = '_3_';
 path = '/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/results/';
 fname = 'mobileTF.txt';
 
-load('mobileTF_model');
+load_settings;
+load('demMobileTF1');
 model.train = 0;
 ymean = [0, 0]; % try setting to average to see if it actually helps with the results
 
@@ -13,11 +14,11 @@ ymean = [0, 0]; % try setting to average to see if it actually helps with the re
 
 cost = [5, 1];
 N = 200;    % maximal no. of observations
-Budget = 72; % training budget: 90 minutes
+Budget = 30; % training budget: 90 minutes
 M = 2;  % no. of output types
 nlf = 1;    % no. of latent functions
 update = 100000;  % when to update the CMOGP hyperparameters
-T = 1;
+T = 50;
 
 opts.discrete = 0;  % (1: multi-start, 0: Direct) for optimization
 opts.dis_num = 10;
@@ -38,8 +39,8 @@ task = {@target_MobileTF, @auxiliary_MobileTF, Name}; % can add noise if necessa
 % [ctime, rtime, acc] = target_MobileTF(0,0,params);
 
 % num epochs, batchsize, LR, momentum, weight-decay
-xmin = [20, 50, log(10.^-5), 0, log(10.^-5)];
-xmax = [100, 512, log(10.^-3), 0.99, log(10.^-3)];
+xmin = [20, 50, -log(10.^-3), 0, -log(10.^-3)];
+xmax = [100, 512, -log(10.^-5), 0.99,  -log(10.^-5)];
 
 t = 1; 
 nSample = 50;
@@ -70,19 +71,38 @@ result.cputime = zeros(T, N);
 result.realtime = zeros(T, N);
 result.acc = zeros(T, N);
 
-given = load('start_mobileTF'); % create random samples for BO.
+% given = load('start_mobileTF'); % create random samples for BO.
 initX = cell(M, 1);
 initY = cell(M, 1);
-% initT = cell(M, 1);
+
+load('EMINIST_dataset');
+ord = randperm(532);
+ord = ord(1:50);
+XTemp =  cell([1 2]);
+ XTemp{1} = transX(mainFiltered(ord, 1:5), 'mobile', false);
+ XTemp{2} = transX(mainFiltered(ord, 1:5), 'mobile', false);
+%XTemp{1} = mainFiltered(ord, 1:5);
+%XTemp{2} = mainFiltered(ord, 1:5);
+yTemp =  cell([1 2]);
+tarCPU = mainFiltered(ord, 6)/(10^9); % nano sec to sec
+tarAcc = mainFiltered(ord, 7);
+tarAcc(tarAcc > mean(mainFiltered(:, 7))) = 1;
+auxCPU = mainFiltered(ord, 8)/4;
+auxAcc = mainFiltered(ord, 9);
+auxAcc(auxAcc > mean(mainFiltered(:, 9))) = 1;
+yTemp{1} = -log(tarCPU./tarAcc);
+yTemp{2} = -log(auxCPU./auxAcc);
+
 
 for loop = 1:T
     
-    S = 70;
+    S = 0;
     for i=1:M
-%         tmp = start_mobileTF{loop};
-        initX{i} = given.X{i}(loop, :);
-        initY{i} = given.y{i}(loop);
-%         S = S + sum(tmp.t{i});
+%         initX{i} = given.X{i}(loop, :);
+%         initY{i} = given.y{i}(loop);
+%         initX{i} = transX(XTemp{i}(loop, :), 'mobile', false);
+        initX{i} = XTemp{i}(loop, :);
+        initY{i} = yTemp{i}(loop, :);  
     end
 	
     [model, Xobs, Yobs] = initializeBO(model, 'mobile', task, xmin, xmax, initX, initY);   
@@ -133,11 +153,10 @@ for loop = 1:T
         disp(['Selected point: ', num2str(optimumX(1)), ', ', num2str(optimumX(2)), ', ', num2str(optimumX(3)), ', ', num2str(optimumX(4)), ', ', num2str(optimumX(5))]);
         disp(['Selected funciton: ', num2str(type)]);
         
-%         [ys, yt] = getObsValue_mobile(optimumX, M, type); %task{type}(optimum', noise(type), S);
-        ys = 1;
-        yt = 1;
+        [ys, ctime, rtime, acc] = getObsValue_mobile(optimumX, type); %task{type}(optimum', noise(type), S);
+%         ys = 1;
+%         yt = 1;
         f = getFuncValue_mobile(optimumX, model, type); %task{type}(optimum', 0, S);
-        disp(['Function Value: ', num2str(f)]);
 
         [Xnew, ynew] = updateXY(model, optimum, ys-model.ymean(type), type);
 
@@ -150,7 +169,10 @@ for loop = 1:T
         result.X(loop, it, :) = optimumX;
         result.y(loop, it) = ys;
         result.type(loop, it) = type;
-        result.time_real(loop, it) = result.time_real(loop, it-1) + yt; % change to suit context
+        result.cputime(loop, it) = ctime;
+        result.realtime(loop, it) = rtime;
+        result.acc(loop, it) = acc;
+        result.time_real(loop, it) = result.time_real(loop, it-1) + yt;
         
         result.ymax(loop, it) = max(ys, result.ymax(loop, it-1));
         result.fmax(loop, it) = max(f, result.fmax(loop, it-1));
@@ -160,8 +182,8 @@ for loop = 1:T
         S = result.time_real(loop, it);
         it = it + 1;
     end 
-    % result.ymax(loop, S+1:N) = result.ymax(loop, S);
-    % result.fmax(loop, S+1:N) = result.fmax(loop, S);
+    result.ymax(loop, S+1:N) = result.ymax(loop, S);
+    result.fmax(loop, S+1:N) = result.fmax(loop, S);
     result.umax_f(loop, S+1:N) = result.umax_f(loop, S);
     
 %     save([path, Name, experimentNo, '_result'], 'result', 'model');       

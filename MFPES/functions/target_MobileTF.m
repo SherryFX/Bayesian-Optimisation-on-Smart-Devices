@@ -1,7 +1,7 @@
 % We evaluate the target function.
 
 function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
-    global is_fx id home_dir phone_dir
+    global is_fx id tar_home_dir phone_dir
 
     disp('Evaluating Target Function');
     
@@ -11,15 +11,15 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
     momentum = params.momentum;
     weightdecay = params.weightdecay;
 
-    res_dir = [home_dir '/MFPES/res'];
+    res_dir = [tar_home_dir '/MFPES/res'];
     mkdir(res_dir, id);     %res_dir/id/ is the directory storing all the results from the android app for this run
 
     iter = 1;   % Determine from results folder 
 
     if (is_fx)
-        cmd_install= [home_dir '/MyApplication/gradlew installDebug'];
+        cmd_install= [tar_home_dir '/MyApplication/gradlew installDebug'];
     else
-        cmd_install= ['cd ' home_dir '/MyApplication & ' home_dir '/MyApplication/gradlew installDebug'];
+        cmd_install= ['cd ' tar_home_dir '/MyApplication & ' tar_home_dir '/MyApplication/gradlew installDebug'];
     end
 
     [status,cmdout] = system(cmd_install);
@@ -61,12 +61,12 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
     end
 
     %threshold to be set accordingly later
-    if acc < 0.75
+     if acc > mean(tarAcc)
         penalty = 1;
     else
         penalty = acc;
     end
     
-    ret = ctime/penalty + noise; 
+    ret = ctime/penalty + noise;
 end
 
