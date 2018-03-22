@@ -1,14 +1,11 @@
 clear all, close all
 
-load_settings;
-
 Name = 'MobileTF';
-% experimentNo = '_multi_PES_';
-experimentNo = '_2_';
+experimentNo = '_multi_PES_';
 path = '/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/results/';
 fname = 'mobileTF.txt';
 
-load('demMobileTF1');
+load('mobileTF_model');
 model.train = 0;
 ymean = [0, 0]; % try setting to average to see if it actually helps with the results
 
@@ -16,7 +13,7 @@ ymean = [0, 0]; % try setting to average to see if it actually helps with the re
 
 cost = [5, 1];
 N = 200;    % maximal no. of observations
-Budget = 50; % training budget: 90 minutes
+Budget = 72; % training budget: 90 minutes
 M = 2;  % no. of output types
 nlf = 1;    % no. of latent functions
 update = 100000;  % when to update the CMOGP hyperparameters
@@ -73,23 +70,18 @@ result.cputime = zeros(T, N);
 result.realtime = zeros(T, N);
 result.acc = zeros(T, N);
 
-given = load('EMINIST_dataset_mean_thres_norm_ratio'); % create random samples for BO.
-ord = randperm(352);
-XTemp{1} = given.mainFiltered(ord(1:50), 1:5);
-XTemp{2} = given.mainFiltered(ord(1:50), 1:5);
-yTemp{1} = -log(given.tarRatio(ord(1:50))); 
-yTemp{2} = -log(given.auxRatio(ord(1:50)) / 4);
+given = load('start_mobileTF'); % create random samples for BO.
 initX = cell(M, 1);
 initY = cell(M, 1);
 % initT = cell(M, 1);
 
 for loop = 1:T
     
-    S = 0;
+    S = 70;
     for i=1:M
 %         tmp = start_mobileTF{loop};
-        initX{i} = transX(XTemp{i}(loop, :), 'mobile', false);
-        initY{i} = yTemp{i}(loop);  
+        initX{i} = given.X{i}(loop, :);
+        initY{i} = given.y{i}(loop);
 %         S = S + sum(tmp.t{i});
     end
 	
@@ -141,9 +133,9 @@ for loop = 1:T
         disp(['Selected point: ', num2str(optimumX(1)), ', ', num2str(optimumX(2)), ', ', num2str(optimumX(3)), ', ', num2str(optimumX(4)), ', ', num2str(optimumX(5))]);
         disp(['Selected funciton: ', num2str(type)]);
         
-        [ys, ctime, rtime, acc] = getObsValue_mobile(optimumX, type); %task{type}(optimum', noise(type), S);
-%         ys = 1;
-%         yt = 1;
+%         [ys, yt] = getObsValue_mobile(optimumX, M, type); %task{type}(optimum', noise(type), S);
+        ys = 1;
+        yt = 1;
         f = getFuncValue_mobile(optimumX, model, type); %task{type}(optimum', 0, S);
         disp(['Function Value: ', num2str(f)]);
 
@@ -158,9 +150,6 @@ for loop = 1:T
         result.X(loop, it, :) = optimumX;
         result.y(loop, it) = ys;
         result.type(loop, it) = type;
-        result.cputime(loop, it) = ctime;
-        result.realtime(loop, it) = rtime;
-        result.acc(loop, it) = acc;
         result.time_real(loop, it) = result.time_real(loop, it-1) + yt; % change to suit context
         
         result.ymax(loop, it) = max(ys, result.ymax(loop, it-1));
@@ -171,7 +160,7 @@ for loop = 1:T
         S = result.time_real(loop, it);
         it = it + 1;
     end 
-    result.ymax(loop, S+1:N) = result.ymax(loop, S);
+    % result.ymax(loop, S+1:N) = result.ymax(loop, S);
     % result.fmax(loop, S+1:N) = result.fmax(loop, S);
     result.umax_f(loop, S+1:N) = result.umax_f(loop, S);
     

@@ -1,20 +1,25 @@
-function [ys, ctime, rtime, acc] = getObsValue_mobile(x, ftype)
+function [ys, yt] = getObsValue_mobile(x, type, fname, gpu)
 
-    params.numepochs = x(1);
-    params.batchsize = x(2);
-    params.learningrate = x(3);
-    params.momentum = x(4);
-    params.weightdecay = x(5);
+    % change!!
+    cd ~/yehong/CNN_CIFAR10
+
+    method = {'full', 'small'};
     
-    if (ftype == 1) 
-        [ys, ctime, rtime, acc] = target_MobileTF(params, 0);
-        ys = log(ys);
-    else
-        [ys, ctime, rtime, acc] = auxiliary_MobileTF(params, 0);
-        ys = log(ys / 4);
-    end
+    % construct the command
+    pcmd = ['CUDA_VISIBLE_DEVICES=', num2str(gpu), ...
+        ' python logistic_regression_mnist.py --d1 ', num2str(x(2)), ...
+        ' --d2 ', num2str(x(3)), ' --d3 ', num2str(x(4)), ...
+        ' --lr ', num2str(x(5)), ' --epochs ', num2str(x(1)), ...
+        ' --batch_size ', num2str(x(6))];
     
-    ys = -ys;
+    pcmd = [pcmd, ' --method ', method{type}];
+    
+    % run python code
+    system(pcmd);
+    
+    res = load(fname);  % save the python results in a file and load it.
+    ys = res(1);
+    yt = res(2);
 end
     
     
