@@ -20,12 +20,32 @@ XTemp{2} = mainFiltered(:, 1:5);
 yTemp =  cell([1 2]);
 tarCPU = mainFiltered(:, 6)/(10^9); % nano sec to sec
 tarAcc = mainFiltered(:, 7);
-tarAcc(tarAcc > mean(mainFiltered(:, 7))) = 1;
+tarThres = mean(mainFiltered(:, 7));
+tarPenalty = tarAcc;
+alpha=5;
+for i = 1:size(tarAcc, 1)
+    if tarAcc >= tarThres
+        tarPenalty(i) = 1;
+    else
+        tarPenalty = exp(alpha * (tarThres - tarAcc));
+    end
+    yTemp{1}(i) = -log(tarCPU(i) * tarPenalty(i));
+end
 auxCPU = mainFiltered(:, 8)/4;
 auxAcc = mainFiltered(:, 9);
-auxAcc(auxAcc > mean(mainFiltered(:, 9))) = 1;
-yTemp{1} = -log(tarCPU./tarAcc);
-yTemp{2} = -log(auxCPU./auxAcc);
+auxThres = mean(mainFiltered(:, 9));
+auxPenalty = auxAcc;
+for i = 1:size(tarAcc, 1)
+    if auxAcc >= auxThres
+        auxPenalty(i) = 1;
+    else
+        auxPenalty = exp(alpha * (auxThres - auxAcc));
+    end
+    yTemp{2}(i) = -log(auxCPU(i) * auxPenalty(i));
+end
+
+yTemp{1} = yTemp{1}';
+yTemp{2} = yTemp{2}';
 
 options = multigpOptions('ftc');
 options.kernType = 'gg';

@@ -1,11 +1,13 @@
 clear all, close all
 
 Name = 'MobileTF';
-experimentNo = '_3_';
-path = '/Users/HFX/Desktop/Bayesian Optimization on Smart Devices/MFPES/results/';
+experimentNo = '_5_';
 fname = 'mobileTF.txt';
-
+diary(['diary' experimentNo '.txt'])
 load_settings;
+global home_dir;
+path = [home_dir '/MFPES/results/']
+
 load('demMobileTF1');
 model.train = 0;
 ymean = [0, 0]; % try setting to average to see if it actually helps with the results
@@ -14,11 +16,13 @@ ymean = [0, 0]; % try setting to average to see if it actually helps with the re
 
 cost = [5, 1];
 N = 200;    % maximal no. of observations
-Budget = 360; % training budget: 60 minutes
+Budget = 3000; % training budget: 60 minutes
 M = 2;  % no. of output types
 nlf = 1;    % no. of latent functions
 update = 100000;  % when to update the CMOGP hyperparameters
-T = 10;
+T = 20;
+numInitSamples=60;
+numSamplesPerIter=floor(numInitSamples/T);
 
 opts.discrete = 0;  % (1: multi-start, 0: Direct) for optimization
 opts.dis_num = 10;
@@ -40,7 +44,7 @@ task = {@target_MobileTF, @auxiliary_MobileTF, Name}; % can add noise if necessa
 
 % num epochs, batchsize, LR, momentum, weight-decay
 xmin = [20, 50, -log(10.^-3), 0, -log(10.^-3)];
-xmax = [50, 512, -log(10.^-5), 0.99,  -log(10.^-5)];
+xmax = [100, 512, -log(10.^-5), 0.99,  -log(10.^-5)];
 
 t = 1; 
 nSample = 50;
@@ -57,6 +61,12 @@ model.ymean = ymean;
 d = model.q;
 result.X = zeros(T, N, d);
 result.y = zeros(T, N);
+result.Xobs = cell(M,1);
+results.Yobs = cell(M,1);
+for i=1:M
+    result.Xobs{i} = zeros(T,numSamplesPerIter, d);
+    result.Yobs{i} = zeros(T,numSamplesPerIter);
+end
 result.type = zeros(T, N);
 result.ymax = zeros(T, N);
 result.fmax = zeros(T, N);
@@ -77,21 +87,45 @@ initY = cell(M, 1);
 
 load('EMINIST_dataset');
 ord = randperm(532);
-ord = ord(1:50);
+ord = ord(1:numInitSamples);
 XTemp =  cell([1 2]);
 XTemp{1} = transX(mainFiltered(ord, 1:5), 'mobile', false);
 XTemp{2} = transX(mainFiltered(ord, 1:5), 'mobile', false);
 yTemp =  cell([1 2]);
 tarCPU = mainFiltered(ord, 6)/(10^9); % nano sec to sec
 tarAcc = mainFiltered(ord, 7);
-tarAcc(tarAcc > mean(mainFiltered(:, 7))) = 1;
+tarThres = mean(mainFiltered(:, 7));
+tarPenalty = tarAcc;
+alpha=5;
+for i = 1:size(tarAcc, 1)
+    if tarAcc(i) >= tarThres
+        tarPenalty(i) = 1;
+    else
+        tarPenalty(i) = exp(alpha * (tarThres - tarAcc(i)));
+    end
+    yTemp{1}(i) = -log(tarCPU(i, 1) * tarPenalty(i));
+end
+yTemp{1} = yTemp{1}';
 auxCPU = mainFiltered(ord, 8)/4;
 auxAcc = mainFiltered(ord, 9);
-auxAcc(auxAcc > mean(mainFiltered(:, 9))) = 1;
-yTemp{1} = -log(tarCPU./tarAcc);
-yTemp{2} = -log(auxCPU./auxAcc);
+auxThres = mean(mainFiltered(:, 9));
+auxPenalty = auxAcc;
+for i = 1:size(tarAcc, 1)
+    if auxAcc(i) >= auxThres
+        auxPenalty(i) = 1;
+    else
+        auxPenalty(i) = exp(alpha * (auxThres - auxAcc(i)));
+    end
+    yTemp{2}(i) = -log(auxCPU(i) * auxPenalty(i));
+end
+yTemp{2} = yTemp{2}';
 
+diary off
+diary on
 
+bestI = -1;
+bestJ = -1;
+bestY = -Inf;
 for loop = 1:T
     
     S = 0;
@@ -99,19 +133,31 @@ for loop = 1:T
 %         initX{i} = given.X{i}(loop, :);
 %         initY{i} = given.y{i}(loop);
 %         initX{i} = transX(XTemp{i}(loop, :), 'mobile', false);
-        initX{i} = XTemp{i}(loop, :);
-        initY{i} = yTemp{i}(loop, :);  
+        initX{i} = XTemp{i}(((loop-1) * numSamplesPerIter + 1):(loop*numSamplesPerIter), :);
+        initY{i} = yTemp{i}(((loop-1) * numSamplesPerIter + 1):(loop*numSamplesPerIter), :);  
     end
 	
     [model, Xobs, Yobs] = initializeBO(model, 'mobile', task, xmin, xmax, initX, initY);   
     model.ymean = ymean;
     
-    result.ymax(loop, 1) = max(Yobs{t});
+    [result.ymax(loop, 1), indMax] = max(Yobs{t});
+    result.y(loop,1) = result.ymax(loop,1);
+    result.X(loop, 1,:) = Xobs{t}(indMax,:);
+    for i = 1:M
+        result.Xobs{i}(loop,:,:) = Xobs{i};
+        results.Yobs{i}(loop,:) = Yobs{i};
+    end
     result.fmax(loop, 1) = max(getFuncValue_mobile(Xobs{t}, model, t));
 
     [result.umax_f(loop,1), result.umax_x(loop, 1, :)] = getMaxMean(model, xmin, xmax, task, t, opts);
     result.time_real(loop, 1) = S;
     
+    if (result.y(loop,1) > bestY)
+        bestY = result.y(loop,1);
+        bestI = loop;
+        bestJ = 1;
+        disp(['Found new best: y = ', num2str(bestY), ' at (', num2str(bestI),',',num2str(bestJ),')']);
+    end
     it = 2;
     while S <= Budget
 
@@ -133,14 +179,15 @@ for loop = 1:T
         acq_func = cell(M, 1);
         entropy_given_xstar = cell(M, 1);
         c = cell(M, 1);
-		
+        diary off
+		diary on
         for i=1:M
             c{i} = getFactor(values, fi_xstar.m(:, i), i, t, 'avg', model, xstar);
             result.c(loop, it, i) = c{i};
             entropy_given_xstar{i} = @(x) EPapproximation2(x, i, fi_xstar.m(:, i), fi_xstar.v(:, i), modelnew, c{i});    
             acq_func{i} = @(x) (entropy_cgp(model, x', i) - entropy_given_xstar{i}(x'))/cost(i);
         end
-        
+   
         tic
         [optimum, type] = globalOptimizationNoGradient(acq_func, xmin', xmax', opts);
         b = toc;
@@ -150,10 +197,12 @@ for loop = 1:T
         optimumX = transX(optimum, 'mobile', true);
         disp(['Selected point: ', num2str(optimumX(1)), ', ', num2str(optimumX(2)), ', ', num2str(optimumX(3)), ', ', num2str(optimumX(4)), ', ', num2str(optimumX(5))]);
         disp(['Selected funciton: ', num2str(type)]);
-        
+        diary off
+        diary on
         [ys, ctime, rtime, acc] = getObsValue_mobile(optimumX, type); %task{type}(optimum', noise(type), S);
 %         ys = 1;
 %         yt = 1;
+      
         f = getFuncValue_mobile(optimumX, model, type); %task{type}(optimum', 0, S);
 
         [Xnew, ynew] = updateXY(model, optimum, ys-model.ymean(type), type);
@@ -177,14 +226,35 @@ for loop = 1:T
         
         [result.umax_f(loop, it), result.umax_x(loop, it, :)] = getMaxMean1(model, xmin, xmax, task, t, opts, result.umax_x(loop, it-1, :));
 
+        if (result.y(loop,it) > bestY)
+            bestY = result.y(loop,it);
+            bestI = loop;
+            bestJ = it;
+            disp(['Found new best: y = ', num2str(bestY), ' at (', num2str(bestI),',',num2str(bestJ),')']);
+        end
         S = S + ctime;
         it = it + 1;
+        diary off
+        diary on
     end 
     result.ymax(loop, it:N) = result.ymax(loop, it-1);
     result.fmax(loop, it:N) = result.fmax(loop, it-1);
     result.umax_f(loop, it:N) = result.umax_f(loop,it-1);
-    
+    diary off
 %     save([path, Name, experimentNo, '_result'], 'result', 'model');       
     save([path, Name, experimentNo, '_result'], 'result', 'model');
-
 end
+
+bestX = results.X(bestI,bestJ, :);
+result.bestX = bestX;
+result.bestLoop = bestI;
+result.bestObservation = bestJ;   
+save([path, Name, experimentNo, '_result'], 'result', 'model');
+    
+for i=1:5
+    [~, cp(i), ~, a(i)] = getObsValue_mobile(bestX, 1);
+end
+result.bestAcc = mean(a);
+result.bestCPUtime=mean(cp);   
+disp(['bestCPUtime: ' num2str(mean(cp)) ' bestAcc: ' num2str(mean(a))]);
+save([path, Name, experimentNo, '_result'], 'result', 'model');

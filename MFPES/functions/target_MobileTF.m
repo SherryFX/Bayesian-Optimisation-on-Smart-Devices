@@ -14,7 +14,15 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
     res_dir = [tar_home_dir '/MFPES/res'];
     mkdir(res_dir, id);     %res_dir/id/ is the directory storing all the results from the android app for this run
 
-    iter = 1;   % Determine from results folder 
+    files=dir([res_dir '/' id '/iter_*_results.csv']);
+    iter=-1;
+    for f=1:length(files)
+        name = files(f).name;
+        splitname = strsplit(name, '_');
+        iter = max(iter, str2num(splitname{2}));
+        
+    end
+    iter = iter + 1
 
     if (is_fx)
         cmd_install= [tar_home_dir '/MyApplication/gradlew installDebug'];
@@ -22,13 +30,13 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
         cmd_install= ['cd ' tar_home_dir '/MyApplication & ' tar_home_dir '/MyApplication/gradlew installDebug'];
     end
 
-    [status,cmdout] = system(cmd_install);
+    [status,cmdout] = system(cmd_install)
 
     if status == 0
         if (is_fx)
             cmd_adb='/Users/HFX/adb-fastboot/platform-tools/adb';
         else
-            cmd_adb='adb';
+            cmd_adb='C:\Users\leona\Android\Sdk\platform-tools\adb';
         end
 
         cmd_run=[cmd_adb ' shell am start -n com.example.myapplication/com.example.myapplication.MainActivity'];
@@ -61,12 +69,14 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
     end
 
     %threshold to be set accordingly later
-     if acc > 0.7400
+    threshold = 0.7400;
+    alpha = 5;
+     if acc > threshold
         penalty = 1;
     else
-        penalty = acc;
+        penalty = exp(alpha*(threshold - acc));
     end
     
-    ret = ctime/penalty + noise;
+    ret = ctime*penalty;
 end
 
