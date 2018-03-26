@@ -16,6 +16,7 @@ function [xnew] = transX(x, method, inverse)
                 % transform values back to real values
                 xnew(:, [1,2]) = round(x(:, [1,2]));
                 xnew(:, 3) = exp(-x(:, 3));
+                xnew(:, 4) = x(:,4);
                 xnew(:, 5) = exp(-x(:, 5));
             otherwise
                 xnew = x;
@@ -32,6 +33,7 @@ function [xnew] = transX(x, method, inverse)
                 % transform values to GP appropriate values
                 xnew = x;
                 xnew(:, 3) = -log(x(:, 3));
+                xnew(:, 4) = x(:,4);
                 xnew(:, 5) = -log(x(:, 5));
             otherwise
                 xnew = x;

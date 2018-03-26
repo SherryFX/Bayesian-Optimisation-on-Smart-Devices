@@ -70,13 +70,15 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
 
     %threshold to be set accordingly later
     threshold = 0.7400;
-    alpha = 5;
+%     alpha = 10;
      if acc > threshold
         penalty = 1;
     else
-        penalty = exp(alpha*(threshold - acc));
+%         penalty = exp(alpha*(threshold - acc));
+        penalty = acc;
     end
     
-    ret = ctime*penalty;
+%     ret = ctime*penalty;
+    ret = ctime/penalty + noise;
 end
 

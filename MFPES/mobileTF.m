@@ -1,7 +1,7 @@
 clear all, close all
 
 Name = 'MobileTF';
-experimentNo = '_5_';
+experimentNo = '_8_';
 fname = 'mobileTF.txt';
 diary(['diary' experimentNo '.txt'])
 load_settings;
@@ -16,11 +16,12 @@ ymean = [0, 0]; % try setting to average to see if it actually helps with the re
 
 cost = [5, 1];
 N = 200;    % maximal no. of observations
-Budget = 3000; % training budget: 60 minutes
+Budget = 40000; % training budget: 60 minutes
+nObs = 50; % use either budget or nObs
 M = 2;  % no. of output types
 nlf = 1;    % no. of latent functions
 update = 100000;  % when to update the CMOGP hyperparameters
-T = 20;
+T = 3;
 numInitSamples=60;
 numSamplesPerIter=floor(numInitSamples/T);
 
@@ -94,31 +95,36 @@ XTemp{2} = transX(mainFiltered(ord, 1:5), 'mobile', false);
 yTemp =  cell([1 2]);
 tarCPU = mainFiltered(ord, 6)/(10^9); % nano sec to sec
 tarAcc = mainFiltered(ord, 7);
-tarThres = mean(mainFiltered(:, 7));
-tarPenalty = tarAcc;
-alpha=5;
-for i = 1:size(tarAcc, 1)
-    if tarAcc(i) >= tarThres
-        tarPenalty(i) = 1;
-    else
-        tarPenalty(i) = exp(alpha * (tarThres - tarAcc(i)));
-    end
-    yTemp{1}(i) = -log(tarCPU(i, 1) * tarPenalty(i));
-end
-yTemp{1} = yTemp{1}';
 auxCPU = mainFiltered(ord, 8)/4;
 auxAcc = mainFiltered(ord, 9);
-auxThres = mean(mainFiltered(:, 9));
-auxPenalty = auxAcc;
-for i = 1:size(tarAcc, 1)
-    if auxAcc(i) >= auxThres
-        auxPenalty(i) = 1;
-    else
-        auxPenalty(i) = exp(alpha * (auxThres - auxAcc(i)));
-    end
-    yTemp{2}(i) = -log(auxCPU(i) * auxPenalty(i));
-end
-yTemp{2} = yTemp{2}';
+% tarThres = mean(mainFiltered(:, 7));
+% tarPenalty = tarAcc;
+% alpha=10;
+% for i = 1:size(tarAcc, 1)
+%     if tarAcc(i) >= tarThres
+%         tarPenalty(i) = 1;
+%     else
+%         tarPenalty(i) = exp(alpha * (tarThres - tarAcc(i)));
+%     end
+%     yTemp{1}(i) = -log(tarCPU(i, 1) * tarPenalty(i));
+% end
+% yTemp{1} = yTemp{1}';
+% auxThres = mean(mainFiltered(:, 9));
+% auxPenalty = auxAcc;
+% for i = 1:size(tarAcc, 1)
+%     if auxAcc(i) >= auxThres
+%         auxPenalty(i) = 1;
+%     else
+%         auxPenalty(i) = exp(alpha * (auxThres - auxAcc(i)));
+%     end
+%     yTemp{2}(i) = -log(auxCPU(i) * auxPenalty(i));
+% end
+% yTemp{2} = yTemp{2}';
+% 
+tarAcc(tarAcc > mean(mainFiltered(:, 7))) = 1;	
+auxAcc(auxAcc > mean(mainFiltered(:, 9))) = 1;	
+yTemp{1} = -log(tarCPU./tarAcc);	
+yTemp{2} = -log(auxCPU./auxAcc);	
 
 diary off
 diary on
@@ -142,7 +148,7 @@ for loop = 1:T
     
     [result.ymax(loop, 1), indMax] = max(Yobs{t});
     result.y(loop,1) = result.ymax(loop,1);
-    result.X(loop, 1,:) = Xobs{t}(indMax,:);
+    result.X(loop, 1,:) = transX(Xobs{t}(indMax,:), 'mobile', true);
     for i = 1:M
         result.Xobs{i}(loop,:,:) = Xobs{i};
         results.Yobs{i}(loop,:) = Yobs{i};
@@ -158,8 +164,9 @@ for loop = 1:T
         bestJ = 1;
         disp(['Found new best: y = ', num2str(bestY), ' at (', num2str(bestI),',',num2str(bestJ),')']);
     end
-    it = 2;
-    while S <= Budget
+%     it = 2;
+%    while S <= Budget
+    for it=2:nObs
 
         disp(['%%%%%%%%%%%%%%%%%%%%% Step: ', num2str(loop), ', ', num2str(it),  ', cost: ', num2str(S),' %%%%%%%%%%%%%%%%%%%%%']);
         tic
@@ -233,7 +240,7 @@ for loop = 1:T
             disp(['Found new best: y = ', num2str(bestY), ' at (', num2str(bestI),',',num2str(bestJ),')']);
         end
         S = S + ctime;
-        it = it + 1;
+%         it = it + 1;
         diary off
         diary on
     end 
@@ -245,7 +252,7 @@ for loop = 1:T
     save([path, Name, experimentNo, '_result'], 'result', 'model');
 end
 
-bestX = results.X(bestI,bestJ, :);
+bestX = result.X(bestI,bestJ, :);
 result.bestX = bestX;
 result.bestLoop = bestI;
 result.bestObservation = bestJ;   
