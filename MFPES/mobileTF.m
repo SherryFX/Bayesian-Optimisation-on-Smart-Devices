@@ -1,7 +1,7 @@
 clear all, close all
 
 Name = 'MobileTF';
-experimentNo = '_8_';
+experimentNo = '_10_';
 fname = 'mobileTF.txt';
 diary(['diary' experimentNo '.txt'])
 load_settings;
@@ -17,11 +17,11 @@ ymean = [0, 0]; % try setting to average to see if it actually helps with the re
 cost = [5, 1];
 N = 200;    % maximal no. of observations
 Budget = 40000; % training budget: 60 minutes
-nObs = 50; % use either budget or nObs
+nObs = 100; % use either budget or nObs
 M = 2;  % no. of output types
 nlf = 1;    % no. of latent functions
 update = 100000;  % when to update the CMOGP hyperparameters
-T = 3;
+T = 2;
 numInitSamples=60;
 numSamplesPerIter=floor(numInitSamples/T);
 
@@ -243,6 +243,7 @@ for loop = 1:T
 %         it = it + 1;
         diary off
         diary on
+        save([path, Name, experimentNo, '_result'], 'result', 'model');
     end 
     result.ymax(loop, it:N) = result.ymax(loop, it-1);
     result.fmax(loop, it:N) = result.fmax(loop, it-1);

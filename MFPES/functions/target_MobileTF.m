@@ -53,17 +53,22 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
         cmd_pull = [cmd_adb ' pull ' ...
             phone_dir '/' id '/iter_' num2str(iter) '_results.csv ' ...
             res_dir '/' id '/iter_' num2str(iter) '_results.csv'];
-
+        cmd_has_crashed = [cmd_adb ' shell pidof com.example.myapplication'];
         % Poll every few seconds until app finishes running 
         while(true) 
-            pause(5);
+            pause(10);
             [pull_status, ~] = system(cmd_pull);
             if (pull_status == 0)
                 [num, text, raw] = xlsread([res_dir '/' id '/iter_' num2str(iter) '_results.csv']);
-                ctime = num(1);
+                ctime = num(1) / 10^9;
                 rtime = num(2);
                 acc = num(3);
                 break;
+            end
+            [crash_status, ~] = system(cmd_has_crashed);
+            if (crash_status == 1)
+                disp('crashed, trying again');
+                system(cmd_run);
             end
         end
     end
