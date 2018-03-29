@@ -1,6 +1,6 @@
 % We evaluate the target function.
 
-function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
+function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise, threshold, mean, std)
     global is_fx id tar_home_dir phone_dir
 
     disp('Evaluating Target Function');
@@ -60,7 +60,7 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
             [pull_status, ~] = system(cmd_pull);
             if (pull_status == 0)
                 [num, text, raw] = xlsread([res_dir '/' id '/iter_' num2str(iter) '_results.csv']);
-                ctime = num(1) / 10^9;
+                ctime = num(1);
                 rtime = num(2);
                 acc = num(3);
                 break;
@@ -73,8 +73,6 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
         end
     end
 
-    %threshold to be set accordingly later
-    threshold = 0.7400;
 %     alpha = 10;
      if acc > threshold
         penalty = 1;
@@ -85,5 +83,6 @@ function [ ret, ctime, rtime, acc ] = target_MobileTF(params, noise)
     
 %     ret = ctime*penalty;
     ret = ctime/penalty + noise;
+    ret = (ret - mean) / std;
 end
 

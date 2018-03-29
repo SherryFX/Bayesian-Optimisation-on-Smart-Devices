@@ -1,7 +1,7 @@
 clear all, close all
 
 Name = 'MobileTF';
-experimentNo = '_10_';
+experimentNo = '_12-_';
 fname = 'mobileTF.txt';
 diary(['diary' experimentNo '.txt'])
 load_settings;
@@ -86,45 +86,18 @@ result.acc = zeros(T, N);
 initX = cell(M, 1);
 initY = cell(M, 1);
 
-load('EMINIST_dataset');
 ord = randperm(532);
 ord = ord(1:numInitSamples);
-XTemp =  cell([1 2]);
-XTemp{1} = transX(mainFiltered(ord, 1:5), 'mobile', false);
-XTemp{2} = transX(mainFiltered(ord, 1:5), 'mobile', false);
-yTemp =  cell([1 2]);
-tarCPU = mainFiltered(ord, 6)/(10^9); % nano sec to sec
-tarAcc = mainFiltered(ord, 7);
-auxCPU = mainFiltered(ord, 8)/4;
-auxAcc = mainFiltered(ord, 9);
-% tarThres = mean(mainFiltered(:, 7));
-% tarPenalty = tarAcc;
-% alpha=10;
-% for i = 1:size(tarAcc, 1)
-%     if tarAcc(i) >= tarThres
-%         tarPenalty(i) = 1;
-%     else
-%         tarPenalty(i) = exp(alpha * (tarThres - tarAcc(i)));
-%     end
-%     yTemp{1}(i) = -log(tarCPU(i, 1) * tarPenalty(i));
-% end
-% yTemp{1} = yTemp{1}';
-% auxThres = mean(mainFiltered(:, 9));
-% auxPenalty = auxAcc;
-% for i = 1:size(tarAcc, 1)
-%     if auxAcc(i) >= auxThres
-%         auxPenalty(i) = 1;
-%     else
-%         auxPenalty(i) = exp(alpha * (auxThres - auxAcc(i)));
-%     end
-%     yTemp{2}(i) = -log(auxCPU(i) * auxPenalty(i));
-% end
-% yTemp{2} = yTemp{2}';
-% 
-tarAcc(tarAcc > mean(mainFiltered(:, 7))) = 1;	
-auxAcc(auxAcc > mean(mainFiltered(:, 9))) = 1;	
-yTemp{1} = -log(tarCPU./tarAcc);	
-yTemp{2} = -log(auxCPU./auxAcc);	
+
+[XTemp, yTemp, thresholds, means, stds] = load_data();
+XTemp{1} = XTemp{1}(ord, :);
+XTemp{2} = XTemp{2}(ord, :);
+yTemp{1} = yTemp{1}(ord, :);
+yTemp{2} = yTemp{2}(ord, :);
+
+pars.thresholds = thresholds;
+pars.means = means;
+pars.stds = stds;
 
 diary off
 diary on
@@ -206,7 +179,7 @@ for loop = 1:T
         disp(['Selected funciton: ', num2str(type)]);
         diary off
         diary on
-        [ys, ctime, rtime, acc] = getObsValue_mobile(optimumX, type); %task{type}(optimum', noise(type), S);
+        [ys, ctime, rtime, acc] = getObsValue_mobile(optimumX, type, pars); %task{type}(optimum', noise(type), S);
 %         ys = 1;
 %         yt = 1;
       
@@ -260,7 +233,7 @@ result.bestObservation = bestJ;
 save([path, Name, experimentNo, '_result'], 'result', 'model');
     
 for i=1:5
-    [~, cp(i), ~, a(i)] = getObsValue_mobile(bestX, 1);
+    [~, cp(i), ~, a(i)] = getObsValue_mobile(bestX, 1, pars);
 end
 result.bestAcc = mean(a);
 result.bestCPUtime=mean(cp);   
